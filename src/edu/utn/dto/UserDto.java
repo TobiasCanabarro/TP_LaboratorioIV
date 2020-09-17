@@ -1,20 +1,32 @@
-package edu.utn.entity;
+package edu.utn.dto;
+
+import edu.utn.entity.User;
 
 import java.util.Date;
 
-public class User {
+public class UserDto {
+
+    private int id;
     private String name;
     private String lastName;
     private String nickName;
     private String email;
     private Date birthday;
 
-    public User(String name, String lastName, String nickName, String email, Date birthday) {
-        setName(name);
-        setLastName(lastName);
-        setNickName(nickName);
-        setEmail(email);
-        setBirthday(birthday);
+    public UserDto (User user){
+        setName(user.getName());
+        setLastName(user.getLastName());
+        setBirthday(user.getBirthday());
+        setEmail(user.getEmail());
+        setNickName(user.getNickName());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
