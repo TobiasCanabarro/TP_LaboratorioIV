@@ -34,20 +34,15 @@ public class DataAccess {
         return read(sql, null);
     }
 
-    protected List<Map<String, Object>> read (String sql, Map<Integer, Object> parameters) {
+    protected List<Map<String, Object>> read (String query, Map<Integer, Object> parameters) {
 
         List<Map<String, Object>> results = new ArrayList<>();
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = getStatement(sql, parameters, connection);
+            PreparedStatement preparedStatement = getStatement(query, parameters, connection);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData metadata = resultSet.getMetaData();
-
-            // Mediante los metadatos, es posible obtener el nombre de la columna y el valor; si consideramos un
-            // registro como un conjunto de columnas con sus valores, es posible modelarlo con un map.
-            // Adicionalmente, como la consulta puede devolver varios registros, se emplea una lista para guardarlos,
-            // ya que mantiene el orden y es fácil de recorrer.
             while(resultSet.next()) {
                 HashMap<String, Object> columns = new HashMap<>();
 
@@ -57,13 +52,11 @@ public class DataAccess {
                 results.add(columns);
             }
             resultSet.close();
-
         } catch (SQLException exception) {
-
+            System.out.println("SQL Exception -> " + exception.getMessage() );
         }  catch (Exception exception) {
-
+            System.out.println("Generic Exception -> " + exception.getMessage());
         } finally {
-            // TODO: ... y la conexión dónde se cierra?
             return results;
         }
     }
@@ -73,7 +66,6 @@ public class DataAccess {
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = getStatement(sql, parameters, connection);
-
             returnedValue = preparedStatement.executeUpdate();
 
             // En el caso de un UPDATE o DELETE, se devuelve la cantidad de registros afectados.
@@ -102,11 +94,7 @@ public class DataAccess {
     }
 
     private PreparedStatement getStatement(String sql, Map<Integer, Object> parameters, Connection connection) throws SQLException {
-        //String generatedColumns[] = { "ID" };
         PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-        // Al usar prepared statement se garantiza seguridad contra sql injection, pero es necesario
-        // implementar una estrategia para el reemplazo de los "wildcards" por los valores deseados
         if (parameters != null) {
             Set<Integer> keys = parameters.keySet();
             for (Integer key : keys) {
@@ -120,10 +108,8 @@ public class DataAccess {
     private Connection getConnection() {
         try {
             if (connection == null){
-                connection = DriverManager.getConnection(connectionString, user, password);
-
+                connection = DriverManager.getConnection(getConnectionString(), getUser(), getPassword());
                 // TODO: analizar las implicancias de una transacción
-                // connection.setAutoCommit(false);
             }
         } catch (SQLException exception) {
             // TODO: analizar qué ocurre si se loguea por la salida standard

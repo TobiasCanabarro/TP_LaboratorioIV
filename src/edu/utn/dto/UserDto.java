@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class UserDto {
 
-    private int id;
+    private int id; // puede ser el id del registro
     private String name;
     private String lastName;
     private String nickName;

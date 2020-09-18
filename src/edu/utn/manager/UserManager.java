@@ -2,6 +2,7 @@ package edu.utn.manager;
 
 import edu.utn.entity.User;
 import edu.utn.mapper.UserMapper;
+import edu.utn.validator.UserValidator;
 
 public class UserManager {
 
@@ -12,9 +13,10 @@ public class UserManager {
     }
 
     public boolean save (User user) {
-        //valitor ->
+        UserValidator validator = new UserValidator();
         boolean success = false;
         try {
+            validator.isValid(user);
             success = userMapper.save(user);
 
         }catch (Exception ex){
@@ -22,6 +24,10 @@ public class UserManager {
         }finally {
             return success;
         }
+    }
+
+    public User get (String id) {
+        return getUserMapper().get(id);
     }
 
     public UserMapper getUserMapper() {

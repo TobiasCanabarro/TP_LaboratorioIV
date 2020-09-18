@@ -9,10 +9,10 @@ public class User {
     private String email;
     private Date birthday;
 
-    public User(String name, String lastName, String nickName, String email, Date birthday) {
+    public User(String name, String lastname, String email, Date birthday, String nickname) {
         setName(name);
-        setLastName(lastName);
-        setNickName(nickName);
+        setLastName(lastname);
+        setNickName(nickname);
         setEmail(email);
         setBirthday(birthday);
     }
@@ -55,5 +55,10 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String feature () {
+        return getName() + " " + getLastName()
+                + " " + getEmail() + " " + getBirthday().toString() + " " + getNickName();
     }
 }
