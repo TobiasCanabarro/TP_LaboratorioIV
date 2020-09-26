@@ -20,7 +20,7 @@ public class DataAccess {
         setHost(host);
         setPort(port);
         setPassword(password);
-        setConnectionString("jdbc:postgresql://"+host + ":" + port + "/cuvl_db");
+        setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
     public static DataAccess getDataAccess(String host, String port, String user, String password){
@@ -30,8 +30,8 @@ public class DataAccess {
         return dataAccess;
     }
 
-    protected List<Map<String, Object>> read(String sql) {
-        return read(sql, null);
+    protected List<Map<String, Object>> read(String query) {
+        return read(query, null);
     }
 
     protected List<Map<String, Object>> read (String query, Map<Integer, Object> parameters) {
@@ -61,11 +61,11 @@ public class DataAccess {
         }
     }
 
-    protected int write(String sql, Map<Integer, Object> parameters) throws SQLException {
+    protected int write(String query, Map<Integer, Object> parameters) throws SQLException {
         int returnedValue = 0;
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = getStatement(sql, parameters, connection);
+            PreparedStatement preparedStatement = getStatement(query, parameters, connection);
             returnedValue = preparedStatement.executeUpdate();
 
             // En el caso de un UPDATE o DELETE, se devuelve la cantidad de registros afectados.
@@ -81,20 +81,52 @@ public class DataAccess {
                     System.out.println("No keys to be retrieved");
                 }
             }
-
         } catch (SQLException exception) {
             // TODO: analizar qué ocurre si se loguea por la salida standard
             System.out.println(exception.getMessage());
         } catch (Exception exception) {
-
+            exception.printStackTrace();// todo culpa de nacho :D
         } finally {
             connection.close();
             return returnedValue;
         }
     }
 
-    private PreparedStatement getStatement(String sql, Map<Integer, Object> parameters, Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    protected int writeTransaction (String userQuery, String userLogQuery, Map<Integer, Object> userParameters, Map<Integer, Object> userLogParameters) throws SQLException {
+        int returnedValue = 0;
+        int returnedValue2 = 0;
+        try {
+            Connection connection = getConnection();
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = getStatement(userQuery, userParameters, connection);
+            PreparedStatement preparedStatement2 = getStatement(userLogQuery, userLogParameters, connection);
+            returnedValue = preparedStatement.executeUpdate();
+            returnedValue2 = preparedStatement2.executeUpdate();
+
+            if (returnedValue > 0 && returnedValue2 > 0) {
+                connection.commit();
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        returnedValue = generatedKeys.getInt(1);
+                    }
+                } catch (Exception exception) {
+                    System.out.println("No keys to be retrieved");
+                }
+            }
+        } catch (SQLException exception) {
+            if (connection != null) {
+                System.err.print("Transaction is being rolled back");
+                connection.rollback();
+            }
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }finally {
+            return returnedValue;
+            }
+        }
+
+    private PreparedStatement getStatement(String query, Map<Integer, Object> parameters, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         if (parameters != null) {
             Set<Integer> keys = parameters.keySet();
             for (Integer key : keys) {
@@ -109,13 +141,15 @@ public class DataAccess {
         try {
             if (connection == null){
                 connection = DriverManager.getConnection(getConnectionString(), getUser(), getPassword());
-                // TODO: analizar las implicancias de una transacción
             }
         } catch (SQLException exception) {
-            // TODO: analizar qué ocurre si se loguea por la salida standard
             System.out.println(exception.getMessage());
         }
         return connection;
+    }
+
+    public int saveTransaction (Map<Integer, Object> parameters) {
+        return 0;
     }
 
     public String getConnectionString() {

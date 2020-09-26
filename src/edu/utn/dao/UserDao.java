@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class UserDao extends DataAccess {
 
+    private static final String INSERT_USER = "INSERT INTO lab.user (name, password, surname, email, nickname, birthday, publication_id) values (?, ?, ?, ?, ?, ?, ?)";
     private static UserDao userDao;
 
     protected UserDao(String host, String port, String user, String password){
@@ -21,8 +22,8 @@ public class UserDao extends DataAccess {
         return userDao;
     }
 
-    public int save (Map<Integer, Object> parameters) throws SQLException {
-        String query = "INSERT INTO lab.user (name, lastName, email, birthDay, nickName) values (?, ?, ?, ?, ?)";
+    public int save (Map<Integer, Object> parameters) throws SQLException {//String name, String surname, String email,String nickname, Date birthday, int publicationId
+        String query = INSERT_USER;
         return write (query, parameters);
     }
 

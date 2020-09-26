@@ -2,70 +2,21 @@ package edu.utn.dto;
 
 import edu.utn.entity.User;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserDto {
 
-    private int id; // puede ser el id del registro
-    private String name;
-    private String lastName;
-    private String nickName;
-    private String email;
-    private Date birthday;
-
-    public UserDto (User user){
-        setName(user.getName());
-        setLastName(user.getLastName());
-        setBirthday(user.getBirthday());
-        setEmail(user.getEmail());
-        setNickName(user.getNickName());
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public Map<Integer, Object> saveUserOnMapper (User user) {
+        int i = 1;
+        Map<Integer, Object> parameters = new HashMap<>();
+        parameters.put(i++, user.getName());
+        parameters.put(i++, user.getPassword());
+        parameters.put(i++, user.getSurname());
+        parameters.put(i++, user.getEmail());
+        parameters.put(i++, user.getNickname());
+        parameters.put(i++, user.getBirthday());
+        parameters.put(i++, user.getPublicationId());
+        return parameters;
     }
 }
