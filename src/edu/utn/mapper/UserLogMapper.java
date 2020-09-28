@@ -54,4 +54,13 @@ public class UserLogMapper {
     }
 
 
+    public boolean update (UserLog user) throws SQLException {
+        UserLogDto userLogDto = new UserLogDto();
+        Map<Integer,Object> parameters = userLogDto.saveUserLogInMapper(user);
+        UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
+        int id = userLogDao.update(parameters, user.getUserId());
+        return id != 0;
+    }
+
+
 }

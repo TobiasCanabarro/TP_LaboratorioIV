@@ -87,7 +87,7 @@ public class DataAccess {
         } catch (Exception exception) {
             exception.printStackTrace();// todo culpa de nacho :D
         } finally {
-            connection.close();
+            //connection.close();
             return returnedValue;
         }
     }
@@ -123,9 +123,9 @@ public class DataAccess {
             }finally {
             return returnedValue;
             }
-        }
+    }
 
-    private PreparedStatement getStatement(String query, Map<Integer, Object> parameters, Connection connection) throws SQLException {
+    protected PreparedStatement getStatement(String query, Map<Integer, Object> parameters, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         if (parameters != null) {
             Set<Integer> keys = parameters.keySet();
@@ -137,7 +137,7 @@ public class DataAccess {
         return preparedStatement;
     }
 
-    private Connection getConnection() {
+    protected Connection getConnection() {
         try {
             if (connection == null){
                 connection = DriverManager.getConnection(getConnectionString(), getUser(), getPassword());

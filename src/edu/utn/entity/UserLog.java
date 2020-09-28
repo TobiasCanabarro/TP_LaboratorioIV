@@ -10,11 +10,11 @@ public class UserLog {
     private int attemptLogin;
     private boolean locked;
     private long userId;
-    private Date lastLogin;
+    private java.sql.Date lastLogin;
 
-    public UserLog(String email, long userId, Date lastLogin) {
+    public UserLog(String email, long userId, java.sql.Date lastLogin) {
         setEmail(email);
-        setLogin(true);
+        setLogin(false);
         setAttemptLogin(0);
         setLocked(false);
         setUserId(userId);

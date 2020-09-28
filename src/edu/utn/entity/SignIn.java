@@ -1,11 +1,7 @@
 package edu.utn.entity;
 
-import edu.utn.manager.UserLogManager;
 import edu.utn.manager.UserManager;
-import edu.utn.mapper.UserLogMapper;
-import edu.utn.validator.SignInValidator;
-
-import java.sql.Date;
+import edu.utn.validator.SQLValidator;
 
 public class SignIn {
 
@@ -16,7 +12,7 @@ public class SignIn {
     }
 
     public boolean signIn (User user) {
-        SignInValidator validator = new SignInValidator(); //TODO agregar excepcion de usuario existente
+        SQLValidator validator = new SQLValidator(); //TODO agregar excepcion de usuario existente
         boolean value = validator.existsUser(getUserManager(), user);
         boolean success = false;
         if(!value) {

@@ -16,7 +16,6 @@ public class UserDto {
         parameters.put(i++, user.getEmail());
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
-        parameters.put(i++, user.getPublicationId());
         return parameters;
     }
 }

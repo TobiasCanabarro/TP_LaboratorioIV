@@ -12,14 +12,13 @@ public class User {
     private Date birthday;
     private long publicationId;
 
-    public User(String name, String password,String surname, String email,String nickname, Date birthday, long publicationId) {
+    public User(String name, String password,String surname, String email,String nickname, Date birthday) {
         setName(name);
         setPassword(password);
         setSurname(surname);
         setEmail(email);
         setBirthday(birthday);
         setNickname(nickname);
-        setPublicationId(publicationId);
     }
 
     // Cuando se obtiene los datos de la DB se usa este constructor

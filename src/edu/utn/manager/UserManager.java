@@ -35,10 +35,10 @@ public class UserManager {
         }
     }
 
-
-    public User get (String id) {
-        return getUserMapper().get(id);
+    public User get (String email) {
+        return getUserMapper().get(email);
     }
+
 
     public UserMapper getUserMapper() {
         return userMapper;

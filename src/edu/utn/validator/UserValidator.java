@@ -1,14 +1,24 @@
 package edu.utn.validator;
 
+import edu.utn.dao.UserLogDao;
+import edu.utn.dto.UserLogDto;
 import edu.utn.entity.User;
+import edu.utn.entity.UserLog;
 import edu.utn.exception.EmailException;
 import edu.utn.exception.SurNameException;
 import edu.utn.exception.NameException;
+import edu.utn.manager.UserLogManager;
+import edu.utn.mapper.UserLogMapper;
 
-public class UserValidator extends Validator{
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Map;
+
+public class UserValidator extends Validator {
 
     private static final String NAME_EXCEPTION = "NAME EXCEPTION";
     private static final String SURNAME_EXCEPTION = "SURNAME EXCEPTION";
+    private static final int MAX_ATTEMPT = 3;
 
     public void isValid (User user) throws NameException, SurNameException, EmailException {
         isValidName(user);
@@ -30,6 +40,27 @@ public class UserValidator extends Validator{
         if (!value) {
             throw new SurNameException(SURNAME_EXCEPTION);
         }
+    }
+
+    //TODO Puede que lo tenga que hacer el front ?
+    public boolean equalPassword (User found, User userLogIn) throws SQLException {
+        UserLogManager manager = new UserLogManager(new UserLogMapper());
+        UserLog userLog = new UserLog(found.getEmail(), found.getId(), manager.generateCurrentDate(new Date()));
+        manager.save(userLog);
+        boolean value = false;
+
+        int attempt = 0;
+        while (attempt < MAX_ATTEMPT && !value){
+            if(found.getPassword().equals(userLogIn.getPassword())) {
+                value = true;
+            }
+            else {
+                attempt++;
+                userLog.setAttemptLogin(attempt);
+                manager.update(userLog);
+            }
+        }
+        return value;
     }
 
 }
