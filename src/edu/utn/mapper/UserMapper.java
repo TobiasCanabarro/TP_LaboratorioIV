@@ -2,6 +2,7 @@ package edu.utn.mapper;
 
 import edu.utn.dao.UserDao;
 import edu.utn.dto.UserDto;
+import edu.utn.dto.UserLogDto;
 import edu.utn.entity.User;
 
 import java.sql.*;
@@ -15,7 +16,6 @@ public class UserMapper {
     String CONNECTION_STRING = "jdbc:postgresql://192.168.33.10:5432/cuvl_db";
 
     public boolean save (User user) throws SQLException {
-        int i = 1;
         UserDto userDto = new UserDto();
         Map<Integer, Object> parameters = userDto.saveUserOnMapper(user); // lo tiene que hacer UserDto
         UserDao userDao = UserDao.getUserDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
@@ -37,5 +37,13 @@ public class UserMapper {
                     (Date)record.get("birthday"), (long)record.get("publication_id"));
         }
         return user;
+    }
+
+    public boolean update (User user) throws SQLException {
+        UserDto userDto = new UserDto();
+        Map<Integer, Object> parameters = userDto.saveUserOnMapper(user);
+        UserDao userDao = UserDao.getUserDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
+        int id = userDao.update(parameters, user.getEmail());
+        return id != 0;
     }
 }

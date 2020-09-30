@@ -7,7 +7,6 @@ import edu.utn.validator.SQLValidator;
 import edu.utn.validator.UserValidator;
 
 import java.sql.SQLException;
-import java.util.Date;
 
 public class LogIn {
 
@@ -21,31 +20,43 @@ public class LogIn {
         SQLValidator validator = new SQLValidator();
         UserValidator userValidator = new UserValidator();
         UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
-        UserLog userLog = new UserLog(user.getEmail(), user.getId(),userLogManager.generateCurrentDate(new Date()));//el id del user que se loggea es 0
-        User found = null;
-        boolean value = validator.existsUser(getUserManager(), user);
+        boolean value = validator.existsUser(getUserManager(), user);//Puede que esto este de mas...
+        User userFound = null;
 
         if(value){
             try{
-                found = getUserManager().get(user.getEmail());
-                value &= userValidator.equalPassword(found, user);
+                userFound = getUserManager().get(user.getEmail());
+                UserLog log = userLogManager.createUserLog(userFound);//Se crea un user log de usuario que se quiere loggear
+                log.setId(userLogManager.getIdLog(log));//Obtiene el ID genererado por la DB del log
+
+                value &= userValidator.equalPassword(userFound, user, log);//Prueba
                 if(!value) {
-                    userLogManager.lockUser(userLog);
+                    userLogManager.lockUser(log);
                 }else {
-                    userLog.setLogin(true);
+                    log.setLogin(true);
                 }
-                userLog.setUserId(found.getId());
-                userLogManager.update(userLog);
+                userLogManager.update(log);
             }catch (SQLException exception){
                 System.out.println(exception.getMessage());
+            }catch (NullPointerException exception){
+                System.out.println("El usuario no existe!");
             }
-
         }
         return value;
     }
 
-    public boolean logOut () {
-        //TODO hace un UPDATE en la tabla user_log del campo login
+    //TODO hace un UPDATE en la tabla user_log del campo login
+    public boolean logOut (User user) {
+        UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
+        UserLog log = userLogManager.get(user.getEmail());
+        log.setLogin(false);
+        try {
+            boolean value = userLogManager.update(log);
+        }catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+
+
         return true;
     }
 

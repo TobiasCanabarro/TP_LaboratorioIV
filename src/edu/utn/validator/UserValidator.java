@@ -43,21 +43,19 @@ public class UserValidator extends Validator {
     }
 
     //TODO Puede que lo tenga que hacer el front ?
-    public boolean equalPassword (User found, User userLogIn) throws SQLException {
+    public boolean equalPassword (User userFound, User userLogIn, UserLog log) throws SQLException {
         UserLogManager manager = new UserLogManager(new UserLogMapper());
-        UserLog userLog = new UserLog(found.getEmail(), found.getId(), manager.generateCurrentDate(new Date()));
-        manager.save(userLog);
         boolean value = false;
 
         int attempt = 0;
         while (attempt < MAX_ATTEMPT && !value){
-            if(found.getPassword().equals(userLogIn.getPassword())) {
+            if(userFound.getPassword().equals(userLogIn.getPassword())) {
                 value = true;
             }
             else {
                 attempt++;
-                userLog.setAttemptLogin(attempt);
-                manager.update(userLog);
+                log.setAttemptLogin(attempt);
+                manager.update(log);
             }
         }
         return value;

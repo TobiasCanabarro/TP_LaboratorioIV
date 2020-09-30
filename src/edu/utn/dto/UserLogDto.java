@@ -1,8 +1,8 @@
 package edu.utn.dto;
 
-import edu.utn.entity.User;
 import edu.utn.entity.UserLog;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +17,13 @@ public class UserLogDto {
         userLogParameters.put(i++, userLog.isLocked());
         userLogParameters.put(i++, userLog.getUserId());
         userLogParameters.put(i++, userLog.getLastLogin());
-
         return userLogParameters;
+    }
+
+    public UserLog getUserLog (Map<String, Object> record) {
+        return new UserLog((long)record.get("id"), record.get("email").toString(), (boolean)record.get("login"),
+                (int)record.get("attempt_login"), (boolean)record.get("locked"), (long)record.get("user_id"),
+                (Date)record.get("last_login"));
     }
 
 }

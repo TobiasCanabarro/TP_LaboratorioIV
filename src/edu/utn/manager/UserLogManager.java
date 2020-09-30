@@ -74,14 +74,27 @@ public class UserLogManager {
         }
     }
 
-    public void lockUser (UserLog user) throws SQLException {
+    public void lockUser (UserLog user){
         user.setAttemptLogin(INITIAL_ATTEMPT);
         user.setLocked(true);
     }
 
     public java.sql.Date generateCurrentDate (java.util.Date date) {
-        return new Date(date.getYear(), date.getMonth(), date.getDay());
+        Date loginDate = new Date(date.getYear(), date.getMonth(), date.getDay());
+        return loginDate;
     }
+
+    public UserLog createUserLog (User user) {
+        UserLog log = new UserLog(user.getEmail(), user.getId(), generateCurrentDate(new java.util.Date()));
+        save(log);
+        return log;
+    }
+
+    public long getIdLog (UserLog log) {
+        UserLog logId = get(log.getEmail());
+        return logId.getId();
+    }
+
 
     public UserLogMapper getUserLogMapper() {
         return userLogMapper;

@@ -51,7 +51,7 @@ public class DataAccess {
                 }
                 results.add(columns);
             }
-            resultSet.close();
+            //resultSet.close();
         } catch (SQLException exception) {
             System.out.println("SQL Exception -> " + exception.getMessage() );
         }  catch (Exception exception) {

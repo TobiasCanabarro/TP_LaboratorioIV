@@ -11,7 +11,7 @@ public class UserLogDao extends DataAccess{
     private static final String INSERT_USER = "INSERT INTO lab.user_log (email, login, attempt_login, locked, user_id, last_login) values (?, ?, ?, ?, ?, ?)";
     private static final String INSERT_USER_LOG = "INSERT INTO lab.user_log (email, login, attempt_login, locked, user_id, last_login) values (?, ?, ?, ?, ?, ?)";
 
-    private static final String UPDATE_USER_LOG = "UPDATE lab.user_log set email = ?, login = ?, attempt_login = ?, locked = ?, user_id = ?, last_login = ? WHERE user_id =";
+    private static final String UPDATE_USER_LOG = "UPDATE lab.user_log set email = ?, login = ?, attempt_login = ?, locked = ?, user_id = ?, last_login = ? WHERE id = ";
 
     private static final String SELECT_USER_LOG = "SELECT * FROM lab.user_log WHERE email = ?";
 
@@ -28,7 +28,7 @@ public class UserLogDao extends DataAccess{
         return userLogDao;
     }
 
-    public int save (Map<Integer, Object> parameters) throws SQLException {//String name, String surname, String email,String nickname, Date birthday, int publicationId
+    public int save (Map<Integer, Object> parameters) throws SQLException {
         return write (INSERT_USER, parameters);
     }
 

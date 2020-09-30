@@ -40,15 +40,13 @@ public class UserLogMapper {
 
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
         Map<Integer, Object> parameters = new HashMap<>();
+        UserLogDto userLogDto = new UserLogDto();
         parameters.put(1, id);
         UserLog userLog = null;
 
         List<Map<String, Object>> records = userLogDao.get(parameters);
         if (records.size() > 0) {
-            Map<String, Object> record = records.get(0);//long id, String email, boolean login, int attemptLogin, boolean locked, long userId, Date lastLogin
-            userLog = new UserLog((long)record.get("id"), record.get("email").toString(), (boolean)record.get("login"),
-                    (int)record.get("attempt_login"), (boolean)record.get("locked"), (long)record.get("user_id"),
-                    (Date)record.get("last_login"));
+            userLog = userLogDto.getUserLog(records.get(0));
         }
         return userLog;
     }
@@ -58,7 +56,7 @@ public class UserLogMapper {
         UserLogDto userLogDto = new UserLogDto();
         Map<Integer,Object> parameters = userLogDto.saveUserLogInMapper(user);
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
-        int id = userLogDao.update(parameters, user.getUserId());
+        int id = userLogDao.update(parameters, user.getId());
         return id != 0;
     }
 

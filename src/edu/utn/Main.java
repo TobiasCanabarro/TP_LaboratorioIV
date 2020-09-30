@@ -14,47 +14,52 @@ import java.sql.SQLException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {//ALTER SEQUENCE user_log_id_seq RESTART WITH 1
         login();
     }
 
     //tendrian que ser test unitarios xD
 
-    //String name, String password,String surname, String email,String nickname, Date birthday
-    private static void login () {
+    private static void login() {
         LogIn logIn = new LogIn(new UserManager(new UserMapper()));
-        logIn.logIn(new User("Tobias", "tobias1", "Canabarro", "tobias@gmail.com", "Tobi", new Date(9999)));
+        boolean value = logIn.logIn(new User("Tobias", "tobias1", "Canabarro", "tobias@gmail.com", "Tobi", new Date(9999)));
+        System.out.println(value);
     }
 
-    private static void signInWithTransaction () {
+    private static void signInWithTransaction() {
         UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
         User user = new User("Roberto", "roberto123", "Zacarello", "roberto@gmail.com", "rober", new Date(8888));
         boolean value = userLogManager.saveWithTransaction(user);
         System.out.println(value);
     }
 
-
-    private static void signIn () {//String name, String password,String surname, String email,String nickname, Date birthday
+    private static void signIn() {//String name, String password,String surname, String email,String nickname, Date birthday
         SignIn signIn = new SignIn(new UserManager(new UserMapper()));
         boolean value = signIn.signIn((new User("Tobias", "tobias123",
                 "Canabarro", "tobias@gmail.com", "Tobi", new Date(9999))));
         System.out.println(value);
     }
 
-    private static void signIn2 () {
+    private static void signIn2() {
         SignIn signIn = new SignIn(new UserManager(new UserMapper()));
         boolean value = signIn.signIn((new User("Pablo", "pablo123",
                 "Forcinito", "pablo@gmail.com", "Forci", new Date(9999))));
         System.out.println(value);
     }
 
-    private static void signIn3 () {
+    private static void signIn3() {
         SignIn signIn = new SignIn(new UserManager(new UserMapper()));
         boolean value = signIn.signIn((new User("Ignacio", "ignacio123",
                 "Ortiz", "ignacio@gmail.com", "Nacho", new Date(9999))));
         System.out.println(value);
     }
 
+    private static void singIn4() {
+        SignIn signIn = new SignIn(new UserManager(new UserMapper()));
+        boolean value = signIn.signIn(new User("Carlos", "carlos123",
+                "Capozucca", "carlos@gmail.com", "Negro", new Date(9999)));
+        System.out.println(value);
+    }
 
     private static void postUser () {
         try {

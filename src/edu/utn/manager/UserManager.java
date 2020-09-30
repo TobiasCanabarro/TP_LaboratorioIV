@@ -7,6 +7,8 @@ import edu.utn.exception.SurNameException;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
+import java.sql.SQLException;
+
 public class UserManager {
 
     private UserMapper userMapper;
@@ -39,6 +41,15 @@ public class UserManager {
         return getUserMapper().get(email);
     }
 
+    public boolean update (User user){
+        boolean value = false;
+        try {
+            value = getUserMapper().update(user);
+        }catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+        return value;
+    }
 
     public UserMapper getUserMapper() {
         return userMapper;
