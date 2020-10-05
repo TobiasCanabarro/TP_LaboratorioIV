@@ -3,9 +3,15 @@ package edu.utn.dao;
 import java.sql.*;
 import java.util.*;
 
-//ConnectionString = "jdbc:postgresql://192.168.33.10:5432/cuvl_db";
+
 
 public class DataAccess {
+
+    //private static final String CONNECTION_STRING = "jdbc:postgresql://192.168.33.10:5432/cuvl_db";
+    private static final String HOST = "192.168.33.10";
+    private static final String PORT = "5438";
+    private static final String USER = "cuvl";
+    private static final String PASSWORD = "cuvl1234";
 
     private String connectionString;
     private String user;
@@ -15,17 +21,17 @@ public class DataAccess {
     private Connection connection;
     private static DataAccess dataAccess;
 
-    protected DataAccess(String host, String port, String user, String password) {
-        setUser(user);
-        setHost(host);
-        setPort(port);
-        setPassword(password);
+    protected DataAccess (){//TODO estos valores se tiene que cargar mediante un archivo de configuracion :D
+        setHost(HOST);
+        setPort(PORT);
+        setUser(USER);
+        setPassword(PASSWORD);
         setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
-    public static DataAccess getDataAccess(String host, String port, String user, String password){
+    public static DataAccess getDataAccess(){
         if(dataAccess == null) {
-            dataAccess = new DataAccess(host, port, user, password);
+            dataAccess = new DataAccess();
         }
         return dataAccess;
     }
@@ -87,7 +93,7 @@ public class DataAccess {
         } catch (Exception exception) {
             exception.printStackTrace();// todo culpa de nacho :D
         } finally {
-            //connection.close();
+            //connection.close();//cierra la conexion general :C
             return returnedValue;
         }
     }
@@ -196,9 +202,9 @@ public class DataAccess {
         this.port = port;
     }
 
-    public static DataAccess getDataAccess() {
-        return dataAccess;
-    }
+//    public static DataAccess getDataAccess() {
+//        return dataAccess;
+//    }
 
     public static void setDataAccess(DataAccess dataAccess) {
         DataAccess.dataAccess = dataAccess;

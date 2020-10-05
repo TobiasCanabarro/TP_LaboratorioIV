@@ -22,7 +22,7 @@ public class User {
     }
 
     // Cuando se obtiene los datos de la DB se usa este constructor
-    public User(long id, String name, String password,String surname, String email,String nickname, Date birthday, long publicationId) {
+    public User(long id, String name, String password, String surname, String email, String nickname, Date birthday, long publicationId) {
         setId(id);
         setName(name);
         setPassword(password);

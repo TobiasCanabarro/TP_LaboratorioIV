@@ -11,14 +11,13 @@ public class SignIn {
         setUserManager(manager);
     }
 
-    public boolean signIn (User user) {
+    public boolean signIn () {
         SQLValidator validator = new SQLValidator(); //TODO agregar excepcion de usuario existente
-        boolean value = validator.existsUser(getUserManager(), user);
+        boolean value = validator.existsUser(getUserManager(), getUser());
         boolean success = false;
         if(!value) {
             try {
-                success = getUserManager().save(user);
-                System.out.println(success);
+                success = getUserManager().save();
             }catch (Exception e){
                 System.out.println(e);
             }
@@ -34,8 +33,9 @@ public class SignIn {
         return success;
     }
 
-    private void updateOnline (User user) {
-        //TODO falta hacer que cambie el campo login de la tabla user_log, cada vez que se inicie sesion o se cierre sesion
+
+    private User getUser (){
+        return getUserManager().getUserMapper().getUser();
     }
 
     public UserManager getUserManager() {

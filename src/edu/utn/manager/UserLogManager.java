@@ -24,7 +24,7 @@ public class UserLogManager {
         boolean success = false;
         try {
             validator.isValid(userLog);
-            success = getUserLogMapper().save(userLog);
+            success = getUserLogMapper().save();
 
         }catch (EmailException exception){
             System.out.printf(exception.getMessage());
@@ -37,36 +37,16 @@ public class UserLogManager {
         }
     }
 
-    //Puede que la trasanccion solo vaya con el userLog. Ya que se necesita el ID del user; se le asigna recien en la DB
-    public boolean saveWithTransaction (User user) {
-        UserLog userLog = new UserLog(user.getEmail(), 4, new Date(8888));//numeros magicos
-        UserLogValidator validator = new UserLogValidator();
-        boolean success = false;
-        try {
-            validator.isValid(userLog);
-            success = getUserLogMapper().saveWithTransaction(user, userLog);
-
-        }catch (EmailException exception){
-            System.out.printf(exception.getMessage());
-        }
-        catch (Exception exception){
-            System.out.println(exception.getMessage());
-        }
-        finally {
-            return success;
-        }
+    public UserLog get () {
+        return getUserLogMapper().get();
     }
 
-    public UserLog get (String id) {
-        return getUserLogMapper().get(id);
-    }
-
-    public boolean update (UserLog user) throws SQLException {
+    public boolean update (){
         boolean success = false;
         try {
-            success = getUserLogMapper().update(user);
+            success = getUserLogMapper().update();
 
-        }catch (Exception exception){
+        }catch (SQLException exception){
             System.out.println(exception.getMessage());
         }
         finally {
@@ -86,15 +66,19 @@ public class UserLogManager {
 
     public UserLog createUserLog (User user) {
         UserLog log = new UserLog(user.getEmail(), user.getId(), generateCurrentDate(new java.util.Date()));
+        getUserLogMapper().setUser(log);
         save(log);
         return log;
     }
 
     public long getIdLog (UserLog log) {
-        UserLog logId = get(log.getEmail());
+        UserLog logId = get();
         return logId.getId();
     }
 
+    private UserLog getUserLog(){
+        return getUserLogMapper().getUser();
+    }
 
     public UserLogMapper getUserLogMapper() {
         return userLogMapper;

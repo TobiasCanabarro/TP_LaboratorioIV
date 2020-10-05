@@ -13,13 +13,13 @@ public class UserDao extends DataAccess {
 
     private static UserDao userDao;
 
-    protected UserDao(String host, String port, String user, String password){
-        super(host, port, user, password);
+    protected UserDao(){
+        super();
     }
 
-    public static UserDao getUserDao(String host, String port, String user, String password){
+    public static UserDao getUserDao(){
         if(userDao == null) {
-            userDao = new UserDao(host, port, user, password);
+            userDao = new UserDao();
         }
         return userDao;
     }

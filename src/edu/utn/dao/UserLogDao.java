@@ -1,7 +1,5 @@
 package edu.utn.dao;
 
-import edu.utn.entity.UserLog;
-
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,7 @@ public class UserLogDao extends DataAccess{
     private static UserLogDao userLogDao;
 
     protected UserLogDao(String host, String port, String user, String password) {
-        super(host, port, user, password);
+        super();
     }
 
     public static UserLogDao getUserLogDao(String host, String port, String user, String password){

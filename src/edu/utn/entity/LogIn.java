@@ -11,31 +11,39 @@ import java.sql.SQLException;
 public class LogIn {
 
     private UserManager userManager;
+    private UserLogManager userLogManager;
 
     public LogIn (UserManager userManager){
         setUserManager(userManager);
     }
 
-    public boolean logIn (User user) {
+    public LogIn (UserManager userManager, UserLogManager userLogManager){
+        setUserManager(userManager);
+        setUserLogManager(userLogManager);
+    }
+
+    public boolean logIn () {
         SQLValidator validator = new SQLValidator();
         UserValidator userValidator = new UserValidator();
         UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
-        boolean value = validator.existsUser(getUserManager(), user);//Puede que esto este de mas...
+        boolean value = validator.existsUser(getUserManager(), getUser());//Puede que esto este de mas...
         User userFound = null;
 
         if(value){
             try{
-                userFound = getUserManager().get(user.getEmail());
+                userFound = getUserManager().get();
                 UserLog log = userLogManager.createUserLog(userFound);//Se crea un user log de usuario que se quiere loggear
+                userLogManager.getUserLogMapper().setUser(log);
                 log.setId(userLogManager.getIdLog(log));//Obtiene el ID genererado por la DB del log
 
-                value &= userValidator.equalPassword(userFound, user, log);//Prueba
+                value &= userValidator.equalPassword(userFound, getUser(), log);//Prueba
                 if(!value) {
                     userLogManager.lockUser(log);
                 }else {
                     log.setLogin(true);
                 }
-                userLogManager.update(log);
+                userLogManager.getUserLogMapper().setUser(log);// Le asigna al mapper el log que se va a usar
+                userLogManager.update();
             }catch (SQLException exception){
                 System.out.println(exception.getMessage());
             }catch (NullPointerException exception){
@@ -46,18 +54,38 @@ public class LogIn {
     }
 
     //TODO hace un UPDATE en la tabla user_log del campo login
-    public boolean logOut (User user) {
-        UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
-        UserLog log = userLogManager.get(user.getEmail());
+    public boolean logOut () {
+        UserLog log = getUserLogManager().get();
+        boolean value = false;
         log.setLogin(false);
+        setUserLog(log);
         try {
-            boolean value = userLogManager.update(log);
-        }catch (SQLException exception){
+            value = getUserLogManager().update();
+        }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
 
+        return value;
+    }
 
-        return true;
+    private UserLog getUserLog(){
+        return getUserLogManager().getUserLogMapper().getUser();
+    }
+
+    private void setUserLog (UserLog userLog) {
+        getUserLogManager().getUserLogMapper().setUser(userLog);
+    }
+
+    private User getUser() {
+        return getUserManager().getUserMapper().getUser();
+    }
+
+    public UserLogManager getUserLogManager() {
+        return userLogManager;
+    }
+
+    public void setUserLogManager(UserLogManager userLogManager) {
+        this.userLogManager = userLogManager;
     }
 
     public UserManager getUserManager() {

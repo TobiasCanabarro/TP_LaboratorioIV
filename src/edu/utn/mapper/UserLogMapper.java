@@ -1,47 +1,39 @@
 package edu.utn.mapper;
 
 import edu.utn.dao.UserLogDao;
-import edu.utn.dto.UserDto;
 import edu.utn.dto.UserLogDto;
-import edu.utn.entity.User;
 import edu.utn.entity.UserLog;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserLogMapper {
+public class UserLogMapper implements Mapper{
 
-    public boolean save (UserLog user) throws SQLException {
+    private UserLog user;
+
+    public UserLogMapper(UserLog user) {
+        setUser(user);
+    }
+
+    public UserLogMapper (){}
+
+    public boolean save () throws SQLException {
         UserLogDto userLogDto = new UserLogDto();
-        Map<Integer, Object> parameters = userLogDto.saveUserLogInMapper(user);
+        Map<Integer, Object> parameters = userLogDto.saveUserLogInMapper(getUser());
 
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
         int id = userLogDao.save(parameters);
         return id != 0;
     }
 
-    public boolean saveWithTransaction (User user, UserLog userLog) throws SQLException {
-        UserLogDto userLogDto = new UserLogDto();
-        UserDto userDto = new UserDto();
-
-        Map<Integer, Object> userParameters = userDto.saveUserOnMapper(user);
-        Map<Integer, Object> userLogParameters = userLogDto.saveUserLogInMapper(userLog);
-
-        UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
-        int id = userLogDao.saveWithTransaction(userParameters, userLogParameters);
-        return id != 0;
-    }
-
-
-    public UserLog get (String id) {
+    public UserLog get () {
 
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
         Map<Integer, Object> parameters = new HashMap<>();
         UserLogDto userLogDto = new UserLogDto();
-        parameters.put(1, id);
+        parameters.put(1, getUser().getEmail());
         UserLog userLog = null;
 
         List<Map<String, Object>> records = userLogDao.get(parameters);
@@ -52,13 +44,19 @@ public class UserLogMapper {
     }
 
 
-    public boolean update (UserLog user) throws SQLException {
+    public boolean update () throws SQLException {
         UserLogDto userLogDto = new UserLogDto();
-        Map<Integer,Object> parameters = userLogDto.saveUserLogInMapper(user);
+        Map<Integer,Object> parameters = userLogDto.saveUserLogInMapper(getUser());
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
-        int id = userLogDao.update(parameters, user.getId());
+        int id = userLogDao.update(parameters, getUser().getId());
         return id != 0;
     }
 
+    public UserLog getUser() {
+        return user;
+    }
 
+    public void setUser(UserLog user) {
+        this.user = user;
+    }
 }

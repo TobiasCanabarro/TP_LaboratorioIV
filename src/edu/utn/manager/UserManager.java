@@ -1,5 +1,6 @@
 package edu.utn.manager;
 
+import edu.utn.entity.LogIn;
 import edu.utn.entity.User;
 import edu.utn.exception.EmailException;
 import edu.utn.exception.NameException;
@@ -17,12 +18,12 @@ public class UserManager {
         setUserMapper(userMapper);
     }
 
-    public boolean save (User user) {
+    public boolean save () {
         UserValidator validator = new UserValidator();
         boolean success = false;
         try {
-            validator.isValid(user);
-            success = userMapper.save(user);
+            validator.isValid(getUser());
+            success = userMapper.save();
         }catch (EmailException ex){
             System.out.println(ex.getMessage());
         }catch (NameException ex){
@@ -37,18 +38,22 @@ public class UserManager {
         }
     }
 
-    public User get (String email) {
-        return getUserMapper().get(email);
+    public User get () {
+        return getUserMapper().get(getUser().getEmail());
     }
 
-    public boolean update (User user){
+    public boolean update (){
         boolean value = false;
         try {
-            value = getUserMapper().update(user);
+            value = getUserMapper().update();
         }catch (SQLException exception){
             System.out.println(exception.getMessage());
         }
         return value;
+    }
+
+    public User getUser() {
+        return getUserMapper().getUser();
     }
 
     public UserMapper getUserMapper() {
