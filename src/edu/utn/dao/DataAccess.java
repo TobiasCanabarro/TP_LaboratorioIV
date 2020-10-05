@@ -1,5 +1,7 @@
 package edu.utn.dao;
 
+import edu.utn.file.LoadConfig;
+
 import java.sql.*;
 import java.util.*;
 
@@ -20,21 +22,23 @@ public class DataAccess {
     private String port;
     private Connection connection;
     private static DataAccess dataAccess;
+    private LoadConfig config;
 
     protected DataAccess (){//TODO estos valores se tiene que cargar mediante un archivo de configuracion :D
-        setHost(HOST);
-        setPort(PORT);
-        setUser(USER);
-        setPassword(PASSWORD);
+        setConfig(LoadConfig.getConfig());
+        setHost(getConfig().getHost());
+        setPort(getConfig().getPort());
+        setUser(getConfig().getUser());
+        setPassword(getConfig().getPassword());
         setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
-    public static DataAccess getDataAccess(){
-        if(dataAccess == null) {
-            dataAccess = new DataAccess();
-        }
-        return dataAccess;
-    }
+//    public static DataAccess getDataAccess(){
+//        if(dataAccess == null) {
+//            dataAccess = new DataAccess();
+//        }
+//        return dataAccess;
+//    }
 
     protected List<Map<String, Object>> read(String query) {
         return read(query, null);
@@ -154,9 +158,6 @@ public class DataAccess {
         return connection;
     }
 
-    public int saveTransaction (Map<Integer, Object> parameters) {
-        return 0;
-    }
 
     public String getConnectionString() {
         return connectionString;
@@ -202,11 +203,15 @@ public class DataAccess {
         this.port = port;
     }
 
-//    public static DataAccess getDataAccess() {
-//        return dataAccess;
-//    }
-
     public static void setDataAccess(DataAccess dataAccess) {
         DataAccess.dataAccess = dataAccess;
+    }
+
+    public LoadConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(LoadConfig config) {
+        this.config = config;
     }
 }
