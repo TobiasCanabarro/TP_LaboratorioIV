@@ -12,13 +12,13 @@ public class UserLog {
     private long userId;
     private java.sql.Date lastLogin;
 
-    public UserLog(String email, long userId, java.sql.Date lastLogin) {
+    public UserLog(String email, long userId) {
         setEmail(email);
         setLogin(false);
         setAttemptLogin(0);
         setLocked(false);
         setUserId(userId);
-        setLastLogin(lastLogin);
+        setLastLogin(new Date(9999));
     }
 
     // Cuando se obtiene los datos de la DB se usa este constructor

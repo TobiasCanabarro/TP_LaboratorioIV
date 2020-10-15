@@ -24,7 +24,7 @@ public class UserDao extends DataAccess {
         return userDao;
     }
 
-    public int save (Map<Integer, Object> parameters) throws SQLException {//String name, String surname, String email,String nickname, Date birthday, int publicationId
+    public int save (Map<Integer, Object> parameters) throws SQLException {
         String query = INSERT_USER;
         return write (query, parameters);
     }

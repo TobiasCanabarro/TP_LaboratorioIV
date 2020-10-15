@@ -1,66 +1,53 @@
 package edu.utn.entity;
 
+import edu.utn.factory.UserLogManagerFactory;
+import edu.utn.factory.UserManagerFactory;
+import edu.utn.log.LogHelper;
 import edu.utn.manager.UserLogManager;
 import edu.utn.manager.UserManager;
 import edu.utn.mapper.UserLogMapper;
-import edu.utn.validator.SQLValidator;
 import edu.utn.validator.UserValidator;
-
-import java.sql.SQLException;
 
 public class LogIn {
 
-    private UserManager userManager;
-    private UserLogManager userLogManager;
-
-    public LogIn (UserManager userManager){
-        setUserManager(userManager);
-    }
-
-    public LogIn (UserManager userManager, UserLogManager userLogManager){
-        setUserManager(userManager);
-        setUserLogManager(userLogManager);
-    }
-
-    public boolean logIn () {
-        SQLValidator validator = new SQLValidator();
+    public boolean logIn (User user) {
         UserValidator userValidator = new UserValidator();
         UserLogManager userLogManager = new UserLogManager(new UserLogMapper());
-        boolean value = validator.existsUser(getUserManager(), getUser());//Puede que esto este de mas...
-        User userFound = null;
+        UserManager userManager = UserManagerFactory.create(user);
+        User userFound = userManager.get();
+        boolean value = userValidator.canLogin(userFound);
 
         if(value){
-            try{
-                userFound = getUserManager().get();
+            try{//TODO hay que encapsular algunas cosas... :C
                 UserLog log = userLogManager.createUserLog(userFound);//Se crea un user log de usuario que se quiere loggear
                 userLogManager.getUserLogMapper().setUser(log);
                 log.setId(userLogManager.getIdLog(log));//Obtiene el ID genererado por la DB del log
 
-                value &= userValidator.equalPassword(userFound, getUser(), log);//Prueba
+                value &= userValidator.equalPassword(userFound, getUser(userManager), log);//Prueba
                 if(!value) {
                     userLogManager.lockUser(log);
                 }else {
                     log.setLogin(true);
                 }
-                userLogManager.getUserLogMapper().setUser(log);// Le asigna al mapper el log que se va a usar
+                userLogManager.getUserLogMapper().setUser(log);// se Le asigna al mapper el log que se va a persistir en DB
                 userLogManager.update();
-            }catch (SQLException exception){
-                System.out.println(exception.getMessage());
-            }catch (NullPointerException exception){
-                System.out.println("El usuario no existe!");
+            }catch (NullPointerException ex){
+                LogHelper.setNewLog("El usuario no existe!");
             }
         }
         return value;
     }
 
     //TODO hace un UPDATE en la tabla user_log del campo login
-    public boolean logOut () {
-        UserLog log = getUserLogManager().get();
+    public boolean logOut (User user) {
+        UserLog userLog = new UserLog(user.getEmail(), user.getId());
+        UserLogManager userLogManager = UserLogManagerFactory.create(userLog);
+        UserLog logFound = userLogManager.get();
         boolean value = false;
-        log.setLogin(false);
-        setUserLog(log);
+        logFound.setLogin(false);
+        setUserLog(userLogManager, logFound);
         try {
-            value = getUserLogManager().update();
+            value = userLogManager.update();
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -68,31 +55,12 @@ public class LogIn {
         return value;
     }
 
-    private UserLog getUserLog(){
-        return getUserLogManager().getUserLogMapper().getUser();
+    private void setUserLog (UserLogManager userLogManager, UserLog userLog) {
+        userLogManager.getUserLogMapper().setUser(userLog);
     }
 
-    private void setUserLog (UserLog userLog) {
-        getUserLogManager().getUserLogMapper().setUser(userLog);
+    private User getUser(UserManager manager) {
+        return manager.getUserMapper().getUser();
     }
 
-    private User getUser() {
-        return getUserManager().getUserMapper().getUser();
-    }
-
-    public UserLogManager getUserLogManager() {
-        return userLogManager;
-    }
-
-    public void setUserLogManager(UserLogManager userLogManager) {
-        this.userLogManager = userLogManager;
-    }
-
-    public UserManager getUserManager() {
-        return userManager;
-    }
-
-    public void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
 }

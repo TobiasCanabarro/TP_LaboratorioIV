@@ -1,16 +1,16 @@
 package edu.utn.manager;
 
-
 import edu.utn.entity.User;
 import edu.utn.entity.UserLog;
 import edu.utn.exception.EmailException;
+import edu.utn.log.LogHelper;
 import edu.utn.mapper.UserLogMapper;
 import edu.utn.validator.UserLogValidator;
 
 import java.sql.Date;
 import java.sql.SQLException;
 
-public class UserLogManager {
+public class UserLogManager implements Manager{
 
     private static final int INITIAL_ATTEMPT = 0;
     private UserLogMapper userLogMapper;
@@ -19,18 +19,18 @@ public class UserLogManager {
         setUserLogMapper(userLogMapper);
     }
 
-    public boolean save (UserLog userLog) {
+    public boolean save () {
         UserLogValidator validator = new UserLogValidator();
         boolean success = false;
         try {
-            validator.isValid(userLog);
+            validator.isValid(getUserLog());
             success = getUserLogMapper().save();
 
-        }catch (EmailException exception){
-            System.out.printf(exception.getMessage());
+        }catch (EmailException ex){
+            LogHelper.setNewLog(ex.getMessage());
         }
-        catch (Exception exception){
-            System.out.println(exception.getMessage());
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
         finally {
             return success;
@@ -46,8 +46,8 @@ public class UserLogManager {
         try {
             success = getUserLogMapper().update();
 
-        }catch (SQLException exception){
-            System.out.println(exception.getMessage());
+        }catch (SQLException ex){
+            LogHelper.setNewLog(ex.getMessage());
         }
         finally {
             return success;
@@ -65,9 +65,9 @@ public class UserLogManager {
     }
 
     public UserLog createUserLog (User user) {
-        UserLog log = new UserLog(user.getEmail(), user.getId(), generateCurrentDate(new java.util.Date()));
+        UserLog log = new UserLog(user.getEmail(), user.getId());
         getUserLogMapper().setUser(log);
-        save(log);
+        save();
         return log;
     }
 

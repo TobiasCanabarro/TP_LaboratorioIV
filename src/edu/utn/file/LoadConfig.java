@@ -12,6 +12,7 @@ public class LoadConfig {
     private String user;
     private String password;
     private static LoadConfig loadConfig;
+    private static final String PATH_CONFIGURATION = "C:\\Users\\Toby\\Desktop\\TPProg4\\src\\edu\\utn\\file\\configuration.properties";
 
     private LoadConfig() {
         loadConfig();
@@ -28,7 +29,7 @@ public class LoadConfig {
         Properties properties = new Properties();
         InputStream is = null;
         try {
-            is = new FileInputStream("C:\\Users\\Toby\\Desktop\\TPProg4\\src\\edu\\utn\\file\\configuration.properties");
+            is = new FileInputStream(PATH_CONFIGURATION);
             properties.load(is);
         } catch (IOException exception) {
             System.out.println(exception.getMessage());

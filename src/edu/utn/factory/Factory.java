@@ -1,6 +1,10 @@
 package edu.utn.factory;
 
-public class Factory {
+import edu.utn.manager.Manager;
 
+public interface Factory {
 
+    static Manager create(Object object) {
+        return null;
+    }
 }

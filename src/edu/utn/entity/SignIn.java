@@ -1,28 +1,25 @@
 package edu.utn.entity;
 
+import edu.utn.factory.UserManagerFactory;
+import edu.utn.log.LogHelper;
 import edu.utn.manager.UserManager;
-import edu.utn.validator.SQLValidator;
+import edu.utn.validator.UserValidator;
 
 public class SignIn {
 
-    private UserManager userManager;
-
-    public SignIn (UserManager manager) {
-        setUserManager(manager);
-    }
-
-    public boolean signIn () {
-        SQLValidator validator = new SQLValidator(); //TODO agregar excepcion de usuario existente
-        boolean value = validator.existsUser(getUserManager(), getUser());
+    public boolean signIn (User user) {
+        UserValidator validator = new UserValidator(); //TODO agregar excepcion de usuario existente
+        UserManager userManager = UserManagerFactory.create(user);//TODO Se podria sacar y ser agregado dentro del existUser
+        boolean value = validator.existsUser(getUser(userManager));
         boolean success = false;
         if(!value) {
             try {
-                success = getUserManager().save();
-            }catch (Exception e){
-                System.out.println(e);
+                success = userManager.save();
+            }catch (Exception ex){
+                LogHelper.setNewLog(ex.getMessage());
             }
         }
-//        if(success){//TODO hacer un insert en la tabla user_log
+//        if(success){
 //            try {
 //                UserLogManager userLogManager  = new UserLogManager(new UserLogMapper());
 //                success = userLogManager.saveWithTransaction(user, new UserLog(user.getEmail(), user.getId(), new Date(99999)));
@@ -34,15 +31,8 @@ public class SignIn {
     }
 
 
-    private User getUser (){
-        return getUserManager().getUserMapper().getUser();
+    private User getUser (UserManager manager){
+        return manager.getUserMapper().getUser();
     }
 
-    public UserManager getUserManager() {
-        return userManager;
-    }
-
-    public void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
 }

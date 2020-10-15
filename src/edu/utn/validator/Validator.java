@@ -28,4 +28,20 @@ public class Validator {
         }
         return flag;
     }
+
+    protected boolean isAlphaNumeric (String password) {
+        boolean value = false;
+        for (int i = 0; i < password.length() && !value; i++) {
+            if(!isWord(password, i) || !isNumber(password, i)){
+                value = true;
+            }
+        }
+        return value;
+    }
+
+    protected boolean isNumber (String number, int i) {
+        return  number.charAt(i) > 47 && number.charAt(i) < 58;
+    }
+
+
 }

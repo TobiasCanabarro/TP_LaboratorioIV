@@ -5,15 +5,7 @@ import edu.utn.file.LoadConfig;
 import java.sql.*;
 import java.util.*;
 
-
-
 public class DataAccess {
-
-    //private static final String CONNECTION_STRING = "jdbc:postgresql://192.168.33.10:5432/cuvl_db";
-    private static final String HOST = "192.168.33.10";
-    private static final String PORT = "5438";
-    private static final String USER = "cuvl";
-    private static final String PASSWORD = "cuvl1234";
 
     private String connectionString;
     private String user;
@@ -24,7 +16,7 @@ public class DataAccess {
     private static DataAccess dataAccess;
     private LoadConfig config;
 
-    protected DataAccess (){//TODO estos valores se tiene que cargar mediante un archivo de configuracion :D
+    protected DataAccess (){
         setConfig(LoadConfig.getConfig());
         setHost(getConfig().getHost());
         setPort(getConfig().getPort());

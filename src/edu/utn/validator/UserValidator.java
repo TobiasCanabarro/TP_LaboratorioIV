@@ -1,29 +1,29 @@
 package edu.utn.validator;
 
-import edu.utn.dao.UserLogDao;
-import edu.utn.dto.UserLogDto;
 import edu.utn.entity.User;
 import edu.utn.entity.UserLog;
 import edu.utn.exception.EmailException;
+import edu.utn.exception.PasswordException;
 import edu.utn.exception.SurNameException;
 import edu.utn.exception.NameException;
+import edu.utn.factory.UserLogManagerFactory;
+import edu.utn.factory.UserManagerFactory;
 import edu.utn.manager.UserLogManager;
+import edu.utn.manager.UserManager;
 import edu.utn.mapper.UserLogMapper;
-
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.Map;
 
 public class UserValidator extends Validator {
 
     private static final String NAME_EXCEPTION = "NAME EXCEPTION";
     private static final String SURNAME_EXCEPTION = "SURNAME EXCEPTION";
+    private static final String PASSWORD_EXCEPTION = "PASSWORD EXCEPTION";
     private static final int MAX_ATTEMPT = 3;
 
-    public void isValid (User user) throws NameException, SurNameException, EmailException {
+    public void isValid (User user) throws NameException, SurNameException, EmailException, PasswordException {
         isValidName(user);
         isValidSurname(user);
         isValidEmail(user.getEmail());
+        isValidPassword(user);
     }
 
     private void isValidName (User user) throws NameException {
@@ -43,7 +43,7 @@ public class UserValidator extends Validator {
     }
 
     //TODO Puede que lo tenga que hacer el front ?
-    public boolean equalPassword (User userFound, User userLogIn, UserLog log) throws SQLException {
+    public boolean equalPassword (User userFound, User userLogIn, UserLog log){
         UserLogManager manager = new UserLogManager(new UserLogMapper(log));
         boolean value = false;
 
@@ -60,6 +60,45 @@ public class UserValidator extends Validator {
             }
         }
         return value;
+    }
+
+    public void isValidPassword (User user) throws PasswordException {
+        boolean value =  user.getPassword() != null && !user.getPassword().isEmpty();
+        value &= isAlphaNumeric(user.getPassword());
+        if(!value){
+            throw new PasswordException(PASSWORD_EXCEPTION);
+        }
+    }
+
+    public boolean canLogin (User user) {
+        if(user == null){
+            return false;
+        }
+        boolean value = existsUser(user);
+        value &= !alreadyLoggedIn(user);
+        return  value;
+    }
+
+    public  boolean existsUser (User user) {
+        UserManager manager = UserManagerFactory.create(user);
+        User found = manager.get(); //key para buscar el registro. Esta hardcodeado el email para la busqueda
+        if (found != null) {
+            return found.getEmail().equals(user.getEmail());
+        }
+        return false;
+    }
+
+    public boolean alreadyLoggedIn (User user) {
+       UserLog log = new UserLog(user.getEmail(), user.getId());
+       UserLogManager userLogManager = UserLogManagerFactory.create(log);
+       boolean value = true;
+       UserLog userFound = userLogManager.get();
+       if(userFound == null){
+           value = false;
+       }else {
+           value &= userFound.isLogin();
+       }
+       return value;
     }
 
 }

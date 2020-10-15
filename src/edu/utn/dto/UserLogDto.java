@@ -1,7 +1,6 @@
 package edu.utn.dto;
 
 import edu.utn.entity.UserLog;
-
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;

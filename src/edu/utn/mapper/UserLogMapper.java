@@ -21,7 +21,7 @@ public class UserLogMapper implements Mapper{
 
     public boolean save () throws SQLException {
         UserLogDto userLogDto = new UserLogDto();
-        Map<Integer, Object> parameters = userLogDto.saveUserLogInMapper(getUser());
+        Map<Integer, Object> parameters = userLogDto.saveUserLogInMapper(getUser());//
 
         UserLogDao userLogDao = UserLogDao.getUserLogDao("192.168.33.10", "5438", "cuvl", "cuvl1234");
         int id = userLogDao.save(parameters);
@@ -51,6 +51,18 @@ public class UserLogMapper implements Mapper{
         int id = userLogDao.update(parameters, getUser().getId());
         return id != 0;
     }
+
+//    private Map<Integer, Object> saveUserLogInMapper(){
+//        int i = 1;
+//        Map<Integer, Object> parameters = new HashMap<>();
+//        parameters.put(i++, user.getName());
+//        parameters.put(i++, user.getPassword());
+//        parameters.put(i++, user.getSurname());
+//        parameters.put(i++, user.getEmail());
+//        parameters.put(i++, user.getNickname());
+//        parameters.put(i++, user.getBirthday());
+//        return parameters;
+//    }
 
     public UserLog getUser() {
         return user;
