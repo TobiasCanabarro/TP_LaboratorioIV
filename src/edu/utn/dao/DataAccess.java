@@ -1,6 +1,7 @@
 package edu.utn.dao;
 
 import edu.utn.file.LoadConfig;
+import edu.utn.log.LogHelper;
 
 import java.sql.*;
 import java.util.*;
@@ -13,7 +14,6 @@ public class DataAccess {
     private String host;
     private String port;
     private Connection connection;
-    private static DataAccess dataAccess;
     private LoadConfig config;
 
     protected DataAccess (){
@@ -25,13 +25,6 @@ public class DataAccess {
         setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
-//    public static DataAccess getDataAccess(){
-//        if(dataAccess == null) {
-//            dataAccess = new DataAccess();
-//        }
-//        return dataAccess;
-//    }
-
     protected List<Map<String, Object>> read(String query) {
         return read(query, null);
     }
@@ -42,28 +35,27 @@ public class DataAccess {
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = getStatement(query, parameters, connection);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ResultSetMetaData metadata = resultSet.getMetaData();
-            while(resultSet.next()) {
-                HashMap<String, Object> columns = new HashMap<>();
-
-                for (int i = 1; i <= metadata.getColumnCount(); ++i) {
-                    columns.put(metadata.getColumnName(i), resultSet.getObject(i));
-                }
-                results.add(columns);
-            }
+            setMetadata(preparedStatement, results);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            ResultSetMetaData metadata = resultSet.getMetaData();
+//            while(resultSet.next()) {
+//                HashMap<String, Object> columns = new HashMap<>();
+//                for (int i = 1; i <= metadata.getColumnCount(); ++i) {
+//                    columns.put(metadata.getColumnName(i), resultSet.getObject(i));
+//                }
+//                results.add(columns);
+//            }
             //resultSet.close();
-        } catch (SQLException exception) {
-            System.out.println("SQL Exception -> " + exception.getMessage() );
-        }  catch (Exception exception) {
-            System.out.println("Generic Exception -> " + exception.getMessage());
+        } catch (SQLException ex) {
+            LogHelper.createNewLog(ex.getMessage());
+        }  catch (Exception ex) {
+            LogHelper.createNewLog(ex.getMessage());
         } finally {
             return results;
         }
     }
 
-    protected int write(String query, Map<Integer, Object> parameters) throws SQLException {
+    protected int write(String query, Map<Integer, Object> parameters){
         int returnedValue = 0;
         try {
             Connection connection = getConnection();
@@ -94,7 +86,7 @@ public class DataAccess {
         }
     }
 
-    protected int writeTransaction (String userQuery, String userLogQuery, Map<Integer, Object> userParameters, Map<Integer, Object> userLogParameters) throws SQLException {
+    protected int writeTransaction (String userQuery, String userLogQuery, Map<Integer, Object> userParameters, Map<Integer, Object> userLogParameters) {
         int returnedValue = 0;
         int returnedValue2 = 0;
         try {
@@ -150,6 +142,17 @@ public class DataAccess {
         return connection;
     }
 
+    private void setMetadata (PreparedStatement preparedStatement, List<Map<String, Object>> results) throws SQLException {
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSetMetaData metadata = resultSet.getMetaData();
+        while(resultSet.next()) {
+            HashMap<String, Object> columns = new HashMap<>();
+            for (int i = 1; i <= metadata.getColumnCount(); ++i) {
+                columns.put(metadata.getColumnName(i), resultSet.getObject(i));
+            }
+            results.add(columns);
+        }
+    }
 
     public String getConnectionString() {
         return connectionString;
@@ -195,9 +198,6 @@ public class DataAccess {
         this.port = port;
     }
 
-    public static void setDataAccess(DataAccess dataAccess) {
-        DataAccess.dataAccess = dataAccess;
-    }
 
     public LoadConfig getConfig() {
         return config;

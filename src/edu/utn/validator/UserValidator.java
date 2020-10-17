@@ -10,7 +10,6 @@ import edu.utn.factory.UserLogManagerFactory;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.manager.UserLogManager;
 import edu.utn.manager.UserManager;
-import edu.utn.mapper.UserLogMapper;
 
 public class UserValidator extends Validator {
 
@@ -44,7 +43,7 @@ public class UserValidator extends Validator {
 
     //TODO Puede que lo tenga que hacer el front ?
     public boolean equalPassword (User userFound, User userLogIn, UserLog log){
-        UserLogManager manager = new UserLogManager(new UserLogMapper(log));
+        UserLogManager manager = UserLogManagerFactory.create(log);
         boolean value = false;
 
         int attempt = 0;

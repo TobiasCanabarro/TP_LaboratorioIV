@@ -33,12 +33,6 @@ public class User {
         setPublicationId(publicationId);
     }
 
-
-    public String feature () {
-        return getName() + " " + getSurname()
-                + " " + getEmail() + " " + getBirthday().toString() + " " + getNickname();
-    }
-
     public long getId() {
         return id;
     }

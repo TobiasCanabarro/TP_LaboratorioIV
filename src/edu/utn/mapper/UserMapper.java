@@ -1,10 +1,8 @@
 package edu.utn.mapper;
 
 import edu.utn.dao.UserDao;
-import edu.utn.dto.UserDto;
-import edu.utn.dto.UserLogDto;
 import edu.utn.entity.User;
-import edu.utn.validator.SQLValidator;
+import edu.utn.validator.PublicationValidator;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -15,15 +13,13 @@ import java.util.Map;
 public class UserMapper implements Mapper {
 
     private User user;
-    String CONNECTION_STRING = "jdbc:postgresql://192.168.33.10:5432/cuvl_db";
 
     public UserMapper (User user){
         setUser(user);
     }
 
     public boolean save () throws SQLException {
-        UserDto userDto = new UserDto();
-        Map<Integer, Object> parameters = userDto.saveUserOnMapper(getUser()); // lo tiene que hacer UserDto
+        Map<Integer, Object> parameters = saveUserOnMapper(getUser());
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.save(parameters);
         return id != 0;
@@ -32,7 +28,7 @@ public class UserMapper implements Mapper {
     public User get (String id) {
         UserDao userDao = UserDao.getUserDao();
         Map<Integer, Object> parameters = new HashMap<>();
-        SQLValidator validator = new SQLValidator();
+        PublicationValidator validator = new PublicationValidator();
         parameters.put(1, id);
         User user = null;
         List<Map<String, Object>> records = userDao.get(parameters);
@@ -47,11 +43,22 @@ public class UserMapper implements Mapper {
     }
 
     public boolean update () throws SQLException {
-        UserDto userDto = new UserDto();
-        Map<Integer, Object> parameters = userDto.saveUserOnMapper(getUser());
+        Map<Integer, Object> parameters = saveUserOnMapper(getUser());
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.update(parameters, getUser().getEmail());
         return id != 0;
+    }
+
+    private Map<Integer, Object> saveUserOnMapper (User user) {
+        int i = 1;
+        Map<Integer, Object> parameters = new HashMap<>();
+        parameters.put(i++, user.getName());
+        parameters.put(i++, user.getPassword());
+        parameters.put(i++, user.getSurname());
+        parameters.put(i++, user.getEmail());
+        parameters.put(i++, user.getNickname());
+        parameters.put(i++, user.getBirthday());
+        return parameters;
     }
 
     public User getUser() {

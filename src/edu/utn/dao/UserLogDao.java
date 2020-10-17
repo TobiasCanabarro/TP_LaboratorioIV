@@ -15,13 +15,13 @@ public class UserLogDao extends DataAccess{
 
     private static UserLogDao userLogDao;
 
-    protected UserLogDao(String host, String port, String user, String password) {
+    protected UserLogDao() {
         super();
     }
 
-    public static UserLogDao getUserLogDao(String host, String port, String user, String password){
+    public static UserLogDao getUserLogDao(){
         if(userLogDao == null) {
-            userLogDao = new UserLogDao(host, port, user, password);
+            userLogDao = new UserLogDao();
         }
         return userLogDao;
     }

@@ -18,7 +18,7 @@ public class LogIn {
         boolean value = userValidator.canLogin(userFound);
 
         if(value){
-            try{//TODO hay que encapsular algunas cosas... :C
+            try{
                 UserLog log = userLogManager.createUserLog(userFound);//Se crea un user log de usuario que se quiere loggear
                 userLogManager.getUserLogMapper().setUser(log);
                 log.setId(userLogManager.getIdLog(log));//Obtiene el ID genererado por la DB del log
@@ -32,13 +32,12 @@ public class LogIn {
                 userLogManager.getUserLogMapper().setUser(log);// se Le asigna al mapper el log que se va a persistir en DB
                 userLogManager.update();
             }catch (NullPointerException ex){
-                LogHelper.setNewLog("El usuario no existe!");
+                LogHelper.createNewLog("El usuario no existe!");
             }
         }
         return value;
     }
 
-    //TODO hace un UPDATE en la tabla user_log del campo login
     public boolean logOut (User user) {
         UserLog userLog = new UserLog(user.getEmail(), user.getId());
         UserLogManager userLogManager = UserLogManagerFactory.create(userLog);
@@ -48,8 +47,8 @@ public class LogIn {
         setUserLog(userLogManager, logFound);
         try {
             value = userLogManager.update();
-        }catch (Exception exception){
-            System.out.println(exception.getMessage());
+        }catch (Exception ex){
+            LogHelper.createNewLog(ex.getMessage());
         }
 
         return value;

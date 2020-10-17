@@ -28,16 +28,16 @@ public class UserManager implements Manager {
             validator.isValid(getUser());
             success = userMapper.save();
         }catch (EmailException ex){
-                LogHelper.setNewLog(ex.getMessage());
+                LogHelper.createNewLog(ex.getMessage());
         }catch (NameException ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }catch (SurNameException ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }catch (PasswordException ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }
         catch (Exception ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }
         finally {
             return success;

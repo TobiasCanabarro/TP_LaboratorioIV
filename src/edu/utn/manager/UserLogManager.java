@@ -27,7 +27,7 @@ public class UserLogManager implements Manager{
             success = getUserLogMapper().save();
 
         }catch (EmailException ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -47,7 +47,7 @@ public class UserLogManager implements Manager{
             success = getUserLogMapper().update();
 
         }catch (SQLException ex){
-            LogHelper.setNewLog(ex.getMessage());
+            LogHelper.createNewLog(ex.getMessage());
         }
         finally {
             return success;

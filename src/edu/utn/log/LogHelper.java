@@ -16,7 +16,7 @@ public class LogHelper {
         PropertyConfigurator.configure(PATH_CONFIG_FILE);
     }
 
-    public static void setNewLog(String msg) {
+    public static void createNewLog(String msg) {
         initializeLog();
         log.debug(msg);
     }
