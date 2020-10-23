@@ -25,9 +25,9 @@ public class DataAccess {
         setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
-    protected List<Map<String, Object>> read(String query) {
-        return read(query, null);
-    }
+//    protected List<Map<String, Object>> read(String query) {
+//        return read(query, null);
+//    }
 
     protected List<Map<String, Object>> read (String query, Map<Integer, Object> parameters) {
 
@@ -55,15 +55,14 @@ public class DataAccess {
         }
     }
 
+    // En el caso de un UPDATE o DELETE, se devuelve la cantidad de registros afectados.
+    // En el caso de un INSERT, se devuelve el id generado
     protected int write(String query, Map<Integer, Object> parameters){
         int returnedValue = 0;
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = getStatement(query, parameters, connection);
             returnedValue = preparedStatement.executeUpdate();
-
-            // En el caso de un UPDATE o DELETE, se devuelve la cantidad de registros afectados.
-            // En el caso de un INSERT, se devuelve el id generado
             if (returnedValue > 0) {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     // TODO: es posible cambiar esta estructura por una expresión ternaria
@@ -71,15 +70,13 @@ public class DataAccess {
                         returnedValue = generatedKeys.getInt(1);
                     }
                 } catch (Exception exception) {
-                    // TODO: analizar qué ocurre si se loguea por la salida standard
-                    System.out.println("No keys to be retrieved");
+                    LogHelper.createNewLog("No keys to be retrieved " + exception.getMessage());
                 }
             }
-        } catch (SQLException exception) {
-            // TODO: analizar qué ocurre si se loguea por la salida standard
-            System.out.println(exception.getMessage());
-        } catch (Exception exception) {
-            exception.printStackTrace();// todo culpa de nacho :D
+        } catch (SQLException ex) {
+            LogHelper.createNewLog(ex.getMessage());
+        } catch (Exception ex) {
+            LogHelper.createNewLog(ex.getMessage());
         } finally {
             //connection.close();//cierra la conexion general :C
             return returnedValue;
@@ -197,7 +194,6 @@ public class DataAccess {
     public void setPort(String port) {
         this.port = port;
     }
-
 
     public LoadConfig getConfig() {
         return config;

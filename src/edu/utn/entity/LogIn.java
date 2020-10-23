@@ -43,9 +43,9 @@ public class LogIn {
         UserLogManager userLogManager = UserLogManagerFactory.create(userLog);
         UserLog logFound = userLogManager.get();
         boolean value = false;
-        logFound.setLogin(false);
-        setUserLog(userLogManager, logFound);
         try {
+            logFound.setLogin(false);
+            setUserLog(userLogManager, logFound);
             value = userLogManager.update();
         }catch (Exception ex){
             LogHelper.createNewLog(ex.getMessage());

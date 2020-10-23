@@ -41,7 +41,6 @@ public class UserValidator extends Validator {
         }
     }
 
-    //TODO Puede que lo tenga que hacer el front ?
     public boolean equalPassword (User userFound, User userLogIn, UserLog log){
         UserLogManager manager = UserLogManagerFactory.create(log);
         boolean value = false;

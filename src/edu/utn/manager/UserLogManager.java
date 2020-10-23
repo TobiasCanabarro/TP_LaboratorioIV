@@ -7,7 +7,6 @@ import edu.utn.log.LogHelper;
 import edu.utn.mapper.UserLogMapper;
 import edu.utn.validator.UserLogValidator;
 
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class UserLogManager implements Manager{
@@ -57,11 +56,6 @@ public class UserLogManager implements Manager{
     public void lockUser (UserLog user){
         user.setAttemptLogin(INITIAL_ATTEMPT);
         user.setLocked(true);
-    }
-
-    public java.sql.Date generateCurrentDate (java.util.Date date) {
-        Date loginDate = new Date(date.getYear(), date.getMonth(), date.getDay());
-        return loginDate;
     }
 
     public UserLog createUserLog (User user) {

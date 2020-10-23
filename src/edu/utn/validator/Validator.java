@@ -30,10 +30,10 @@ public class Validator {
     }
 
     protected boolean isAlphaNumeric (String password) {
-        boolean value = false;
-        for (int i = 0; i < password.length() && !value; i++) {
-            if(!isWord(password, i) || !isNumber(password, i)){
-                value = true;
+        boolean value = true;
+        for (int i = 0; i < password.length() && value; i++) {//tocan123
+            if(!isWord(password, i) && !isNumber(password, i)){
+                value = false;
             }
         }
         return value;

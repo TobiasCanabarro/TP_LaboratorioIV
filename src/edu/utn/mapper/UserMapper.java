@@ -43,9 +43,10 @@ public class UserMapper implements Mapper {
     }
 
     public boolean update () throws SQLException {
-        Map<Integer, Object> parameters = saveUserOnMapper(getUser());
+        Map<Integer, Object> parameters = saveUserOnMapper(getUser(), getUser().getEmail());
         UserDao userDao = UserDao.getUserDao();
-        int id = userDao.update(parameters, getUser().getEmail());
+        //int id = userDao.update(parameters, getUser().getEmail());
+        int id = userDao.update(parameters);
         return id != 0;
     }
 
@@ -58,6 +59,19 @@ public class UserMapper implements Mapper {
         parameters.put(i++, user.getEmail());
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
+        return parameters;
+    }
+
+    private Map<Integer, Object> saveUserOnMapper (User user, String email) {
+        int i = 1;
+        Map<Integer, Object> parameters = new HashMap<>();
+        parameters.put(i++, user.getName());
+        parameters.put(i++, user.getPassword());
+        parameters.put(i++, user.getSurname());
+        parameters.put(i++, user.getEmail());
+        parameters.put(i++, user.getNickname());
+        parameters.put(i++, user.getBirthday());
+        parameters.put(i++, email);
         return parameters;
     }
 
