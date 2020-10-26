@@ -7,6 +7,13 @@ public class RequestRelationship {
     private long idUserSend;
     private boolean state;
 
+    public RequestRelationship(long idUserSend, long idUserReceive) {
+        setId(id);
+        setIdUserReceive(idUserReceive);
+        setIdUserSend(idUserSend);
+        setState(false);
+    }
+
     public RequestRelationship(long id, long idUserReceive, long idUserSend, boolean state) {
         setId(id);
         setIdUserReceive(idUserReceive);

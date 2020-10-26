@@ -33,7 +33,6 @@ public class UserManager implements Manager {
         return user;
     }
 
-
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);
         value &= !validator.existsUser(user.getEmail());
@@ -78,11 +77,11 @@ public class UserManager implements Manager {
         return update(user);
     }
 
-//    public boolean changePassword(String email, String newPassword){
-//        User user = get(email);
-//        user.setPassword(newPassword);
-//        return update(user);
-//    }
+    public boolean changePassword(String email, String newPassword){
+        User user = get(email);
+        user.setPassword(newPassword);
+        return update(user);
+    }
 
 
     public UserValidator getValidator() {
