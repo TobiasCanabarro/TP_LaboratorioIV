@@ -9,7 +9,7 @@ public class UserDao extends DataAccess {
 
     private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
 
-    private static final String UPDATE_USER = "UPDATE lab.user (name, password, surname, email, nickname, birthday, attempt, login, locked)"+
+    private static final String UPDATE_USER = "UPDATE lab.user (name, password, surname, email, nickname, birthday, attempt_log_in, log_in, locked)"+
                                               "value(?,?,?,?,?,?,?,?,?)";
 
     //private static final String DELETE_USER = "DELETE lab.user WHERE email = ?";

@@ -27,7 +27,7 @@ public class UserMapper {
             Map<String, Object> record = records.get(0);
             user = new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
                    record.get("surname").toString(), record.get("email").toString(),
-                    record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attemp_login"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
+                    record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
         }
         return user;
     }

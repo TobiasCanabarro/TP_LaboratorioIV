@@ -41,12 +41,11 @@ public class UserManager implements Manager {
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);
         value &= !validator.existsUser(user.getEmail());
-
         if(value) {
             try {
                 value = save(user);
             }catch (Exception ex){
-                LogHelper.createNewLog(ex.getMessage());
+                LogHelper.createNewErrorLog(ex.getMessage());
             }
         }
         return value;

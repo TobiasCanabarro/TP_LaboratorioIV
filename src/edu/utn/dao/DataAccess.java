@@ -47,9 +47,9 @@ public class DataAccess {
 //            }
             //resultSet.close();
         } catch (SQLException ex) {
-            LogHelper.createNewLog(ex.getMessage());
+            LogHelper.createNewErrorLog(ex.getMessage());
         }  catch (Exception ex) {
-            LogHelper.createNewLog(ex.getMessage());
+            LogHelper.createNewErrorLog(ex.getMessage());
         } finally {
             return results;
         }
@@ -70,13 +70,13 @@ public class DataAccess {
                         returnedValue = generatedKeys.getInt(1);
                     }
                 } catch (Exception exception) {
-                    LogHelper.createNewLog("No keys to be retrieved " + exception.getMessage());
+                    LogHelper.createNewErrorLog("No keys to be retrieved " + exception.getMessage());
                 }
             }
         } catch (SQLException ex) {
-            LogHelper.createNewLog(ex.getMessage());
+            LogHelper.createNewErrorLog(ex.getMessage());
         } catch (Exception ex) {
-            LogHelper.createNewLog(ex.getMessage());
+            LogHelper.createNewErrorLog(ex.getMessage());
         } finally {
             //connection.close();//cierra la conexion general :C
             return returnedValue;
@@ -101,16 +101,16 @@ public class DataAccess {
                         returnedValue = generatedKeys.getInt(1);
                     }
                 } catch (Exception exception) {
-                    System.out.println("No keys to be retrieved");
+                    LogHelper.createNewErrorLog("No keys to be retrieved");
                 }
             }
         } catch (SQLException exception) {
             if (connection != null) {
-                System.err.print("Transaction is being rolled back");
+                LogHelper.createNewErrorLog("Transaction is being rolled back");
                 connection.rollback();
             }
             }catch(Exception exception){
-                exception.printStackTrace();
+            LogHelper.createNewErrorLog(exception.getMessage());
             }finally {
             return returnedValue;
             }
@@ -134,7 +134,7 @@ public class DataAccess {
                 connection = DriverManager.getConnection(getConnectionString(), getUser(), getPassword());
             }
         } catch (SQLException exception) {
-            System.out.println(exception.getMessage());
+            LogHelper.createNewErrorLog(exception.getMessage());
         }
         return connection;
     }

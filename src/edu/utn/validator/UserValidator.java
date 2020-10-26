@@ -28,27 +28,6 @@ public class UserValidator extends Validator {
         return value;
     }
 
-//    //TODO sacar el while, reeplzarlo por un if
-//    //INITIAL attemp se tiene que traer de la tabla
-//    public boolean equalPassword (User userFound, String passwordLogIn){
-//        UserManager manager = UserManagerFactory.create();
-//        User userFound = manager.get(userFound.getEmail());
-//        boolean value = false;
-//        int attempt = 0;
-//        if (attempt < MAX_ATTEMPT){
-//            if(userFound.getPassword().equals(passwordLogIn)) {
-//                value = true;
-//            }
-//            else {
-//                attempt++;
-//                userFound.setAttemptLogin(attempt);
-//                manager.updateAttempt(userFound.getEmail(), attempt);
-//            }
-//            //Llamada front
-//        }
-//        return value;
-//    }
-
     public boolean isValidPassword (String password){
         boolean value =  password != null && !password.isEmpty();
         value &= isAlphaNumeric(password);
