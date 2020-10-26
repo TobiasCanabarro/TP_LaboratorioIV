@@ -1,14 +1,6 @@
 package test.edu.utn.manager;
 
-import edu.utn.entity.ChangePassword;
-import edu.utn.manager.LogInManager;
-import edu.utn.entity.User;
-import edu.utn.exception.PasswordException;
-import mock.edu.utn.factory.UserManagerFactoryMock;
-import mock.edu.utn.manager.UserManagerMock;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 

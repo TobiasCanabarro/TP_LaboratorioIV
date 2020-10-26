@@ -70,6 +70,10 @@ public class UserValidator extends Validator {
         return found != null;
     }
 
+    public boolean passCorrect( String pass, String passwarord){
+        return pass.equals(passwarord);
+    }
+
     public boolean alreadyLoggedIn (String email) {
        boolean value = true;
        UserManager manager = UserManagerFactory.create();

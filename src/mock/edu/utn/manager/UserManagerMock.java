@@ -34,17 +34,7 @@ public class UserManagerMock implements Manager {
     }
 
     @Override
-    public boolean updateLogIn(String email, boolean logIn) {
-        return false;
-    }
-
-    @Override
-    public boolean updateAttempt(String email, int attempt) {
-        return false;
-    }
-
-    @Override
-    public boolean updateLocked(String email, boolean locked) {
+    public boolean update(User user) {
         return false;
     }
 

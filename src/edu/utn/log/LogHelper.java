@@ -7,7 +7,7 @@ public class LogHelper {
 
     //setLog(Logger.getLogger(NAME_CONFIG_FILE));
     //PropertyConfigurator.configure(PATH_CONFIG_FILE);
-    private static final String PATH_CONFIG_FILE = "C:\\Users\\Toby\\Desktop\\TPProg4\\src\\edu\\utn\\log\\log4j.properties";
+    private static final String PATH_CONFIG_FILE = "E:\\Documentos\\GitHub\\TP_LaboratorioIV\\src\\edu\\utn\\log";
     private static final String NAME_CONFIG_FILE = "apiLog.log";
     private static Logger log;
 

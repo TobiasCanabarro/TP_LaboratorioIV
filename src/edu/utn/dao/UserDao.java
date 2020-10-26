@@ -9,6 +9,11 @@ public class UserDao extends DataAccess {
 
     private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
 
+    private static final String UPDATE_USER = "UPDATE lab.user (name, password, surname, email, nickname, birthday, attempt, login, locked)"+
+                                              "value(?,?,?,?,?,?,?,?,?)";
+
+    //private static final String DELETE_USER = "DELETE lab.user WHERE email = ?";
+
     private static UserDao userDao;
 
     protected UserDao(){
@@ -31,7 +36,7 @@ public class UserDao extends DataAccess {
         return read (SELECT_USER, parameters);
     }
 
-    public int update(String query, Map<Integer, Object> parameters){
-        return write(query, parameters);
+    public int update(Map<Integer, Object> parameters){
+        return write(UPDATE_USER, parameters);
     }
 }

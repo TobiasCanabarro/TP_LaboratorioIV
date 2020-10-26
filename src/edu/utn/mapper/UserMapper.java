@@ -16,10 +16,10 @@ public class UserMapper {
         return id != 0;
     }
 
-    public User get (String id) {
+    public User get (String email) {
         UserDao userDao = UserDao.getUserDao();
         Map<Integer, Object> parameters = new HashMap<>();
-        parameters.put(1, id);
+        parameters.put(1, email);
         User user = null;
         List<Map<String, Object>> records = userDao.get(parameters);
 
@@ -32,9 +32,10 @@ public class UserMapper {
         return user;
     }
 
-    public boolean update(String query, Map<Integer, Object> parameters){
+    public boolean update(User user){
+        Map<Integer, Object> parameters = saveUserOnMapper(user);
         UserDao userDao = UserDao.getUserDao();
-        int id = userDao.update(query, parameters);
+        int id = userDao.update(parameters);
         return id != 0;
     }
 
@@ -47,6 +48,7 @@ public class UserMapper {
         parameters.put(i++, user.getEmail());
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
+        //agregar los otros parametros del user.
         return parameters;
     }
 
