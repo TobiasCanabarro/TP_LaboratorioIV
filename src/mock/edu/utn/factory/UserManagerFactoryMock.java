@@ -7,9 +7,9 @@ import mock.edu.utn.mapper.UserMapperMock;
 import mock.edu.utn.validator.UserValidatorMock;
 
 public class UserManagerFactoryMock implements Factory {
-//
-//    public static UserManagerMock create  (){
-//        return new UserManagerMock(new UserMapperMock(), new UserValidatorMock());
-//    }
+
+    public static UserManagerMock create  (){
+        return new UserManagerMock(new UserMapperMock(), new UserValidatorMock());
+    }
 
 }

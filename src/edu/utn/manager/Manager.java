@@ -9,6 +9,6 @@ public interface Manager{
 
       boolean update(User user);
 
-      User get(String email, String password);
+      User get(String email);
 
 }

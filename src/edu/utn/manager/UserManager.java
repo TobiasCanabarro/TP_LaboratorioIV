@@ -22,18 +22,14 @@ public class UserManager implements Manager {
         return mapper.save(user);
     }
 
-    public User get (String email) {
-        return mapper.get(email);
-    }
-
     public boolean update (User user){
         return mapper.update(user);
     }
 
 
     @Override
-    public User get(String email, String password) {
-        User user = get(email);
+    public User get(String email) {
+        User user = mapper.get(email);
         return user;
     }
 
@@ -82,11 +78,11 @@ public class UserManager implements Manager {
         return update(user);
     }
 
-    public boolean changePassword(String email, String newPassword){
-        User user = get(email);
-        user.setPassword(newPassword);
-        return update(user);
-    }
+//    public boolean changePassword(String email, String newPassword){
+//        User user = get(email);
+//        user.setPassword(newPassword);
+//        return update(user);
+//    }
 
 
     public UserValidator getValidator() {

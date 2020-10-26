@@ -33,7 +33,7 @@ public class UserMapper {
     }
 
     public boolean update(User user){
-        Map<Integer, Object> parameters = saveUserOnMapper(user);
+        Map<Integer, Object> parameters = saveUserOnMapper(user, user.getEmail());
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.update(parameters);
         return id != 0;
@@ -48,7 +48,25 @@ public class UserMapper {
         parameters.put(i++, user.getEmail());
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
-        //agregar los otros parametros del user.
+        parameters.put(i++, user.getAttemptLogin());
+        parameters.put(i++, user.isLogIn());
+        parameters.put(i++, user.isLocked());
+        return parameters;
+    }
+
+    private Map<Integer, Object> saveUserOnMapper (User user, String email) {
+        int i = 1;
+        Map<Integer, Object> parameters = new HashMap<>();
+        parameters.put(i++, user.getName());
+        parameters.put(i++, user.getPassword());
+        parameters.put(i++, user.getSurname());
+        parameters.put(i++, user.getEmail());
+        parameters.put(i++, user.getNickname());
+        parameters.put(i++, user.getBirthday());
+        parameters.put(i++, user.getAttemptLogin());
+        parameters.put(i++, user.isLogIn());
+        parameters.put(i++, user.isLocked());
+        parameters.put(i++, email);
         return parameters;
     }
 

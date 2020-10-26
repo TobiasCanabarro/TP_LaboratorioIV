@@ -9,10 +9,10 @@ public class UserDao extends DataAccess {
 
     private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
 
-    private static final String UPDATE_USER = "UPDATE lab.user (name, password, surname, email, nickname, birthday, attempt_log_in, log_in, locked)"+
-                                              "value(?,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_USER = "UPDATE lab.user set name = ?, password = ?, surname = ?, email = ?, nickname = ?, " +
+            "birthday = ?, attempt_log_in = ?, log_in = ?, locked = ? WHERE email = ?";
 
-    //private static final String DELETE_USER = "DELETE lab.user WHERE email = ?";
+    private static final String DELETE_USER = "UPDATE lab.user set email = ? WHERE email = ?";
 
     private static UserDao userDao;
 
@@ -36,7 +36,12 @@ public class UserDao extends DataAccess {
         return read (SELECT_USER, parameters);
     }
 
+    //TODO hace un borrado logico
+
     public int update(Map<Integer, Object> parameters){
         return write(UPDATE_USER, parameters);
+    }
+    public int delete (Map<Integer, Object> parameters){
+        return write(DELETE_USER, parameters);
     }
 }

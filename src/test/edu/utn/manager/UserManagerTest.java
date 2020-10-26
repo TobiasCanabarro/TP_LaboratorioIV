@@ -1,10 +1,66 @@
 package test.edu.utn.manager;
 
+import edu.utn.entity.User;
+import mock.edu.utn.factory.UserManagerFactoryMock;
+import mock.edu.utn.manager.UserManagerMock;
 import org.junit.jupiter.api.Test;
-
+import java.sql.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserManagerTest {
+
+    @Test
+    void signInOk(){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(true);
+        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        if(value){
+            value &= manager.save(user);
+        }
+        assertEquals(true, value);
+    }
+
+    @Test
+    void signInFail(){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(false);
+        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        if(value){
+            value &= manager.save(user);
+        }
+        assertEquals(false, value);
+    }
+
+    @Test
+    void logInOk(){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(true);
+        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        if(value){
+            value &= manager.update(user);
+        }
+        assertEquals(true, value);
+    }
+
+    @Test
+    void logInFail(){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(false);
+        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        if(value){
+            value &= manager.update(user);
+        }
+        assertEquals(false, value);
+    }
+
 
     /*
     @Test
@@ -30,43 +86,6 @@ class UserManagerTest {
         catch (PasswordException ex){
             value = false;
         }
-        assertEquals(false, value);
-    }
-
-
-    @Test
-    void signInOk() {
-        User user = new User("Juan", "juan123", "Perez",
-                "perez@gmail.com", "juanPe", new Date(9999));
-        SignInManager signInManager = new SignInManager();
-        boolean value = signInManager.signIn(user);
-        assertEquals(true, value);
-    }
-
-    @Test
-    void signInFail() {
-        User user = new User("Tobias", "tobias123", "Canabarro",
-                "tobias@gmail.com", "Tobi", new Date(9999));
-        SignInManager signInManager = new SignInManager();
-        boolean value = signInManager.signIn(user);
-        assertEquals(false, value);
-    }
-
-    @Test
-    void logInOk() {
-        User user = new User("Tobias", "tobias123", "Canabarro",
-                "tobias@gmail.com", "Tobi", new Date(9999));
-        LogInManager logInManager = new LogInManager();
-        boolean value = logInManager.logIn(user);
-        assertEquals(true, value);
-    }
-
-    @Test
-    void logInFail() {
-        User user = new User("Tobias", "tobiX123", "Canabarro",
-                "tobias@gmail.com", "Tobi", new Date(9999));
-        LogInManager logInManager = new LogInManager();
-        boolean value = logInManager.logIn(user);
         assertEquals(false, value);
     }
 

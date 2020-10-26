@@ -36,9 +36,9 @@ public class User {
         setEmail(email);
         setBirthday(birthday);
         setNickname(nickname);
-        setAttemptLogin(0);
-        setLogIn(false);
-        setLocked(false);
+        setAttemptLogin(attemptLogin);
+        setLogIn(logIn);
+        setLocked(locked);
     }
 
     public long getId() {
