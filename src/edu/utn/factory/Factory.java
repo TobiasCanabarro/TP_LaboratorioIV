@@ -4,7 +4,7 @@ import edu.utn.manager.Manager;
 
 public interface Factory {
 
-    static Manager create(Object object) {
+    static Manager create() {
         return null;
     }
 }

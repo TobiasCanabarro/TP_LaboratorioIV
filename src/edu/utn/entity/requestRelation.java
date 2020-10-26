@@ -1,6 +1,6 @@
 package edu.utn.entity;
 
-public class Friend {
+public class requestRelation {
 
     private long id;
     private String name;
@@ -9,7 +9,7 @@ public class Friend {
     private long friendUserId;
     private long userId;
 
-    public Friend(long id, String name, String surname, String email, long friendUserId, long userId) {
+    public requestRelation(long id, String name, String surname, String email, long friendUserId, long userId) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -18,7 +18,7 @@ public class Friend {
         this.userId = userId;
     }
 
-    public Friend(String name, String surname, String email, long friendUserId, long userId) {
+    public requestRelation(String name, String surname, String email, long friendUserId, long userId) {
         this.name = name;
         this.surname = surname;
         this.email = email;

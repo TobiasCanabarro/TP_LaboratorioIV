@@ -12,16 +12,6 @@ public class UserManagerMock implements Manager {
         setMapperMock(mapperMock);
     }
 
-    @Override
-    public boolean save() {
-        return getMapperMock().save();
-    }
-
-    @Override
-    public boolean update() {
-        return getMapperMock().update();
-    }
-
     public User get (){
         return getMapperMock().get();
     }
@@ -38,4 +28,28 @@ public class UserManagerMock implements Manager {
         getMapperMock().setValid(valid);
     }
 
+    @Override
+    public boolean save(User user) {
+        return false;
+    }
+
+    @Override
+    public boolean updateLogIn(String email, boolean logIn) {
+        return false;
+    }
+
+    @Override
+    public boolean updateAttempt(String email, int attempt) {
+        return false;
+    }
+
+    @Override
+    public boolean updateLocked(String email, boolean locked) {
+        return false;
+    }
+
+    @Override
+    public User get(String email, String password) {
+        return null;
+    }
 }

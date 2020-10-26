@@ -3,14 +3,11 @@ package mock.edu.utn.mapper;
 import edu.utn.entity.User;
 import edu.utn.mapper.Mapper;
 
+import java.sql.Date;
+
 public class UserMapperMock implements Mapper {
 
-    private User user;
     private boolean isValid;
-
-    public UserMapperMock(User user) {
-        setUser(user);
-    }
 
     @Override
     public boolean save(){
@@ -23,18 +20,12 @@ public class UserMapperMock implements Mapper {
     }
 
     public User get(){
-        if(!isValid()){
+        if(isValid()){
+            return new User("Pedro", "pedro123", "Perez", "pedro@gmail.com", "Pedrito", new Date(9999));
+        }
+        else {
             return null;
         }
-        return getUser();
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public boolean isValid() {

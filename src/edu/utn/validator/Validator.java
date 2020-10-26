@@ -4,13 +4,8 @@ import edu.utn.exception.EmailException;
 
 public class Validator {
 
-    private static final String EMAIL_EXCEPTION = "EMAIL EXCEPTION";
-
-    protected void isValidEmail(String email) throws EmailException {
-        boolean value  = email != null && !email.isEmpty();
-        if (!value) {
-            throw new EmailException(EMAIL_EXCEPTION);
-        }
+    protected boolean isValidEmail(String email) {
+        return email != null && !email.isEmpty();
     }
 
     protected boolean isWord (String word, int i) {

@@ -10,19 +10,25 @@ public class User {
     private String email;
     private String nickname;
     private Date birthday;
-    private long publicationId;
+    private int attemptLogin;
+    private boolean logIn;
+    private boolean locked;
 
-    public User(String name, String password,String surname, String email, String nickname, Date birthday) {
+    public User(String name, String password, String surname, String email, String nickname, Date birthday) {
         setName(name);
         setPassword(password);
         setSurname(surname);
         setEmail(email);
         setBirthday(birthday);
         setNickname(nickname);
+        setAttemptLogin(0);
+        setLogIn(false);
+        setLocked(false);
     }
 
     // Cuando se obtiene los datos de la DB se usa este constructor
-    public User(long id, String name, String password, String surname, String email, String nickname, Date birthday, long publicationId) {
+    public User(long id, String name, String password, String surname,
+                String email, String nickname, Date birthday, int attemptLogin, boolean logIn, boolean locked) {
         setId(id);
         setName(name);
         setPassword(password);
@@ -30,7 +36,9 @@ public class User {
         setEmail(email);
         setBirthday(birthday);
         setNickname(nickname);
-        setPublicationId(publicationId);
+        setAttemptLogin(0);
+        setLogIn(false);
+        setLocked(false);
     }
 
     public long getId() {
@@ -89,11 +97,27 @@ public class User {
         this.nickname = nickname;
     }
 
-    public long getPublicationId() {
-        return publicationId;
+    public int getAttemptLogin() {
+        return attemptLogin;
     }
 
-    public void setPublicationId(long publicationId) {
-        this.publicationId = publicationId;
+    public void setAttemptLogin(int attemptLogin) {
+        this.attemptLogin = attemptLogin;
+    }
+
+    public boolean isLogIn() {
+        return logIn;
+    }
+
+    public void setLogIn(boolean logIn) {
+        this.logIn = logIn;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

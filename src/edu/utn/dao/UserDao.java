@@ -1,14 +1,13 @@
 package edu.utn.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public class UserDao extends DataAccess {
 
-    private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
     private static final String INSERT_USER = "INSERT INTO lab.user (name, password, surname, email, nickname, birthday) values (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_USER = "UPDATE lab.user set name = ?, password = ?, surname = ?, email = ?, nickname = ?, birthday = ? WHERE email = ?";
+
+    private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
 
     private static UserDao userDao;
 
@@ -23,7 +22,7 @@ public class UserDao extends DataAccess {
         return userDao;
     }
 
-    public int save (Map<Integer, Object> parameters) throws SQLException {
+    public int save (Map<Integer, Object> parameters) {
         String query = INSERT_USER;
         return write (query, parameters);
     }
@@ -32,14 +31,7 @@ public class UserDao extends DataAccess {
         return read (SELECT_USER, parameters);
     }
 
-    public int update (Map<Integer, Object> parameters, String email) throws SQLException {
-        String query = UPDATE_USER + email;
+    public int update(String query, Map<Integer, Object> parameters){
         return write(query, parameters);
     }
-
-    public int update (Map<Integer, Object> parameters) throws SQLException {
-        return write(UPDATE_USER, parameters);
-    }
-
-
 }
