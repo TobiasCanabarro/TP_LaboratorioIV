@@ -8,7 +8,7 @@ import mock.edu.utn.validator.UserValidatorMock;
 
 import java.sql.Date;
 
-public class UserManagerMock implements Manager {
+public class UserManagerMock <T extends User> implements Manager <T> {
 
     private UserValidatorMock validatorMock;
     private UserMapperMock mapperMock;
@@ -28,14 +28,14 @@ public class UserManagerMock implements Manager {
         return validatorMock.isValid();
     }
 
-    @Override
-    public User get(String email) {
-        return validatorMock.isValid() ? new User("John", "john123", "Doe", "john@gmail.com", "jonh", new Date(9999)) : null;
+    public T get(long id) {
+        return validatorMock.isValid() ? (T)new User("John", "john123", "Doe", "john@gmail.com",
+                "jonh", new Date(9999)) : null;
     }
 
-
-    public User get (){
-        return getMapperMock().get();
+    public T get(String email) {
+        return validatorMock.isValid() ? (T)new User("John", "john123", "Doe", "john@gmail.com",
+                "jonh", new Date(9999)) : null;
     }
 
     public UserMapperMock getMapperMock() {
@@ -57,6 +57,5 @@ public class UserManagerMock implements Manager {
     public void setValidatorMock(UserValidatorMock validatorMock) {
         this.validatorMock = validatorMock;
     }
-
 
 }

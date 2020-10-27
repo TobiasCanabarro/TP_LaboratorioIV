@@ -1,14 +1,16 @@
 package edu.utn.manager;
 
+public interface Manager <T> {
 
-import edu.utn.entity.User;
+//      boolean save(User user);
+//
+//      boolean update(User user);
+//
+//      User get(String email);
 
-public interface Manager{
+          boolean save(T object);
 
-      boolean save(User user);
+          boolean update(T object);
 
-      boolean update(User user);
-
-      User get(String email);
 
 }

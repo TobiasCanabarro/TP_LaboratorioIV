@@ -6,6 +6,7 @@ public class RequestRelationshipValidator {
 
     public boolean existRelation (long id){
 
+        return true;
     }
 
 }

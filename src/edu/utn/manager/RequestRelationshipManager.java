@@ -6,13 +6,28 @@ import edu.utn.factory.UserManagerFactory;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;
 
-public class RequestRelationshipManager {
+public class RequestRelationshipManager implements Manager <RequestRelationship> {
 
     private RequestRelationshipValidator validator;
     private RequestRelationshipMapper mapper;
 
-    public RequestRelationshipManager(RequestRelationshipMapper mapper) {
+    public RequestRelationshipManager(RequestRelationshipMapper mapper, RequestRelationshipValidator validator) {
         setMapper(mapper);
+        setValidator(validator);
+    }
+
+    @Override
+    public boolean save(RequestRelationship requestRelationship) {
+        return mapper.save(requestRelationship);
+    }
+
+    @Override
+    public boolean update(RequestRelationship requestRelationship) {
+        return false;
+    }
+
+    public RequestRelationship get(long id) {
+        return mapper.get(id);
     }
 
     public boolean sendRequest (String sendEmail, String requestEmail) {
@@ -24,13 +39,6 @@ public class RequestRelationshipManager {
         }
         RequestRelationship requestRelationship = new RequestRelationship(userSend.getId(), userRequest.getId());
         return  save(requestRelationship);
-    }
-
-    public boolean save (RequestRelationship requestRelationship) {
-        boolean value = true;//TODO validator
-        if(value){
-            value &= ma
-        }
     }
 
     public RequestRelationshipValidator getValidator() {
@@ -48,4 +56,5 @@ public class RequestRelationshipManager {
     public void setMapper(RequestRelationshipMapper mapper) {
         this.mapper = mapper;
     }
+
 }

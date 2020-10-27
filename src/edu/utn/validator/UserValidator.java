@@ -34,14 +34,14 @@ public class UserValidator extends Validator {
         return value;
     }
 
-    public boolean canLogin (User user) {
-        if(user == null){
-            return false;
-        }
-        boolean value = existsUser(user.getEmail());
-        value &= !alreadyLoggedIn(user.getEmail());
-        return  value;
-    }
+//    public boolean canLogin (User user) {
+//        if(user == null){
+//            return false;
+//        }
+//        boolean value = existsUser(user.getEmail());
+//        value &= !alreadyLoggedIn(user.getEmail());
+//        return  value;
+//    }
 
     public  boolean existsUser (String email) {
         UserManager manager = UserManagerFactory.create();

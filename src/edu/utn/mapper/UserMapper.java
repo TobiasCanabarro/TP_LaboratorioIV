@@ -7,14 +7,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserMapper {
+public class UserMapper implements Mapper <User>{
 
     public boolean save (User user){
-        Map<Integer, Object> parameters = saveUserOnMapper(user);
+        Map<Integer, Object> parameters = createParameters(user);
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.save(parameters);
         return id != 0;
     }
+
+    public boolean update(User user){
+        Map<Integer, Object> parameters = createParametersUpdate(user, user.getEmail());
+        UserDao userDao = UserDao.getUserDao();
+        int id = userDao.update(parameters);
+        return id != 0;
+    }
+
 
     public User get (String email) {
         UserDao userDao = UserDao.getUserDao();
@@ -32,14 +40,7 @@ public class UserMapper {
         return user;
     }
 
-    public boolean update(User user){
-        Map<Integer, Object> parameters = saveUserOnMapper(user, user.getEmail());
-        UserDao userDao = UserDao.getUserDao();
-        int id = userDao.update(parameters);
-        return id != 0;
-    }
-
-    private Map<Integer, Object> saveUserOnMapper (User user) {
+    public Map<Integer, Object> createParameters (User user){
         int i = 1;
         Map<Integer, Object> parameters = new HashMap<>();
         parameters.put(i++, user.getName());
@@ -48,13 +49,10 @@ public class UserMapper {
         parameters.put(i++, user.getEmail());
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
-        parameters.put(i++, user.getAttemptLogin());
-        parameters.put(i++, user.isLogIn());
-        parameters.put(i++, user.isLocked());
         return parameters;
     }
 
-    private Map<Integer, Object> saveUserOnMapper (User user, String email) {
+    private Map<Integer, Object> createParametersUpdate (User user, String email) {
         int i = 1;
         Map<Integer, Object> parameters = new HashMap<>();
         parameters.put(i++, user.getName());

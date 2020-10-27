@@ -129,7 +129,7 @@ class UserManagerTest {
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.setValidMapper(true);
-        User foundUser = manager.get();
+        User foundUser = manager.get(user.getEmail());
         boolean value = foundUser != null;
         assertEquals(true, value);
     }
@@ -140,7 +140,7 @@ class UserManagerTest {
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.setValidMapper(false);
-        User foundUser = manager.get();
+        User foundUser = manager.get((user.getEmail()));
         boolean value = foundUser != null;
         assertEquals(false, value);
     }

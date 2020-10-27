@@ -5,7 +5,8 @@ import edu.utn.log.LogHelper;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
-public class UserManager implements Manager {
+//public class UserManager <T extends User> implements Manager <T>
+public class UserManager implements Manager <User> {
 
     private UserValidator validator;
     private UserMapper mapper;
@@ -15,23 +16,23 @@ public class UserManager implements Manager {
         this.validator = validator;
     }
 
+    @Override
     public boolean save (User user) {
-      if(!validator.isValidUser(user))
+      if(!validator.isValidUser(user)){
           return false;
-
+      }
         return mapper.save(user);
     }
 
+    @Override
     public boolean update (User user){
         return mapper.update(user);
     }
 
-
-    @Override
     public User get(String email) {
-        User user = mapper.get(email);
-        return user;
+        return mapper.get(email);
     }
+
 
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);
@@ -47,7 +48,7 @@ public class UserManager implements Manager {
     }
 
     public boolean logIn (String email, String password)  {
-        User user = get(email);
+        User user =  get(email);
 
         if(!validator.existsUser(email)){
             return false;
@@ -83,7 +84,6 @@ public class UserManager implements Manager {
         return update(user);
     }
 
-
     public UserValidator getValidator() {
         return validator;
     }
@@ -99,6 +99,7 @@ public class UserManager implements Manager {
     public void setMapper(UserMapper mapper) {
         this.mapper = mapper;
     }
+
 }
 
 //errores de login

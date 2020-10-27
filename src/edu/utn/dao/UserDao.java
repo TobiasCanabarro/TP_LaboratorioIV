@@ -3,7 +3,7 @@ package edu.utn.dao;
 import java.util.List;
 import java.util.Map;
 
-public class UserDao extends DataAccess {
+public class UserDao extends DataAccess implements Dao{
 
     private static final String INSERT_USER = "INSERT INTO lab.user (name, password, surname, email, nickname, birthday) values (?, ?, ?, ?, ?, ?)";
 
@@ -28,8 +28,7 @@ public class UserDao extends DataAccess {
     }
 
     public int save (Map<Integer, Object> parameters) {
-        String query = INSERT_USER;
-        return write (query, parameters);
+        return write (INSERT_USER, parameters);
     }
 
     public List<Map<String, Object>> get (Map<Integer, Object> parameters){
@@ -41,6 +40,7 @@ public class UserDao extends DataAccess {
     public int update(Map<Integer, Object> parameters){
         return write(UPDATE_USER, parameters);
     }
+
     public int delete (Map<Integer, Object> parameters){
         return write(DELETE_USER, parameters);
     }
