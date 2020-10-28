@@ -47,7 +47,7 @@ public class RequestRelationshipManagerTest {
 
     @Test
     void refuseRequestOk(){
-        assertEquals(true, true);
+
     }
 
     @Test

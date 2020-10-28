@@ -28,6 +28,12 @@ public class UserManager implements Manager <User> {
         return mapper.update(user);
     }
 
+    @Override
+    public boolean delete(User object) {
+        //TODO
+        return false;
+    }
+
     public User get(String email) {
         return mapper.get(email);
     }

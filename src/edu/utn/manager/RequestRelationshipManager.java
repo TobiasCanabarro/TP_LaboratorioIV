@@ -26,6 +26,11 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.update(requestRelationship);
     }
 
+    @Override
+    public boolean delete(RequestRelationship requestRelationship) {
+        return mapper.delete(requestRelationship);
+    }
+
     public RequestRelationship get(long idReceive, long idSend) {
         return mapper.get(idReceive, idSend);
     }
@@ -47,11 +52,20 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return update(requestRelationship);
     }
 
-    //rechaza la solicitud de amistad
-    public boolean refuseRequest (){
-        //TODO tendria que hacer un delete fisico en la tabla request_relationship
-        return false;
+    public boolean refuseRequest (String receiveEmail, String sendEmail){
+
+        RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
+        if(validator.isNull(requestRelationship)){
+            return false;
+        }
+
+        return delete(requestRelationship);
     }
+
+    public boolean deleteRelationship (String receiveEmail, String sendEmail){
+        return refuseRequest(receiveEmail, sendEmail);
+    }
+
 
     private RequestRelationship searchRelationship (String receiveEmail, String sendEmail){
         UserManager manager = UserManagerFactory.create();
@@ -60,8 +74,13 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         if(manager.getValidator().isNull(userReceive) || manager.getValidator().isNull(userSend)){
             return null;
         }
-        return validator.existRelation(userReceive.getId(), userSend.getId());////new RequestRelationship(userReceive.getId(), userSend.getId());
+        return validator.existRelation(userReceive.getId(), userSend.getId());
     }
+
+
+
+
+
 
     public RequestRelationshipValidator getValidator() {
         return validator;

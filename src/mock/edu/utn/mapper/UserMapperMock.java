@@ -20,6 +20,11 @@ public class UserMapperMock implements Mapper <User> {
         return isValid();
     }
 
+    @Override
+    public boolean delete(User user) {
+        return isValid();
+    }
+
     public User get(String email){
         if(isValid()){
             return  new User("John", "john123", "Doe", "john@gmail.com", "jonh", new Date(9999));

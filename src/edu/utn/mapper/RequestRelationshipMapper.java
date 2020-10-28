@@ -25,6 +25,14 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         return id != 0;
     }
 
+    @Override
+    public boolean delete(RequestRelationship requestRelationship) {
+        Map<Integer, Object> parameters = createParameters(requestRelationship);
+        RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
+        int id = requestDao.delete(parameters);
+        return id != 0;
+    }
+
     public RequestRelationship get (long idReceive, long idSend){
         RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
         Map<Integer, Object> parameters = new HashMap<>();
@@ -56,5 +64,6 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         parameters.put(++size, requestRelationship.isState());
         return parameters;
     }
+
 
 }

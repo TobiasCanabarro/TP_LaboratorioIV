@@ -35,6 +35,16 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         return value;
     }
 
+    @Override
+    public boolean delete(RequestRelationship request) {
+        boolean value = validator.isValid(request);
+        getMapper().setValid(value);
+        if(value){
+            value = getMapper().delete(request);
+        }
+        return value;
+    }
+
     public RequestRelationship get (long idReceive, long idSend){
         RequestRelationship request = null;
         boolean value = validator.isValid();

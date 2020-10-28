@@ -12,5 +12,6 @@ public interface Manager <T> {
 
           boolean update(T object);
 
+          boolean delete(T object);
 
 }

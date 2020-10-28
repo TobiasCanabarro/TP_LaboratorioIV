@@ -1,1 +1,2 @@
 [2020-10-27 17:31:12] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 3.
+[2020-10-28 13:04:01] [ ERROR] [log:25] El índice de la columna está fuera de rango: 3, número de columnas: 2.

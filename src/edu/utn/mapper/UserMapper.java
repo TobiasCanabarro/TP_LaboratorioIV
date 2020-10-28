@@ -23,6 +23,12 @@ public class UserMapper implements Mapper <User>{
         return id != 0;
     }
 
+    @Override
+    public boolean delete(User object) {
+        //TODO cuando se quiera eliminar un User se haria un borrado logico
+        return false;
+    }
+
 
     public User get (String email) {
         UserDao userDao = UserDao.getUserDao();

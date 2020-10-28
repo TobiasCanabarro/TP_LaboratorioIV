@@ -36,6 +36,11 @@ public class UserManagerMock implements Manager <User> {
         return value;
     }
 
+    @Override
+    public boolean delete(User object) {
+        return false;
+    }
+
     public User get(String email) {
         boolean value = validatorMock.isValid();
         getMapperMock().setValid(value);

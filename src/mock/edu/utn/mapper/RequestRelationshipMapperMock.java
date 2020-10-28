@@ -19,6 +19,11 @@ public class RequestRelationshipMapperMock implements Mapper<RequestRelationship
         return isValid();
     }
 
+    @Override
+    public boolean delete(RequestRelationship requestRelationship) {
+        return isValid();
+    }
+
     public RequestRelationship get (long idReceive, long idSend){
         return isValid()?new RequestRelationship(1, idReceive, idSend, isValid()):null;
     }
