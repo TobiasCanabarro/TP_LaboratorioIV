@@ -6,9 +6,7 @@ import edu.utn.manager.Manager;
 import mock.edu.utn.mapper.UserMapperMock;
 import mock.edu.utn.validator.UserValidatorMock;
 
-import java.sql.Date;
-
-public class UserManagerMock <T extends User> implements Manager <T> {
+public class UserManagerMock implements Manager <User> {
 
     private UserValidatorMock validatorMock;
     private UserMapperMock mapperMock;
@@ -20,22 +18,32 @@ public class UserManagerMock <T extends User> implements Manager <T> {
 
     @Override
     public boolean save(User user) {
-        return validatorMock.isValid();
+        boolean value = validatorMock.isValid();
+        getMapperMock().setValid(value);
+        if(validatorMock.isValid()){
+            value = mapperMock.save(user);
+        }
+        return value;
     }
 
     @Override
     public boolean update(User user) {
-        return validatorMock.isValid();
+        boolean value = validatorMock.isValid();
+        getMapperMock().setValid(value);
+        if(value){
+            value = mapperMock.update(user);
+        }
+        return value;
     }
 
-    public T get(long id) {
-        return validatorMock.isValid() ? (T)new User("John", "john123", "Doe", "john@gmail.com",
-                "jonh", new Date(9999)) : null;
-    }
-
-    public T get(String email) {
-        return validatorMock.isValid() ? (T)new User("John", "john123", "Doe", "john@gmail.com",
-                "jonh", new Date(9999)) : null;
+    public User get(String email) {
+        boolean value = validatorMock.isValid();
+        getMapperMock().setValid(value);
+        User user = null;
+        if(value){
+            user = mapperMock.get(email);
+        }
+        return user;
     }
 
     public UserMapperMock getMapperMock() {

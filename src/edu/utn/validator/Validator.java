@@ -1,8 +1,8 @@
 package edu.utn.validator;
 
-import edu.utn.exception.EmailException;
 
-public class Validator {
+
+public class Validator <T>{
 
     protected boolean isValidEmail(String email) {
         return email != null && !email.isEmpty();
@@ -26,7 +26,7 @@ public class Validator {
 
     protected boolean isAlphaNumeric (String password) {
         boolean value = true;
-        for (int i = 0; i < password.length() && value; i++) {//tocan123
+        for (int i = 0; i < password.length() && value; i++) {
             if(!isWord(password, i) && !isNumber(password, i)){
                 value = false;
             }
@@ -36,6 +36,10 @@ public class Validator {
 
     protected boolean isNumber (String number, int i) {
         return  number.charAt(i) > 47 && number.charAt(i) < 58;
+    }
+
+    public boolean isNull (T object){
+        return object == null;
     }
 
 

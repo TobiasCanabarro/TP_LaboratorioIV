@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserManagerTest {
+class UserManagerTest{
 
     @Test
     void signInOk(){
@@ -128,7 +128,7 @@ class UserManagerTest {
         User user = new User("Tobias", "tobias123", "Canabarro",
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
-        manager.setValidMapper(true);
+        manager.getValidatorMock().setValid(true);
         User foundUser = manager.get(user.getEmail());
         boolean value = foundUser != null;
         assertEquals(true, value);
@@ -144,5 +144,4 @@ class UserManagerTest {
         boolean value = foundUser != null;
         assertEquals(false, value);
     }
-
 }

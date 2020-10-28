@@ -4,7 +4,7 @@ import edu.utn.entity.User;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.manager.UserManager;
 
-public class UserValidator extends Validator {
+public class UserValidator extends Validator <User> {
 
     private static final int MAX_ATTEMPT = 3;
 
@@ -34,15 +34,6 @@ public class UserValidator extends Validator {
         return value;
     }
 
-//    public boolean canLogin (User user) {
-//        if(user == null){
-//            return false;
-//        }
-//        boolean value = existsUser(user.getEmail());
-//        value &= !alreadyLoggedIn(user.getEmail());
-//        return  value;
-//    }
-
     public  boolean existsUser (String email) {
         UserManager manager = UserManagerFactory.create();
         User found = manager.get(email); //key para buscar el registro. Esta hardcodeado el email para la busqueda
@@ -57,7 +48,7 @@ public class UserValidator extends Validator {
        boolean value = true;
        UserManager manager = UserManagerFactory.create();
        User userFound = manager.get(email);
-       if(userFound == null){
+       if(isNull(userFound)){
            value = false;
        }else {
            value &= userFound.isLogIn();
@@ -73,6 +64,5 @@ public class UserValidator extends Validator {
         }
         return found.isLocked();
     }
-
 
 }

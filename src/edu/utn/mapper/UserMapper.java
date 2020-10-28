@@ -53,18 +53,12 @@ public class UserMapper implements Mapper <User>{
     }
 
     private Map<Integer, Object> createParametersUpdate (User user, String email) {
-        int i = 1;
-        Map<Integer, Object> parameters = new HashMap<>();
-        parameters.put(i++, user.getName());
-        parameters.put(i++, user.getPassword());
-        parameters.put(i++, user.getSurname());
-        parameters.put(i++, user.getEmail());
-        parameters.put(i++, user.getNickname());
-        parameters.put(i++, user.getBirthday());
-        parameters.put(i++, user.getAttemptLogin());
-        parameters.put(i++, user.isLogIn());
-        parameters.put(i++, user.isLocked());
-        parameters.put(i++, email);
+        Map<Integer, Object> parameters = createParameters(user);
+        int i = parameters.size();
+        parameters.put(++i, user.getAttemptLogin());
+        parameters.put(++i, user.isLogIn());
+        parameters.put(++i, user.isLocked());
+        parameters.put(++i, email);
         return parameters;
     }
 

@@ -23,22 +23,44 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
 
     @Override
     public boolean update(RequestRelationship requestRelationship) {
+        return mapper.update(requestRelationship);
+    }
+
+    public RequestRelationship get(long idReceive, long idSend) {
+        return mapper.get(idReceive, idSend);
+    }
+
+    public boolean sendRequest (String receiveEmail, String  sendEmail) {
+       RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
+        if(validator.isNull(requestRelationship)){
+            return false;
+        }
+        return  save(requestRelationship);
+    }
+
+    public boolean acceptRequest (String receiveEmail, String sendEmail){
+        RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
+        if(validator.isNull(requestRelationship)){
+            return false;
+        }
+        requestRelationship.setState(true);
+        return update(requestRelationship);
+    }
+
+    //rechaza la solicitud de amistad
+    public boolean refuseRequest (){
+        //TODO tendria que hacer un delete fisico en la tabla request_relationship
         return false;
     }
 
-    public RequestRelationship get(long id) {
-        return mapper.get(id);
-    }
-
-    public boolean sendRequest (String sendEmail, String requestEmail) {
+    private RequestRelationship searchRelationship (String receiveEmail, String sendEmail){
         UserManager manager = UserManagerFactory.create();
+        User userReceive = manager.get(receiveEmail);
         User userSend = manager.get(sendEmail);
-        User userRequest = manager.get(requestEmail);
-        if(userRequest == null && userSend == null){
-            return false;
+        if(manager.getValidator().isNull(userReceive) || manager.getValidator().isNull(userSend)){
+            return null;
         }
-        RequestRelationship requestRelationship = new RequestRelationship(userSend.getId(), userRequest.getId());
-        return  save(requestRelationship);
+        return validator.existRelation(userReceive.getId(), userSend.getId());////new RequestRelationship(userReceive.getId(), userSend.getId());
     }
 
     public RequestRelationshipValidator getValidator() {

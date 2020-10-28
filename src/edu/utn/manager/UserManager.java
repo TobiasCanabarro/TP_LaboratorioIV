@@ -5,7 +5,6 @@ import edu.utn.log.LogHelper;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
-//public class UserManager <T extends User> implements Manager <T>
 public class UserManager implements Manager <User> {
 
     private UserValidator validator;

@@ -6,7 +6,7 @@ import edu.utn.mapper.Mapper;
 import java.sql.Date;
 import java.util.Map;
 
-public class UserMapperMock <T extends User> implements Mapper <T> {
+public class UserMapperMock implements Mapper <User> {
 
     private boolean isValid;
 
@@ -20,17 +20,18 @@ public class UserMapperMock <T extends User> implements Mapper <T> {
         return isValid();
     }
 
-    public User get(){
+    public User get(String email){
         if(isValid()){
-            return new User("Pedro", "pedro123", "Perez", "pedro@gmail.com", "Pedrito", new Date(9999));
+            return  new User("John", "john123", "Doe", "john@gmail.com", "jonh", new Date(9999));
         }
         else {
             return null;
         }
     }
 
+    //Este metodo en esta clase no hace nada :D
     @Override
-    public Map<Integer, Object> createParameters(T object) {
+    public Map<Integer, Object> createParameters(User object) {
         return null;
     }
 
