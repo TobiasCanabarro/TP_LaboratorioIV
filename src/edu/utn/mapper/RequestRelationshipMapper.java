@@ -3,6 +3,7 @@ package edu.utn.mapper;
 import edu.utn.dao.RequestRelationshipDao;
 import edu.utn.entity.RequestRelationship;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +40,41 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         parameters.put(1, idReceive);
         parameters.put(2, idSend);
         RequestRelationship request = null;
+        List<Map<String, Object>> records = requestDao.getOtherParam(parameters);
+
+        if(records.size() > 0){
+            Map<String, Object> record = records.get(0);
+            request = getRelationOnRecord(record);
+        }
+        return request;
+    }
+
+    public RequestRelationship get (long id){
+        RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
+        Map<Integer, Object> parameters = new HashMap<>();
+        parameters.put(1, id);
+        RequestRelationship relationship = null;
         List<Map<String, Object>> records = requestDao.get(parameters);
 
         if(records.size() > 0){
             Map<String, Object> record = records.get(0);
-            request = new RequestRelationship((long)record.get("id_request"), (long)record.get("id_user_receive"),
-                    (long)record.get("id_user_send"), (boolean)record.get("state"));
+            relationship = getRelationOnRecord(record);
         }
-        return request;
+        return relationship;
+    }
+
+    public List<RequestRelationship> getAll (long id){
+        RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
+        List<RequestRelationship> relations = new ArrayList<>();
+        Map<Integer, Object> parameters = new HashMap<>();
+
+        parameters.put(1, id);
+        List<Map<String, Object>> records = requestDao.getAll(parameters);
+
+        for(Map<String, Object> record : records){
+            relations.add( getRelationOnRecord(record) );
+        }
+        return relations;
     }
 
     @Override
@@ -62,8 +90,14 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         Map<Integer, Object> parameters = createParameters(requestRelationship);
         int size = parameters.size();;
         parameters.put(++size, requestRelationship.isState());
+        parameters.put(++size, requestRelationship.getIdUserReceive());
+        parameters.put(++size, requestRelationship.getIdUserSend());
         return parameters;
     }
 
+    private RequestRelationship getRelationOnRecord(Map<String, Object> record){
+        return new RequestRelationship((long)record.get("id_request"), (long)record.get("id_user_receive"),
+                (long)record.get("id_user_send"), (boolean)record.get("state"));
+    }
 
 }

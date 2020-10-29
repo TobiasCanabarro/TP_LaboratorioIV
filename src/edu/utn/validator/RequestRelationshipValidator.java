@@ -7,10 +7,9 @@ import edu.utn.manager.RequestRelationshipManager;
 
 public class RequestRelationshipValidator extends Validator <RequestRelationship>{
 
-    public RequestRelationship existRelation (long idReceive, long idSend){
+    public RequestRelationship existRelation (long idUserReceive, long idUserSend){
         RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
-        RequestRelationship relation = manager.get(idReceive, idSend);
-        return relation;
+        return  manager.get(idUserReceive, idUserSend);
 
     }
 

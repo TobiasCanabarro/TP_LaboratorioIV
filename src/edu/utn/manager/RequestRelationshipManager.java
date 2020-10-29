@@ -2,9 +2,12 @@ package edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
+import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;
+
+import java.util.List;
 
 public class RequestRelationshipManager implements Manager <RequestRelationship> {
 
@@ -31,20 +34,34 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.delete(requestRelationship);
     }
 
-    public RequestRelationship get(long idReceive, long idSend) {
-        return mapper.get(idReceive, idSend);
+    public RequestRelationship get(long idRequest) {
+        return mapper.get(idRequest);
+    }
+
+    public RequestRelationship get (long idUserReceive, long idUserSend){
+        return mapper.get(idUserReceive, idUserSend);
+    }
+
+    public List<RequestRelationship> getAll (long id){
+        return mapper.getAll(id);
     }
 
     public boolean sendRequest (String receiveEmail, String  sendEmail) {
-       RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
-        if(validator.isNull(requestRelationship)){
-            return false;
-        }
-        return  save(requestRelationship);
+       UserManager manager = UserManagerFactory.create();
+       User userReceive = manager.get(receiveEmail);
+       User userSend = manager.get(sendEmail);
+       boolean value = false;
+       RequestRelationship requestRelationship = validator.existRelation(userReceive.getId(), userSend.getId());
+       if(validator.isNull(requestRelationship)){
+           requestRelationship = new RequestRelationship(userReceive.getId(), userSend.getId());
+           value = save(requestRelationship);
+       }
+       return value;
     }
 
-    public boolean acceptRequest (String receiveEmail, String sendEmail){
-        RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
+    //long idRequest
+    public boolean acceptRequest (long idRequest){
+        RequestRelationship requestRelationship = get(idRequest);
         if(validator.isNull(requestRelationship)){
             return false;
         }
@@ -52,33 +69,24 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return update(requestRelationship);
     }
 
-    public boolean refuseRequest (String receiveEmail, String sendEmail){
-
-        RequestRelationship requestRelationship = searchRelationship(receiveEmail, sendEmail);
+    public boolean refuseRequest (long idRequest){
+        RequestRelationship requestRelationship = get(idRequest);
         if(validator.isNull(requestRelationship)){
             return false;
         }
-
         return delete(requestRelationship);
     }
 
-    public boolean deleteRelationship (String receiveEmail, String sendEmail){
-        return refuseRequest(receiveEmail, sendEmail);
+    public boolean deleteRelationship (long idRequest){
+        return refuseRequest(idRequest);
     }
 
-
-    private RequestRelationship searchRelationship (String receiveEmail, String sendEmail){
+    public List<User> getAllRelationship (String email) {
         UserManager manager = UserManagerFactory.create();
-        User userReceive = manager.get(receiveEmail);
-        User userSend = manager.get(sendEmail);
-        if(manager.getValidator().isNull(userReceive) || manager.getValidator().isNull(userSend)){
-            return null;
-        }
-        return validator.existRelation(userReceive.getId(), userSend.getId());
+        User user = manager.get(email);
+
+        return null;
     }
-
-
-
 
 
 

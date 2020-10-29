@@ -1,18 +1,23 @@
 package edu.utn.validator;
 
 import edu.utn.entity.User;
+import edu.utn.enums.LogInResult;
 import edu.utn.factory.UserManagerFactory;
+import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
+
+import javax.mail.MessagingException;
 
 public class UserValidator extends Validator <User> {
 
-    private static final int MAX_ATTEMPT = 3;
+    private static final int MAX_ATTEMPT = 4;
 
     public boolean isValidUser (User user){
         boolean value = isValidName(user);
         value &= isValidSurname(user);
         value &= isValidEmail(user.getEmail());
         value &= isValidPassword(user.getPassword());
+        if(value) setLoweCase(user);
         return value;
     }
 
@@ -28,6 +33,11 @@ public class UserValidator extends Validator <User> {
         return value;
     }
 
+    private void setLoweCase (User user){
+        user.setName(user.getName().toLowerCase());
+        user.setSurname(user.getSurname().toLowerCase());
+    }
+
     public boolean isValidPassword (String password){
         boolean value =  password != null && !password.isEmpty();
         value &= isAlphaNumeric(password);
@@ -40,29 +50,17 @@ public class UserValidator extends Validator <User> {
         return found != null;
     }
 
-    public boolean passCorrect( String pass, String passwarord){
-        return pass.equals(passwarord);
-    }
-
-    public boolean alreadyLoggedIn (String email) {
-       boolean value = true;
-       UserManager manager = UserManagerFactory.create();
-       User userFound = manager.get(email);
-       if(isNull(userFound)){
-           value = false;
-       }else {
-           value &= userFound.isLogIn();
-       }
-       return value;
-    }
-
-    public boolean isLocked (String email) {
-        UserManager manager = UserManagerFactory.create();
-        User found = manager.get(email);
-        if(found == null){
-            return false;
+    public boolean attemptsRemain(User user) throws MessagingException {
+        boolean value = user.getAttemptLogin() <= MAX_ATTEMPT;
+        if(!value){
+            user.setLocked(true);
+            Mail.sendMail(user.getEmail(), LogInResult.LOCKED_ACCOUNT, "Account Locked!");
         }
-        return found.isLocked();
+        return value;
+    }
+
+    public boolean isLocked (User user) {
+        return user.isLocked();
     }
 
 }

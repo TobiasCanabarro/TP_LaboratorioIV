@@ -1,9 +1,15 @@
 package edu.utn.manager;
 
 import edu.utn.entity.User;
+import edu.utn.enums.LogInResult;
 import edu.utn.log.LogHelper;
+import edu.utn.mail.Mail;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
+
+import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserManager implements Manager <User> {
 
@@ -52,29 +58,29 @@ public class UserManager implements Manager <User> {
         return value;
     }
 
-    public boolean logIn (String email, String password)  {
-        User user =  get(email);
+    public LogInResult logIn (String email, String password) throws MessagingException {
+        User user = get(email);
 
-        if(!validator.existsUser(email)){
-            return false;
+        if (!validator.existsUser(email)) {
+            return LogInResult.ERR_USER_DOES_NOT_EXIST;
         }
-        if(user.isLogIn()){
-            return false;
+        if (user.isLogIn()) {
+            return LogInResult.ERR_USER_IS_ALREADY_LOGGED_IN;
         }
-        if(!validator.passCorrect(user.getPassword(), password)){
-            if(user.getAttemptLogin() <= 4 ){
-                user.setAttemptLogin(user.getAttemptLogin()+1);
-            }else{
-                user.setAttemptLogin(user.getAttemptLogin()+1);
-                user.setLocked(true);
-            }
-            update(user);
-            return false;
+        if(user.isLocked()){
+            return LogInResult.ERR_IS_LOCKED;
         }
-        else{
+        boolean value = user.getPassword().equals(password);
+        if(value){
             user.setLogIn(true);
+            LogHelper.createNewDebugLog("Se inicia sesion ");
         }
-        return update(user);
+        else {
+            user.setAttemptLogin(user.getAttemptLogin() + 1);
+            value &= validator.attemptsRemain(user);
+        }
+        value &= update(user);
+        return value ? LogInResult.OK : LogInResult.ERR_AUTHENTICATION;
     }
 
     public boolean logOut(String email){
@@ -87,6 +93,20 @@ public class UserManager implements Manager <User> {
         User user = get(email);
         user.setPassword(newPassword);
         return update(user);
+    }
+
+    public boolean requestUnlockedAccount (String email, String endpoint) {
+        User user = get(email);
+        boolean value = validator.isLocked(user);
+        if(value){
+            try{
+                Mail.sendMail(email, LogInResult.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
+                LogHelper.createNewDebugLog("Se envia email al usuario " + email);
+            }catch (MessagingException exception){
+                LogHelper.createNewErrorLog(exception.getMessage());
+            }
+        }
+        return value;
     }
 
     public UserValidator getValidator() {

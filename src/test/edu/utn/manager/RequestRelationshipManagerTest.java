@@ -47,12 +47,38 @@ public class RequestRelationshipManagerTest {
 
     @Test
     void refuseRequestOk(){
-
+        RequestRelationship request = new RequestRelationship(1, 2);
+        RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
+        manager.getValidator().setValid(true);
+        boolean value = manager.delete(request);
+        assertEquals(true, value);
     }
 
     @Test
     void refuseRequestFail(){
+        RequestRelationship request = new RequestRelationship(1, 2);
+        RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
+        manager.getValidator().setValid(false);
+        boolean value = manager.delete(request);
+        assertEquals(false, value);
+    }
 
+    @Test
+    void deleteRelationshipOk () {
+        RequestRelationship request = new RequestRelationship(1, 2);
+        RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
+        manager.getValidator().setValid(true);
+        boolean value = manager.delete(request);
+        assertEquals(true, value);
+    }
+
+    @Test
+    void deleteRelationshipFail () {
+        RequestRelationship request = new RequestRelationship(1, 2);
+        RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
+        manager.getValidator().setValid(false);
+        boolean value = manager.delete(request);
+        assertEquals(false, value);
     }
 
     @Test

@@ -25,9 +25,9 @@ public class DataAccess {
         setConnectionString("jdbc:postgresql://" + host + ":" + port + "/cuvl_db");
     }
 
-//    protected List<Map<String, Object>> read(String query) {
-//        return read(query, null);
-//    }
+    protected List<Map<String, Object>> read(String query) {
+        return read(query, null);
+    }
 
     protected List<Map<String, Object>> read (String query, Map<Integer, Object> parameters) {
 
@@ -36,16 +36,6 @@ public class DataAccess {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = getStatement(query, parameters, connection);
             setMetadata(preparedStatement, results);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            ResultSetMetaData metadata = resultSet.getMetaData();
-//            while(resultSet.next()) {
-//                HashMap<String, Object> columns = new HashMap<>();
-//                for (int i = 1; i <= metadata.getColumnCount(); ++i) {
-//                    columns.put(metadata.getColumnName(i), resultSet.getObject(i));
-//                }
-//                results.add(columns);
-//            }
-            //resultSet.close();
         } catch (SQLException ex) {
             LogHelper.createNewErrorLog(ex.getMessage());
         }  catch (Exception ex) {
@@ -65,7 +55,6 @@ public class DataAccess {
             returnedValue = preparedStatement.executeUpdate();
             if (returnedValue > 0) {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                    // TODO: es posible cambiar esta estructura por una expresión ternaria
                     if (generatedKeys.next()) {
                         returnedValue = generatedKeys.getInt(1);
                     }
@@ -78,43 +67,42 @@ public class DataAccess {
         } catch (Exception ex) {
             LogHelper.createNewErrorLog(ex.getMessage());
         } finally {
-            //connection.close();//cierra la conexion general :C
             return returnedValue;
         }
     }
 
-    protected int writeTransaction (String userQuery, String userLogQuery, Map<Integer, Object> userParameters, Map<Integer, Object> userLogParameters) {
-        int returnedValue = 0;
-        int returnedValue2 = 0;
-        try {
-            Connection connection = getConnection();
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = getStatement(userQuery, userParameters, connection);
-            PreparedStatement preparedStatement2 = getStatement(userLogQuery, userLogParameters, connection);
-            returnedValue = preparedStatement.executeUpdate();
-            returnedValue2 = preparedStatement2.executeUpdate();
-
-            if (returnedValue > 0 && returnedValue2 > 0) {
-                connection.commit();
-                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        returnedValue = generatedKeys.getInt(1);
-                    }
-                } catch (Exception exception) {
-                    LogHelper.createNewErrorLog("No keys to be retrieved");
-                }
-            }
-        } catch (SQLException exception) {
-            if (connection != null) {
-                LogHelper.createNewErrorLog("Transaction is being rolled back");
-                connection.rollback();
-            }
-            }catch(Exception exception){
-            LogHelper.createNewErrorLog(exception.getMessage());
-            }finally {
-            return returnedValue;
-            }
-    }
+//    protected int writeTransaction (String userQuery, String userLogQuery, Map<Integer, Object> userParameters, Map<Integer, Object> userLogParameters) {
+//        int returnedValue = 0;
+//        int returnedValue2 = 0;
+//        try {
+//            Connection connection = getConnection();
+//            connection.setAutoCommit(false);
+//            PreparedStatement preparedStatement = getStatement(userQuery, userParameters, connection);
+//            PreparedStatement preparedStatement2 = getStatement(userLogQuery, userLogParameters, connection);
+//            returnedValue = preparedStatement.executeUpdate();
+//            returnedValue2 = preparedStatement2.executeUpdate();
+//
+//            if (returnedValue > 0 && returnedValue2 > 0) {
+//                connection.commit();
+//                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+//                    if (generatedKeys.next()) {
+//                        returnedValue = generatedKeys.getInt(1);
+//                    }
+//                } catch (Exception exception) {
+//                    LogHelper.createNewErrorLog("No keys to be retrieved");
+//                }
+//            }
+//        } catch (SQLException exception) {
+//            if (connection != null) {
+//                LogHelper.createNewErrorLog("Transaction is being rolled back");
+//                connection.rollback();
+//            }
+//            }catch(Exception exception){
+//            LogHelper.createNewErrorLog(exception.getMessage());
+//            }finally {
+//            return returnedValue;
+//            }
+//    }
 
     protected PreparedStatement getStatement(String query, Map<Integer, Object> parameters, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);

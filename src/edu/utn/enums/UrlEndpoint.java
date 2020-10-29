@@ -1,6 +1,5 @@
 package edu.utn.enums;
 
-public enum LogInType {
-
+public class UrlEndpoint {
 
 }
