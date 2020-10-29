@@ -11,22 +11,19 @@ import edu.utn.manager.UserManager;
 import javax.mail.MessagingException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) throws MessagingException {//ALTER SEQUENCE user_id_seq RESTART WITH 1
-        User userReceive = new User("Pablo", "pablo123", "Forcinito", "pablo@gmail.com", "forci", new Date(99999));
-        User userSend  = new User("Tobias", "tobias123", "Canabarro", "tobias@gmail.com", "tobi", new Date(99999));
+         User userReceive = new User("Pablo", "pablo123", "Forcinito", "pablo@gmail.com", "forci", new Date(99999));
+         User userSend  = new User("Tobias", "tobias123", "Canabarro", "tobias@gmail.com", "tobi", new Date(99999));
+         User user = new User("Carlos", "carlos123", "Capozucca", "carlos@gmail.com", "negro", new Date(9999));
 
-       RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
-        List<RequestRelationship> relations = manager.getAll(userReceive.getId());
-
-        for(RequestRelationship relation : relations){
-            System.out.println("ID : id_request " + relation.getId());
-            System.out.println("ID : id_user_request " + relation.getIdUserReceive());
-            System.out.println("ID : id_user_send " + relation.getIdUserSend());
-        }
-
+         RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
+//         UserManager userManager = UserManagerFactory.create();
+//         boolean va = userManager.signIn(user);
+//         System.out.println(va);
 
     }
 

@@ -35,6 +35,11 @@ public class UserDao extends DataAccess implements Dao{
         return read (SELECT_USER, parameters);
     }
 
+    public List<Map<String, Object>> get (long id){
+        String query = "SELECT * FROM lab.user WHERE id_user = " + id;
+        return read(query);
+    }
+
     //TODO hace un borrado logico
 
     public int update(Map<Integer, Object> parameters){

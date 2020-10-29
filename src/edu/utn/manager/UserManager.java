@@ -35,7 +35,7 @@ public class UserManager implements Manager <User> {
     }
 
     @Override
-    public boolean delete(User object) {
+    public boolean delete(User user) {
         //TODO
         return false;
     }
@@ -44,6 +44,9 @@ public class UserManager implements Manager <User> {
         return mapper.get(email);
     }
 
+    public User get (long id) {
+        return mapper.get(id);
+    }
 
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);

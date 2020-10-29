@@ -46,6 +46,20 @@ public class UserMapper implements Mapper <User>{
         return user;
     }
 
+    public User get (long id){
+        UserDao userDao = UserDao.getUserDao();
+        User user = null;
+        List<Map<String, Object>> records = userDao.get(id);
+
+        if (records.size() > 0) {
+            Map<String, Object> record = records.get(0);
+            user = new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
+                    record.get("surname").toString(), record.get("email").toString(),
+                    record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
+        }
+        return user;
+    }
+
     public Map<Integer, Object> createParameters (User user){
         int i = 1;
         Map<Integer, Object> parameters = new HashMap<>();

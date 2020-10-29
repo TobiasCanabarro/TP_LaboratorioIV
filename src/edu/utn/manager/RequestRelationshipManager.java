@@ -7,7 +7,9 @@ import edu.utn.factory.UserManagerFactory;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RequestRelationshipManager implements Manager <RequestRelationship> {
 
@@ -42,7 +44,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.get(idUserReceive, idUserSend);
     }
 
-    public List<RequestRelationship> getAll (long id){
+    public List<Map<String, Object>> getAll (long id){
         return mapper.getAll(id);
     }
 
@@ -59,7 +61,6 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
        return value;
     }
 
-    //long idRequest
     public boolean acceptRequest (long idRequest){
         RequestRelationship requestRelationship = get(idRequest);
         if(validator.isNull(requestRelationship)){
@@ -81,12 +82,27 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return refuseRequest(idRequest);
     }
 
-    public List<User> getAllRelationship (String email) {
+    public List<User> myFriends (long id) {
         UserManager manager = UserManagerFactory.create();
-        User user = manager.get(email);
+        List<Map<String, Object>> relations = getAll(id);
+        List<User> friends = new ArrayList<>();
+        long idUserReceive = 0;
+        long idUserSend = 0;
 
-        return null;
+        for(Map<String, Object> relation : relations){
+            idUserReceive = (long)relation.get("id_user_receive");
+            idUserSend = (long)(relation.get("id_user_send"));
+
+            if(idUserReceive != id){
+                friends.add(manager.get(idUserReceive));
+            }
+            else {
+                friends.add(manager.get(idUserSend));
+            }
+        }
+        return friends;
     }
+
 
 
 

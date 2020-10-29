@@ -63,18 +63,9 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         return relationship;
     }
 
-    public List<RequestRelationship> getAll (long id){
+    public List<Map<String, Object>> getAll (long id){
         RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
-        List<RequestRelationship> relations = new ArrayList<>();
-        Map<Integer, Object> parameters = new HashMap<>();
-
-        parameters.put(1, id);
-        List<Map<String, Object>> records = requestDao.getAll(parameters);
-
-        for(Map<String, Object> record : records){
-            relations.add( getRelationOnRecord(record) );
-        }
-        return relations;
+        return requestDao.getAll(id);
     }
 
     @Override
@@ -94,6 +85,7 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         parameters.put(++size, requestRelationship.getIdUserSend());
         return parameters;
     }
+
 
     private RequestRelationship getRelationOnRecord(Map<String, Object> record){
         return new RequestRelationship((long)record.get("id_request"), (long)record.get("id_user_receive"),
