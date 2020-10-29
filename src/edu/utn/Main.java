@@ -21,9 +21,7 @@ public class Main {
          User user = new User("Carlos", "carlos123", "Capozucca", "carlos@gmail.com", "negro", new Date(9999));
 
          RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
-//         UserManager userManager = UserManagerFactory.create();
-//         boolean va = userManager.signIn(user);
-//         System.out.println(va);
+
 
     }
 

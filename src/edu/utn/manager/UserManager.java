@@ -36,8 +36,7 @@ public class UserManager implements Manager <User> {
 
     @Override
     public boolean delete(User user) {
-        //TODO
-        return false;
+        return mapper.delete(user);
     }
 
     public User get(String email) {
