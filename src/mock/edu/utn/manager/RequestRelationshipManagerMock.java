@@ -45,6 +45,11 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         return value;
     }
 
+    @Override
+    public RequestRelationship get(long id) {
+        return null;
+    }
+
     public RequestRelationship get (long idReceive, long idSend){
         RequestRelationship request = null;
         boolean value = validator.isValid();

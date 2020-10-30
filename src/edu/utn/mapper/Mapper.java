@@ -11,4 +11,6 @@ public interface Mapper <T> {
     boolean delete(T object);
     
     Map<Integer, Object> createParameters(T object);
+
+    T getEntityRecord (Map<String, Object> record);
 }

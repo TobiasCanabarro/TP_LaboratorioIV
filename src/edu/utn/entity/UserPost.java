@@ -9,13 +9,21 @@ public class UserPost {
     private Date datePublication;
     private String post;
 
-
-    public UserPost(long id, long idUser, String publication, Date datePublication) {
-        setId(id);
+    public UserPost (long idUser, String post, Date datePublication){
         setIdUser(idUser);
-        setPost(publication);
+        setPost(post);
         setDatePublication(datePublication);
     }
+
+    //Este constructor lo usa el get
+    public UserPost(long id, long idUser, String post, Date datePublication) {
+        setId(id);
+        setIdUser(idUser);
+        setPost(post);
+        setDatePublication(datePublication);
+    }
+
+
 
     public long getId() {
         return id;

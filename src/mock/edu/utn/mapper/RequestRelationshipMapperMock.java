@@ -34,6 +34,11 @@ public class RequestRelationshipMapperMock implements Mapper<RequestRelationship
         return null;
     }
 
+    @Override
+    public RequestRelationship getEntityRecord(Map<String, Object> record) {
+        return null;
+    }
+
     public boolean isValid() {
         return valid;
     }

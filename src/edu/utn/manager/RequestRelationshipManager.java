@@ -2,8 +2,9 @@ package edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
-import edu.utn.factory.RequestRelationshipManagerFactory;
+import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
+import edu.utn.log.LogHelper;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;
 
@@ -36,6 +37,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.delete(requestRelationship);
     }
 
+    @Override
     public RequestRelationship get(long idRequest) {
         return mapper.get(idRequest);
     }
@@ -48,6 +50,10 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.getAll(id);
     }
 
+    public List<RequestRelationship> getAllRequest (long id) {
+        return mapper.getAllRequest(id);
+    }
+
     public boolean sendRequest (String receiveEmail, String  sendEmail) {
        UserManager manager = UserManagerFactory.create();
        User userReceive = manager.get(receiveEmail);
@@ -58,6 +64,9 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
            requestRelationship = new RequestRelationship(userReceive.getId(), userSend.getId());
            value = save(requestRelationship);
        }
+       if(value){
+           LogHelper.createNewDebugLog(Result.SEND_REQUEST_OK);
+       }
        return value;
     }
 
@@ -67,6 +76,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
             return false;
         }
         requestRelationship.setState(true);
+        LogHelper.createNewDebugLog(Result.ACCEPT_REQUEST_OK);
         return update(requestRelationship);
     }
 
@@ -75,6 +85,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         if(validator.isNull(requestRelationship)){
             return false;
         }
+        LogHelper.createNewDebugLog(Result.REFUSE_REQUEST_OK);
         return delete(requestRelationship);
     }
 
@@ -86,8 +97,8 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         UserManager manager = UserManagerFactory.create();
         List<Map<String, Object>> relations = getAll(id);
         List<User> friends = new ArrayList<>();
-        long idUserReceive = 0;
-        long idUserSend = 0;
+        long idUserReceive;
+        long idUserSend ;
 
         for(Map<String, Object> relation : relations){
             idUserReceive = (long)relation.get("id_user_receive");
@@ -102,8 +113,6 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         }
         return friends;
     }
-
-
 
 
     public RequestRelationshipValidator getValidator() {

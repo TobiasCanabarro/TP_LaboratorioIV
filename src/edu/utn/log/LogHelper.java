@@ -1,5 +1,6 @@
 package edu.utn.log;
 
+import edu.utn.enums.Result;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -15,9 +16,9 @@ public class LogHelper {
         PropertyConfigurator.configure(PATH_CONFIG_FILE);
     }
 
-    public static void createNewDebugLog(String msg) {
+    public static void createNewDebugLog(Result result) {
         initializeLog();
-        log.debug(msg);
+        log.debug(result.getDescription());
     }
 
     public static void createNewErrorLog(String msg){

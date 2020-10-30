@@ -1,7 +1,7 @@
 package edu.utn.validator;
 
 import edu.utn.entity.User;
-import edu.utn.enums.LogInResult;
+import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
@@ -54,7 +54,7 @@ public class UserValidator extends Validator <User> {
         boolean value = user.getAttemptLogin() <= MAX_ATTEMPT;
         if(!value){
             user.setLocked(true);
-            Mail.sendMail(user.getEmail(), LogInResult.LOCKED_ACCOUNT, "Account Locked!");
+            Mail.sendMail(user.getEmail(), Result.LOCKED_ACCOUNT, "Account Locked!");
         }
         return value;
     }

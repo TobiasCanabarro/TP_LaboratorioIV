@@ -44,7 +44,7 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
 
         if(records.size() > 0){
             Map<String, Object> record = records.get(0);
-            request = getRelationOnRecord(record);
+            request = getEntityRecord(record);
         }
         return request;
     }
@@ -58,7 +58,7 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
 
         if(records.size() > 0){
             Map<String, Object> record = records.get(0);
-            relationship = getRelationOnRecord(record);
+            relationship = getEntityRecord(record);
         }
         return relationship;
     }
@@ -68,26 +68,36 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         return requestDao.getAll(id);
     }
 
+    public List<RequestRelationship> getAllRequest (long id){
+        RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
+        List<Map<String, Object>> requests =  requestDao.getAllRequest(id);
+        List<RequestRelationship> requestRelationships = new ArrayList<>();
+
+        for (Map<String, Object> record : requests){
+            requestRelationships.add(getEntityRecord(record));
+        }
+        return requestRelationships;
+    }
+
     @Override
     public Map<Integer, Object> createParameters(RequestRelationship requestRelationship) {
         int i = 1;
         Map<Integer, Object> parameters = new HashMap<>();
-        parameters.put(i++, requestRelationship.getIdUserReceive());
-        parameters.put(i++, requestRelationship.getIdUserSend());
+        parameters.put(i, requestRelationship.getIdUserReceive());
+        parameters.put(++i, requestRelationship.getIdUserSend());
         return parameters;
     }
 
     public Map<Integer, Object> createParametersForUpdate (RequestRelationship requestRelationship){
         Map<Integer, Object> parameters = createParameters(requestRelationship);
-        int size = parameters.size();;
+        int size = parameters.size();
         parameters.put(++size, requestRelationship.isState());
         parameters.put(++size, requestRelationship.getIdUserReceive());
         parameters.put(++size, requestRelationship.getIdUserSend());
         return parameters;
     }
 
-
-    private RequestRelationship getRelationOnRecord(Map<String, Object> record){
+    public RequestRelationship getEntityRecord(Map<String, Object> record){
         return new RequestRelationship((long)record.get("id_request"), (long)record.get("id_user_receive"),
                 (long)record.get("id_user_send"), (boolean)record.get("state"));
     }

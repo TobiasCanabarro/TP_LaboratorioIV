@@ -1,6 +1,6 @@
 package edu.utn.mail;
 
-import edu.utn.enums.LogInResult;
+import edu.utn.enums.Result;
 
 import javax.mail.*;
 
@@ -13,7 +13,7 @@ public class Mail {
 
     private static Properties props;
 
-    public static void sendMail (String to, LogInResult result, String content) throws MessagingException {
+    public static void sendMail (String to, Result result, String content) throws MessagingException {
         initialProperties();
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {

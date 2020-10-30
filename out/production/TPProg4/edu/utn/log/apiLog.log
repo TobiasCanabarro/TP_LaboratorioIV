@@ -10,3 +10,9 @@
 [2020-10-28 21:30:55] [ ERROR] [log:25] El índice de la columna está fuera de rango: 2, número de columnas: 1.
 [2020-10-28 21:31:37] [ ERROR] [log:25] El índice de la columna está fuera de rango: 2, número de columnas: 1.
 [2020-10-28 22:00:09] [ ERROR] [log:25] El índice de la columna está fuera de rango: 1, número de columnas: 0.
+[2020-10-29 12:44:55] [ ERROR] [log:25] ERROR: syntax error at or near "lab"
+  Position: 48
+[2020-10-29 13:13:52] [ ERROR] [log:25] ERROR: operator does not exist: character varying = bigint
+  Hint: No operator matches the given name and argument type(s). You might need to add explicit type casts.
+  Position: 36
+[2020-10-29 18:25:22] [ ERROR] [log:26] El índice de la columna está fuera de rango: 4, número de columnas: 3.

@@ -38,10 +38,7 @@ public class UserMapper implements Mapper <User>{
         List<Map<String, Object>> records = userDao.get(parameters);
 
         if (records.size() > 0) {
-            Map<String, Object> record = records.get(0);
-            user = new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
-                   record.get("surname").toString(), record.get("email").toString(),
-                    record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
+            user = getEntityRecord(records.get(0));
         }
         return user;
     }
@@ -52,10 +49,7 @@ public class UserMapper implements Mapper <User>{
         List<Map<String, Object>> records = userDao.get(id);
 
         if (records.size() > 0) {
-            Map<String, Object> record = records.get(0);
-            user = new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
-                    record.get("surname").toString(), record.get("email").toString(),
-                    record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
+            user = getEntityRecord(records.get(0));
         }
         return user;
     }
@@ -70,6 +64,13 @@ public class UserMapper implements Mapper <User>{
         parameters.put(i++, user.getNickname());
         parameters.put(i++, user.getBirthday());
         return parameters;
+    }
+
+    @Override
+    public User getEntityRecord(Map<String, Object> record) {
+        return new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
+                record.get("surname").toString(), record.get("email").toString(),
+                record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
     }
 
     private Map<Integer, Object> createParametersUpdate (User user, String email) {

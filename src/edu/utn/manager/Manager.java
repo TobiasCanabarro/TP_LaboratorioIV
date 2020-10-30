@@ -14,4 +14,8 @@ public interface Manager <T> {
 
           boolean delete(T object);
 
+          T get (long id);
+
+
+
 }

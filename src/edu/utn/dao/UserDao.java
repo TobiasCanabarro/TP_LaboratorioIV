@@ -40,8 +40,6 @@ public class UserDao extends DataAccess implements Dao{
         return read(query);
     }
 
-    //TODO hace un borrado logico
-
     public int update(Map<Integer, Object> parameters){
         return write(UPDATE_USER, parameters);
     }

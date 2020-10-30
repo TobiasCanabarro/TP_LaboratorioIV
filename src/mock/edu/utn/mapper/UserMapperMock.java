@@ -40,6 +40,11 @@ public class UserMapperMock implements Mapper <User> {
         return null;
     }
 
+    @Override
+    public User getEntityRecord(Map<String, Object> record) {
+        return null;
+    }
+
     public boolean isValid() {
         return isValid;
     }

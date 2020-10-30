@@ -1,15 +1,13 @@
 package edu.utn.manager;
 
 import edu.utn.entity.User;
-import edu.utn.enums.LogInResult;
+import edu.utn.enums.Result;
 import edu.utn.log.LogHelper;
 import edu.utn.mail.Mail;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
 import javax.mail.MessagingException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserManager implements Manager <User> {
 
@@ -43,6 +41,7 @@ public class UserManager implements Manager <User> {
         return mapper.get(email);
     }
 
+    @Override
     public User get (long id) {
         return mapper.get(id);
     }
@@ -57,43 +56,51 @@ public class UserManager implements Manager <User> {
                 LogHelper.createNewErrorLog(ex.getMessage());
             }
         }
+        if(value){
+            LogHelper.createNewDebugLog(Result.SIGN_IN_OK);
+        }
         return value;
     }
 
-    public LogInResult logIn (String email, String password) throws MessagingException {
+    public Result logIn (String email, String password) throws MessagingException {
         User user = get(email);
 
         if (!validator.existsUser(email)) {
-            return LogInResult.ERR_USER_DOES_NOT_EXIST;
+            return Result.ERR_USER_DOES_NOT_EXIST;
         }
         if (user.isLogIn()) {
-            return LogInResult.ERR_USER_IS_ALREADY_LOGGED_IN;
+            return Result.ERR_USER_IS_ALREADY_LOGGED_IN;
         }
         if(user.isLocked()){
-            return LogInResult.ERR_IS_LOCKED;
+            return Result.ERR_IS_LOCKED;
         }
         boolean value = user.getPassword().equals(password);
         if(value){
             user.setLogIn(true);
-            LogHelper.createNewDebugLog("Se inicia sesion ");
         }
         else {
             user.setAttemptLogin(user.getAttemptLogin() + 1);
             value &= validator.attemptsRemain(user);
         }
         value &= update(user);
-        return value ? LogInResult.OK : LogInResult.ERR_AUTHENTICATION;
+        if(value){
+            LogHelper.createNewDebugLog(Result.LOG_IN_OK);
+        }
+        return value ? Result.LOG_IN_OK : Result.ERR_AUTHENTICATION;
     }
 
     public boolean logOut(String email){
         User user = get(email);
         user.setLogIn(false);
-        return update(user);
+        boolean value = update(user);
+        LogHelper.createNewDebugLog(Result.LOG_OUT_OK);
+        return value;
     }
 
     public boolean changePassword(String email, String newPassword){
         User user = get(email);
         user.setPassword(newPassword);
+        LogHelper.createNewDebugLog(Result.CHANGE_PASSWORD);
         return update(user);
     }
 
@@ -102,8 +109,8 @@ public class UserManager implements Manager <User> {
         boolean value = validator.isLocked(user);
         if(value){
             try{
-                Mail.sendMail(email, LogInResult.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
-                LogHelper.createNewDebugLog("Se envia email al usuario " + email);
+                Mail.sendMail(email, Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
+                LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT);
             }catch (MessagingException exception){
                 LogHelper.createNewErrorLog(exception.getMessage());
             }

@@ -15,3 +15,4 @@
 [2020-10-29 13:13:52] [ ERROR] [log:25] ERROR: operator does not exist: character varying = bigint
   Hint: No operator matches the given name and argument type(s). You might need to add explicit type casts.
   Position: 36
+[2020-10-29 18:25:22] [ ERROR] [log:26] El índice de la columna está fuera de rango: 4, número de columnas: 3.
