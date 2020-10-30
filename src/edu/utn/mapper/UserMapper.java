@@ -17,7 +17,7 @@ public class UserMapper implements Mapper <User>{
     }
 
     public boolean update(User user){
-        Map<Integer, Object> parameters = createParametersUpdate(user, user.getEmail());
+        Map<Integer, Object> parameters = createParametersForUpdate(user, user.getEmail());
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.update(parameters);
         return id != 0;
@@ -43,6 +43,7 @@ public class UserMapper implements Mapper <User>{
         return user;
     }
 
+
     public User get (long id){
         UserDao userDao = UserDao.getUserDao();
         User user = null;
@@ -66,14 +67,8 @@ public class UserMapper implements Mapper <User>{
         return parameters;
     }
 
-    @Override
-    public User getEntityRecord(Map<String, Object> record) {
-        return new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
-                record.get("surname").toString(), record.get("email").toString(),
-                record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
-    }
 
-    private Map<Integer, Object> createParametersUpdate (User user, String email) {
+    private Map<Integer, Object> createParametersForUpdate (User user, String email) {
         Map<Integer, Object> parameters = createParameters(user);
         int i = parameters.size();
         parameters.put(++i, user.getAttemptLogin());
@@ -81,6 +76,13 @@ public class UserMapper implements Mapper <User>{
         parameters.put(++i, user.isLocked());
         parameters.put(++i, email);
         return parameters;
+    }
+
+    @Override
+    public User getEntityRecord(Map<String, Object> record) {
+        return new User((long)record.get("id_user"), record.get("name").toString(), record.get("password").toString(),
+                record.get("surname").toString(), record.get("email").toString(),
+                record.get("nickname").toString(), (Date)record.get("birthday"), (int)record.get("attempt_log_in"), (boolean)record.get("log_in"), (boolean)record.get("locked"));
     }
 
 }

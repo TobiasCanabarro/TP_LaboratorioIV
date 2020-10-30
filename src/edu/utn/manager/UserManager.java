@@ -135,7 +135,3 @@ public class UserManager implements Manager <User> {
     }
 
 }
-
-//errores de login
-//1 = pass incorrecota
-//2 = se bloquea

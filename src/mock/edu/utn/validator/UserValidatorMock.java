@@ -1,10 +1,12 @@
 package mock.edu.utn.validator;
 
+import edu.utn.entity.User;
+
 public class UserValidatorMock {
 
     private boolean valid;
 
-    public boolean isValid (String email){
+    public boolean isValid (User user){
         return isValid();
     }
 

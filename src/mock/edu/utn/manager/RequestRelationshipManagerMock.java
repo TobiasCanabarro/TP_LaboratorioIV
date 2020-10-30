@@ -5,6 +5,8 @@ import edu.utn.manager.Manager;
 import mock.edu.utn.mapper.RequestRelationshipMapperMock;
 import mock.edu.utn.validator.RequestRelationshipValidatorMock;
 
+import java.util.List;
+
 public class RequestRelationshipManagerMock implements Manager <RequestRelationship> {
 
     private RequestRelationshipMapperMock mapper;
@@ -45,9 +47,16 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         return value;
     }
 
+
     @Override
     public RequestRelationship get(long id) {
-        return null;
+        RequestRelationship request = null;
+        boolean value = validator.isValid();
+        getMapper().setValid(value);
+        if(value){
+            request = mapper.get(id);
+        }
+        return request;
     }
 
     public RequestRelationship get (long idReceive, long idSend){
@@ -59,6 +68,27 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         }
         return request;
     }
+
+    public List<RequestRelationship> getAllRequest (long id) {
+        List<RequestRelationship> relations = null;
+        boolean value = validator.isValid();
+        getMapper().setValid(value);
+        if(value){
+             relations = mapper.getAllRequest(id);
+        }
+        return relations;
+    }
+
+    public List<RequestRelationship> getAll (long id) {
+        List<RequestRelationship> relations = null;
+        boolean value = validator.isValid();
+        getMapper().setValid(value);
+        if(value){
+            relations = mapper.getAllRequest(id);
+        }
+        return relations;
+    }
+
 
     public RequestRelationshipMapperMock getMapper() {
         return mapper;

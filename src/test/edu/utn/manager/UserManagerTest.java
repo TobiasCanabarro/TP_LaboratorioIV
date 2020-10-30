@@ -1,6 +1,8 @@
 package test.edu.utn.manager;
 
 import edu.utn.entity.User;
+import edu.utn.enums.Result;
+import mock.edu.utn.MailMock;
 import mock.edu.utn.factory.UserManagerFactoryMock;
 import mock.edu.utn.manager.UserManagerMock;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(true);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             value &= manager.save(user);
         }
@@ -28,7 +30,7 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(false);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             value &= manager.save(user);
         }
@@ -41,7 +43,7 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(true);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             user.setLogIn(true);
             value &= manager.update(user);
@@ -55,7 +57,7 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(false);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             user.setLogIn(true);
             value &= manager.update(user);
@@ -69,7 +71,7 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(true);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             user.setLogIn(false);
             value &= manager.update(user);
@@ -84,13 +86,41 @@ class UserManagerTest{
                 "tobias@gmail.com", "Tobi", new Date(9999));
         UserManagerMock manager = UserManagerFactoryMock.create();
         manager.getValidatorMock().setValid(false);
-        boolean value = manager.getValidatorMock().isValid(user.getEmail());
+        boolean value = manager.getValidatorMock().isValid(user);
         if(value){
             user.setLogIn(false);
             value &= manager.update(user);
         }
         assertEquals(false, value);
 
+    }
+
+    @Test
+    void requestUnlockedAccountOk (){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        String endpoint = "localhost:8080/TP_Laboratorio/rest/unlockedAccount";
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(true);
+        boolean value = manager.getValidatorMock().isValid(user);
+        if(value){
+            MailMock.sendMail("pablo@gmail.com", Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta" + endpoint);
+        }
+        assertEquals(true, value);
+    }
+
+    @Test
+    void requestUnlockedAccountFail (){
+        User user = new User("Tobias", "tobias123", "Canabarro",
+                "tobias@gmail.com", "Tobi", new Date(9999));
+        String endpoint = "localhost:8080/TP_Laboratorio/rest/unlockedAccount";
+        UserManagerMock manager = UserManagerFactoryMock.create();
+        manager.getValidatorMock().setValid(false);
+        boolean value = manager.getValidatorMock().isValid(user);
+        if(value){
+            MailMock.sendMail("pablo@gmail.com", Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta" + endpoint);
+        }
+        assertEquals(false, value);
     }
 
     @Test
@@ -144,4 +174,6 @@ class UserManagerTest{
         boolean value = foundUser != null;
         assertEquals(false, value);
     }
+
+
 }

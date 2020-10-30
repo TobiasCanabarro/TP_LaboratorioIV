@@ -1,8 +1,12 @@
 package mock.edu.utn.mapper;
 
 import edu.utn.entity.RequestRelationship;
+import edu.utn.factory.RequestRelationshipManagerFactory;
+import edu.utn.manager.RequestRelationshipManager;
 import edu.utn.mapper.Mapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class RequestRelationshipMapperMock implements Mapper<RequestRelationship> {
@@ -28,15 +32,34 @@ public class RequestRelationshipMapperMock implements Mapper<RequestRelationship
         return isValid()?new RequestRelationship(1, idReceive, idSend, isValid()):null;
     }
 
-    //Este metodo en esta clase no se usa :D
+    public RequestRelationship get (long id){
+        return isValid()?new RequestRelationship(1, 14, 15, isValid()):null;
+    }
+
+    public List<RequestRelationship> getAllRequest (long id) {
+        List<RequestRelationship> relationships = null;
+        if(isValid()){
+            relationships = new ArrayList<>();
+            relationships.add(new RequestRelationship(1, id, 15, isValid()));
+        }
+        return relationships;
+    }
+
     @Override
-    public Map<Integer, Object> createParameters(RequestRelationship request) {
-        return null;
+    public Map<Integer, Object> createParameters(RequestRelationship requestRelationship) {
+        RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
+        return manager.getMapper().createParameters(requestRelationship);
+    }
+
+    public Map<Integer, Object> createParametersForUpdate (RequestRelationship requestRelationship) {
+        RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
+        return manager.getMapper().createParametersForUpdate(requestRelationship);
     }
 
     @Override
     public RequestRelationship getEntityRecord(Map<String, Object> record) {
-        return null;
+        return new RequestRelationship((long)record.get("id_request"), (long)record.get("id_user_receive"),
+                (long)record.get("id_user_send"), (boolean)record.get("state"));
     }
 
     public boolean isValid() {

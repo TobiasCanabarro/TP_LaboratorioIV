@@ -6,6 +6,9 @@ import edu.utn.manager.Manager;
 import mock.edu.utn.mapper.UserMapperMock;
 import mock.edu.utn.validator.UserValidatorMock;
 
+import java.util.List;
+import java.util.Map;
+
 public class UserManagerMock implements Manager <User> {
 
     private UserValidatorMock validatorMock;
@@ -36,9 +39,15 @@ public class UserManagerMock implements Manager <User> {
         return value;
     }
 
+
     @Override
-    public boolean delete(User object) {
-        return false;
+    public boolean delete(User user) {
+        boolean value = validatorMock.isValid();
+        getMapperMock().setValid(value);
+        if(value){
+            value = mapperMock.delete(user);
+        }
+        return value;
     }
 
     @Override
