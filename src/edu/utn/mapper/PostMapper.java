@@ -44,8 +44,6 @@ public class PostMapper implements Mapper <UserPost>{
         return parameters;
     }
 
-
-
     @Override
     public UserPost getEntityRecord(Map<String, Object> record) {
         return null;

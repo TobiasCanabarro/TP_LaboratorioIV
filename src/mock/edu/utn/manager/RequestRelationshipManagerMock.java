@@ -1,11 +1,16 @@
 package mock.edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
+import edu.utn.entity.User;
 import edu.utn.manager.Manager;
+import mock.edu.utn.factory.UserManagerFactoryMock;
 import mock.edu.utn.mapper.RequestRelationshipMapperMock;
 import mock.edu.utn.validator.RequestRelationshipValidatorMock;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RequestRelationshipManagerMock implements Manager <RequestRelationship> {
 
@@ -69,6 +74,7 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         return request;
     }
 
+
     public List<RequestRelationship> getAllRequest (long id) {
         List<RequestRelationship> relations = null;
         boolean value = validator.isValid();
@@ -79,14 +85,25 @@ public class RequestRelationshipManagerMock implements Manager <RequestRelations
         return relations;
     }
 
-    public List<RequestRelationship> getAll (long id) {
-        List<RequestRelationship> relations = null;
+    public List<Map<String, Object>> getAll (long id) {
+        List<Map<String ,Object>> relation = null;
         boolean value = validator.isValid();
         getMapper().setValid(value);
         if(value){
-            relations = mapper.getAllRequest(id);
+            relation = mapper.getAll(id);
         }
-        return relations;
+        return relation;
+    }
+
+    public List<User> myFriends (long id){
+        List<User> friends = null;
+        if(validator.isValid()){
+            friends = new ArrayList<>();
+            friends.add(new User("Tobias", "tobias123", "Canabarro",
+                    "tobias@gmail.com", "Tobi", new Date(9999)));
+        }
+
+        return friends;
     }
 
 

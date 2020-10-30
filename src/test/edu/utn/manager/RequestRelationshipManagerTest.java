@@ -1,6 +1,8 @@
 package test.edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
+import edu.utn.entity.User;
+import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.manager.UserManager;
 import mock.edu.utn.factory.RequestRelationshipManagerFactoryMock;
 import mock.edu.utn.factory.UserManagerFactoryMock;
@@ -93,18 +95,18 @@ public class RequestRelationshipManagerTest {
     void myFriendsOk (){
         RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
         manager.getValidator().setValid(true);
-        List<RequestRelationship> relations = manager.getAll(14);
-        boolean value = relations != null;
+        List<User> friends = manager.myFriends(14);
+        boolean value = friends != null;
         assertEquals(true, value);
     }
 
     @Test
     void myFriendsFail (){
         RequestRelationshipManagerMock manager = RequestRelationshipManagerFactoryMock.create();
-        manager.getValidator().setValid(true);
-        List<RequestRelationship> relations = manager.getAll(14);
-        boolean value = relations != null;
-        assertEquals(true, value);
+        manager.getValidator().setValid(false);
+        List<User> friends = manager.myFriends(14);
+        boolean value = friends != null;
+        assertEquals(false, value);
     }
 
     @Test

@@ -2,7 +2,7 @@ package test.edu.utn.manager;
 
 import edu.utn.entity.User;
 import edu.utn.enums.Result;
-import mock.edu.utn.MailMock;
+import mock.edu.utn.manager.MailMock;
 import mock.edu.utn.factory.UserManagerFactoryMock;
 import mock.edu.utn.manager.UserManagerMock;
 import org.junit.jupiter.api.Test;

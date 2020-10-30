@@ -5,7 +5,9 @@ import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.manager.RequestRelationshipManager;
 import edu.utn.mapper.Mapper;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,15 @@ public class RequestRelationshipMapperMock implements Mapper<RequestRelationship
 
     public RequestRelationship get (long id){
         return isValid()?new RequestRelationship(1, 14, 15, isValid()):null;
+    }
+
+    public List<Map<String ,Object>> getAll (long id){
+        List<Map<String ,Object>> relations = null;
+        if(isValid()){
+            RequestRelationship relation = new RequestRelationship(1, 14, 15, true);
+            relations = new ArrayList<>();
+        }
+        return relations;
     }
 
     public List<RequestRelationship> getAllRequest (long id) {
