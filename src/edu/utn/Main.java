@@ -7,8 +7,7 @@ import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.factory.UserPostManagerFactory;
 import edu.utn.helper.DateHelper;
 import edu.utn.manager.PostManager;
-import edu.utn.manager.RequestRelationshipManager;
-import edu.utn.manager.UserManager;
+
 
 import java.sql.Date;
 import java.util.List;
