@@ -3,6 +3,7 @@ package edu.utn.mapper;
 import edu.utn.dao.UserDao;
 import edu.utn.entity.User;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,6 @@ public class UserMapper implements Mapper <User>{
         return false;
     }
 
-
     public User get (String email) {
         UserDao userDao = UserDao.getUserDao();
         Map<Integer, Object> parameters = new HashMap<>();
@@ -43,7 +43,6 @@ public class UserMapper implements Mapper <User>{
         return user;
     }
 
-
     public User get (long id){
         UserDao userDao = UserDao.getUserDao();
         User user = null;
@@ -53,6 +52,17 @@ public class UserMapper implements Mapper <User>{
             user = getEntityRecord(records.get(0));
         }
         return user;
+    }
+
+    public List<User> getAllUsers (){
+        UserDao userDao = UserDao.getUserDao();
+        List<Map<String, Object>> records = userDao.getAllUser();
+        List<User> users = new ArrayList<>();
+
+        for (Map<String, Object> record : records) {
+            users.add(getEntityRecord(record));
+        }
+        return users;
     }
 
     public Map<Integer, Object> createParameters (User user){

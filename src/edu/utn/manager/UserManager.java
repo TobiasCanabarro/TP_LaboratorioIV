@@ -8,6 +8,8 @@ import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserManager implements Manager <User> {
 
@@ -45,6 +47,7 @@ public class UserManager implements Manager <User> {
     public User get (long id) {
         return mapper.get(id);
     }
+
 
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);
@@ -116,6 +119,10 @@ public class UserManager implements Manager <User> {
             }
         }
         return value;
+    }
+
+    public List<User> getAllUser () {
+        return mapper.getAllUsers();
     }
 
     public UserValidator getValidator() {

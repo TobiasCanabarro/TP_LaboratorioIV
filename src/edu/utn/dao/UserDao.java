@@ -9,6 +9,8 @@ public class UserDao extends DataAccess implements Dao{
 
     private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
 
+    private static final String SELECT_ALL_USER = "SELECT * FROM lab.user";
+
     private static final String UPDATE_USER = "UPDATE lab.user set name = ?, password = ?, surname = ?, email = ?, nickname = ?, " +
             "birthday = ?, attempt_log_in = ?, log_in = ?, locked = ? WHERE email = ?";
 
@@ -38,6 +40,10 @@ public class UserDao extends DataAccess implements Dao{
     public List<Map<String, Object>> get (long id){
         String query = "SELECT * FROM lab.user WHERE id_user = " + id;
         return read(query);
+    }
+
+    public List<Map<String, Object>> getAllUser (){
+        return read(SELECT_ALL_USER);
     }
 
     public int update(Map<Integer, Object> parameters){
