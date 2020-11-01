@@ -1,10 +1,21 @@
 package edu.utn.manager;
 
+public interface Manager <T> {
 
-public interface Manager{
+//      boolean save(User user);
+//
+//      boolean update(User user);
+//
+//      User get(String email);
 
-      boolean save();
+          boolean save(T object);
 
-      boolean update();
+          boolean update(T object);
+
+          boolean delete(T object);
+
+          T get (long id);
+
+
 
 }

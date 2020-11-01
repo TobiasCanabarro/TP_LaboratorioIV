@@ -1,13 +1,13 @@
 package edu.utn.log;
 
+import edu.utn.enums.Result;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 public class LogHelper {
 
     //setLog(Logger.getLogger(NAME_CONFIG_FILE));
-    //PropertyConfigurator.configure(PATH_CONFIG_FILE);
-    private static final String PATH_CONFIG_FILE = "C:\\Users\\Toby\\Desktop\\TPProg4\\src\\edu\\utn\\log\\log4j.properties";
+    private static final String PATH_CONFIG_FILE = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/log/log4j.properties";
     private static final String NAME_CONFIG_FILE = "apiLog.log";
     private static Logger log;
 
@@ -16,8 +16,13 @@ public class LogHelper {
         PropertyConfigurator.configure(PATH_CONFIG_FILE);
     }
 
-    public static void createNewLog(String msg) {
+    public static void createNewDebugLog(Result result) {
         initializeLog();
-        log.debug(msg);
+        log.debug(result.getDescription());
+    }
+
+    public static void createNewErrorLog(String msg){
+        initializeLog();
+        log.error(msg);
     }
 }

@@ -1,14 +1,18 @@
 package edu.utn.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class UserDao extends DataAccess {
+public class UserDao extends DataAccess implements Dao{
+
+    private static final String INSERT_USER = "INSERT INTO lab.user (name, password, surname, email, nickname, birthday) values (?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_USER =  "SELECT * FROM lab.user WHERE email = ?";
-    private static final String INSERT_USER = "INSERT INTO lab.user (name, password, surname, email, nickname, birthday) values (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_USER = "UPDATE lab.user set name = ?, password = ?, surname = ?, email = ?, nickname = ?, birthday = ? WHERE email = ?";
+
+    private static final String UPDATE_USER = "UPDATE lab.user set name = ?, password = ?, surname = ?, email = ?, nickname = ?, " +
+            "birthday = ?, attempt_log_in = ?, log_in = ?, locked = ? WHERE email = ?";
+
+    private static final String DELETE_USER = "UPDATE lab.user set email = ? WHERE email = ?";
 
     private static UserDao userDao;
 
@@ -23,23 +27,24 @@ public class UserDao extends DataAccess {
         return userDao;
     }
 
-    public int save (Map<Integer, Object> parameters) throws SQLException {
-        String query = INSERT_USER;
-        return write (query, parameters);
+    public int save (Map<Integer, Object> parameters) {
+        return write (INSERT_USER, parameters);
     }
 
     public List<Map<String, Object>> get (Map<Integer, Object> parameters){
         return read (SELECT_USER, parameters);
     }
 
-    public int update (Map<Integer, Object> parameters, String email) throws SQLException {
-        String query = UPDATE_USER + email;
-        return write(query, parameters);
+    public List<Map<String, Object>> get (long id){
+        String query = "SELECT * FROM lab.user WHERE id_user = " + id;
+        return read(query);
     }
 
-    public int update (Map<Integer, Object> parameters) throws SQLException {
+    public int update(Map<Integer, Object> parameters){
         return write(UPDATE_USER, parameters);
     }
 
-
+    public int delete (Map<Integer, Object> parameters){
+        return write(DELETE_USER, parameters);
+    }
 }

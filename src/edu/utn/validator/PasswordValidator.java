@@ -10,9 +10,6 @@ public class PasswordValidator extends Validator {
         boolean value = !newPassword.isEmpty();
         value &= isAlphaNumeric(newPassword);
         value &= !oldPassword.equals(newPassword);
-        if(!value){
-            throw new PasswordException(PASSWORD_EXCEPTION);
-        }
         return value;
     }
 

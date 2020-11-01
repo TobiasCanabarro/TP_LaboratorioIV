@@ -1,92 +1,137 @@
 package edu.utn.manager;
 
-import edu.utn.entity.ChangePassword;
-import edu.utn.entity.LogIn;
-import edu.utn.entity.SignIn;
 import edu.utn.entity.User;
-import edu.utn.exception.EmailException;
-import edu.utn.exception.NameException;
-import edu.utn.exception.PasswordException;
-import edu.utn.exception.SurNameException;
+import edu.utn.enums.Result;
 import edu.utn.log.LogHelper;
+import edu.utn.mail.Mail;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
-import java.sql.SQLException;
 
-public class UserManager implements Manager {
+import javax.mail.MessagingException;
 
-    private UserMapper userMapper;
+public class UserManager implements Manager <User> {
 
-    public UserManager (UserMapper userMapper){
-        setUserMapper(userMapper);
+    private UserValidator validator;
+    private UserMapper mapper;
+
+    public UserManager (UserMapper mapper, UserValidator validator){
+        this.mapper = mapper;
+        this.validator = validator;
     }
 
-    public boolean save () {
-        UserValidator validator = new UserValidator();
-        boolean success = false;
-        try {
-            validator.isValid(getUser());
-            success = userMapper.save();
-        }catch (EmailException ex){
-                LogHelper.createNewLog(ex.getMessage());
-        }catch (NameException ex){
-            LogHelper.createNewLog(ex.getMessage());
-        }catch (SurNameException ex){
-            LogHelper.createNewLog(ex.getMessage());
-        }catch (PasswordException ex){
-            LogHelper.createNewLog(ex.getMessage());
-        }
-        catch (Exception ex){
-            LogHelper.createNewLog(ex.getMessage());
-        }
-        finally {
-            return success;
-        }
+    @Override
+    public boolean save (User user) {
+      if(!validator.isValidUser(user)){
+          return false;
+      }
+        return mapper.save(user);
     }
 
-    public User get () {
-        return getUserMapper().get(getUser().getEmail());
+    @Override
+    public boolean update (User user){
+        return mapper.update(user);
     }
 
-    public boolean update (){
-        boolean value = false;
-        try {
-            value = getUserMapper().update();
-        }catch (SQLException exception){
-            System.out.println(exception.getMessage());
+    @Override
+    public boolean delete(User user) {
+        return mapper.delete(user);
+    }
+
+    public User get(String email) {
+        return mapper.get(email);
+    }
+
+    @Override
+    public User get (long id) {
+        return mapper.get(id);
+    }
+
+    public boolean signIn (User user) {
+        boolean value = validator.isValidUser(user);
+        value &= !validator.existsUser(user.getEmail());
+        if(value) {
+            try {
+                value = save(user);
+            }catch (Exception ex){
+                LogHelper.createNewErrorLog(ex.getMessage());
+            }
+        }
+        if(value){
+            LogHelper.createNewDebugLog(Result.SIGN_IN_OK);
         }
         return value;
     }
 
-    public boolean changePassword (User user, String newPassword) throws PasswordException {
-        ChangePassword changePassword = new ChangePassword();
-        return changePassword.changePassword(user, newPassword);
+    public Result logIn (String email, String password) throws MessagingException {
+        User user = get(email);
+
+        if (!validator.existsUser(email)) {
+            return Result.ERR_USER_DOES_NOT_EXIST;
+        }
+        if (user.isLogIn()) {
+            return Result.ERR_USER_IS_ALREADY_LOGGED_IN;
+        }
+        if(user.isLocked()){
+            return Result.ERR_IS_LOCKED;
+        }
+        boolean value = user.getPassword().equals(password);
+        if(value){
+            user.setLogIn(true);
+        }
+        else {
+            user.setAttemptLogin(user.getAttemptLogin() + 1);
+            value &= validator.attemptsRemain(user);
+        }
+        value &= update(user);
+        if(value){
+            LogHelper.createNewDebugLog(Result.LOG_IN_OK);
+        }
+        return value ? Result.LOG_IN_OK : Result.ERR_AUTHENTICATION;
     }
 
-    public boolean signIn () {
-        SignIn signIn = new SignIn();
-        return signIn.signIn(getUser());
+    public boolean logOut(String email){
+        User user = get(email);
+        user.setLogIn(false);
+        boolean value = update(user);
+        LogHelper.createNewDebugLog(Result.LOG_OUT_OK);
+        return value;
     }
 
-    public boolean logIn () {
-        LogIn logIn = new LogIn();
-        return logIn.logIn(getUser());
+    public boolean changePassword(String email, String newPassword){
+        User user = get(email);
+        user.setPassword(newPassword);
+        LogHelper.createNewDebugLog(Result.CHANGE_PASSWORD);
+        return update(user);
     }
 
-    public boolean logOut () {
-        LogIn logIn = new LogIn();
-        return  logIn.logOut(getUser());
+    public boolean requestUnlockedAccount (String email, String endpoint) {
+        User user = get(email);
+        boolean value = validator.isLocked(user);
+        if(value){
+            try{
+                Mail.sendMail(email, Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
+                LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT);
+            }catch (MessagingException exception){
+                LogHelper.createNewErrorLog(exception.getMessage());
+            }
+        }
+        return value;
     }
 
-    public User getUser() {
-        return getUserMapper().getUser();
+    public UserValidator getValidator() {
+        return validator;
     }
 
-    public UserMapper getUserMapper() {
-        return userMapper;
+    public void setValidator(UserValidator validator) {
+        this.validator = validator;
     }
 
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public UserMapper getMapper() {
+        return mapper;
     }
+
+    public void setMapper(UserMapper mapper) {
+        this.mapper = mapper;
+    }
+
 }

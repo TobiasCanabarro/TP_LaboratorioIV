@@ -1,9 +1,16 @@
 package edu.utn.mapper;
 
-import java.sql.SQLException;
+import java.util.Map;
 
-public interface Mapper {
+public interface Mapper <T> {
 
-    boolean save () throws SQLException;
-    boolean update() throws SQLException;
+    boolean save (T object);
+    
+    boolean update(T object);
+
+    boolean delete(T object);
+    
+    Map<Integer, Object> createParameters(T object);
+
+    T getEntityRecord (Map<String, Object> record);
 }

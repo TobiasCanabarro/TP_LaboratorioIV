@@ -1,12 +1,12 @@
 package edu.utn.factory;
-
-import edu.utn.entity.User;
+;
 import edu.utn.manager.UserManager;
 import edu.utn.mapper.UserMapper;
+import edu.utn.validator.UserValidator;
 
-public class UserManagerFactory implements Factory{
+public class UserManagerFactory implements Factory {
 
-    public static UserManager create (User user) {
-        return new UserManager(new UserMapper(user));
+    public static UserManager create () {
+        return new UserManager(new UserMapper(), new UserValidator());
     }
 }

@@ -12,8 +12,8 @@ public class LoadConfig {
     private String user;
     private String password;
     private static LoadConfig loadConfig;
-    private static final String PATH_CONFIGURATION = "C:\\Users\\Toby\\Desktop\\TPProg4\\src\\edu\\utn\\file\\configuration.properties";
-
+    //private static final String PATH_CONFIGURATION = "E:\\Documentos\\GitHub\\TP_LaboratorioIV\\src\\edu\\utn\\file\\configuration.properties";
+    private static final String PATH_CONFIGURATION = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
     private LoadConfig() {
         loadConfig();
     }
