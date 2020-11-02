@@ -12,6 +12,7 @@ public class UserValidator extends Validator <User> {
 
     private static final int MAX_ATTEMPT = 4;
 
+    //
     public boolean isValidUser (User user){
         boolean value = isValidName(user);
         value &= isValidSurname(user);

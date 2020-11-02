@@ -1,6 +1,6 @@
 package edu.utn.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class User {
     private long id;

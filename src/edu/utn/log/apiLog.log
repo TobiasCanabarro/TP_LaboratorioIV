@@ -16,3 +16,4 @@
   Hint: No operator matches the given name and argument type(s). You might need to add explicit type casts.
   Position: 36
 [2020-10-29 18:25:22] [ ERROR] [log:26] El índice de la columna está fuera de rango: 4, número de columnas: 3.
+[2020-11-01 20:56:19] [ DEBUG] [log:21] Sign in successful

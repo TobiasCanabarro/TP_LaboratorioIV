@@ -23,9 +23,6 @@ public class UserManager implements Manager <User> {
 
     @Override
     public boolean save (User user) {
-      if(!validator.isValidUser(user)){
-          return false;
-      }
         return mapper.save(user);
     }
 
@@ -47,7 +44,6 @@ public class UserManager implements Manager <User> {
     public User get (long id) {
         return mapper.get(id);
     }
-
 
     public boolean signIn (User user) {
         boolean value = validator.isValidUser(user);
