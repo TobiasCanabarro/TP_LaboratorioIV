@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="TP_Back_End">
-    <output-path>$PROJECT_DIR$/out/artifacts/TP_Back_End</output-path>
-    <root id="archive" name="TP_Back_End.jar" />
-  </artifact>
-</component>
