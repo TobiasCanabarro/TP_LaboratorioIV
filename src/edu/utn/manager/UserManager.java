@@ -91,16 +91,16 @@ public class UserManager implements Manager <User> {
         return value ? Result.LOG_IN_OK : Result.ERR_AUTHENTICATION;
     }
 
-    public boolean logOut(String email){
-        User user = get(email);
+    public boolean logOut(long id){
+        User user = get(id);
         user.setLogIn(false);
         boolean value = update(user);
         LogHelper.createNewDebugLog(Result.LOG_OUT_OK);
         return value;
     }
 
-    public boolean changePassword(String email, String newPassword){
-        User user = get(email);
+    public boolean changePassword(long id, String newPassword){
+        User user = get(id);
         user.setPassword(newPassword);
         LogHelper.createNewDebugLog(Result.CHANGE_PASSWORD);
         return update(user);
