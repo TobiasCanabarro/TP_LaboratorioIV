@@ -1,8 +1,8 @@
 package edu.utn.validator;
 
 import edu.utn.entity.User;
-import edu.utn.factory.UserManagerFactory;
 import edu.utn.enums.Result;
+import edu.utn.factory.UserManagerFactory;
 import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
 

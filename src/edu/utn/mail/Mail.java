@@ -3,10 +3,9 @@ package edu.utn.mail;
 import edu.utn.enums.Result;
 
 import javax.mail.*;
-
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.Transport;
 import java.util.Properties;
 
 public class Mail {

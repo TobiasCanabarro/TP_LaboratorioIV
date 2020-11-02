@@ -4,9 +4,12 @@ import edu.utn.entity.UserPost;
 import mock.edu.utn.factory.PostManagerFactoryMock;
 import mock.edu.utn.manager.PostManagerMock;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.sql.Date;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PostManagerTest {
 

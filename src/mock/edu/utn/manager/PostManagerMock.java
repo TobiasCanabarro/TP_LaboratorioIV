@@ -1,9 +1,7 @@
 package mock.edu.utn.manager;
 
-import edu.utn.entity.User;
 import edu.utn.entity.UserPost;
 import edu.utn.manager.Manager;
-import mock.edu.utn.factory.RequestRelationshipManagerFactoryMock;
 import mock.edu.utn.mapper.PostMapperMock;
 import mock.edu.utn.validator.PostValidatorMock;
 

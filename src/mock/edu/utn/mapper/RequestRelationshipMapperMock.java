@@ -5,9 +5,7 @@ import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.manager.RequestRelationshipManager;
 import edu.utn.mapper.Mapper;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

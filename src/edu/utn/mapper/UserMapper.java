@@ -2,7 +2,8 @@ package edu.utn.mapper;
 
 import edu.utn.dao.UserDao;
 import edu.utn.entity.User;
-import java.sql.*;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

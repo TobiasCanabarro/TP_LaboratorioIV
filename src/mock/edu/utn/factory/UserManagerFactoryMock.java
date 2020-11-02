@@ -1,6 +1,5 @@
 package mock.edu.utn.factory;
 
-import edu.utn.entity.User;
 import edu.utn.factory.Factory;
 import mock.edu.utn.manager.UserManagerMock;
 import mock.edu.utn.mapper.UserMapperMock;

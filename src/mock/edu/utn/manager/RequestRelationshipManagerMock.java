@@ -3,7 +3,6 @@ package mock.edu.utn.manager;
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
 import edu.utn.manager.Manager;
-import mock.edu.utn.factory.UserManagerFactoryMock;
 import mock.edu.utn.mapper.RequestRelationshipMapperMock;
 import mock.edu.utn.validator.RequestRelationshipValidatorMock;
 

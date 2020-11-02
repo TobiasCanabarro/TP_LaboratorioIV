@@ -2,8 +2,8 @@ package edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
-import edu.utn.factory.UserManagerFactory;
 import edu.utn.enums.Result;
+import edu.utn.factory.UserManagerFactory;
 import edu.utn.log.LogHelper;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;

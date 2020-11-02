@@ -2,12 +2,8 @@ package mock.edu.utn.manager;
 
 import edu.utn.entity.User;
 import edu.utn.manager.Manager;
-
 import mock.edu.utn.mapper.UserMapperMock;
 import mock.edu.utn.validator.UserValidatorMock;
-
-import java.util.List;
-import java.util.Map;
 
 public class UserManagerMock implements Manager <User> {
 

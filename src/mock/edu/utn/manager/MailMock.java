@@ -1,6 +1,8 @@
 package mock.edu.utn.manager;
 
-import edu.utn.enums.Result;;
+import edu.utn.enums.Result;
+
+;
 
 public class MailMock {
 

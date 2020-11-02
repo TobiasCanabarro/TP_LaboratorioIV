@@ -2,12 +2,8 @@ package test.edu.utn.manager;
 
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
-import edu.utn.factory.RequestRelationshipManagerFactory;
-import edu.utn.manager.UserManager;
 import mock.edu.utn.factory.RequestRelationshipManagerFactoryMock;
-import mock.edu.utn.factory.UserManagerFactoryMock;
 import mock.edu.utn.manager.RequestRelationshipManagerMock;
-import mock.edu.utn.manager.UserManagerMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
