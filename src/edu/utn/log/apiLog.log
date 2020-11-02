@@ -1,0 +1,21 @@
+[2020-10-27 17:31:12] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 3.
+[2020-10-28 13:04:01] [ ERROR] [log:25] El índice de la columna está fuera de rango: 3, número de columnas: 2.
+[2020-10-28 16:29:56] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 2.
+[2020-10-28 16:30:53] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 2.
+[2020-10-28 20:31:14] [ DEBUG] [log:20] Se inicia sesion 
+[2020-10-28 20:58:35] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 2.
+[2020-10-28 20:58:59] [ ERROR] [log:25] No se ha especificado un valor para el parámetro 2.
+[2020-10-28 20:59:52] [ ERROR] [log:25] El índice de la columna está fuera de rango: 1, número de columnas: 0.
+[2020-10-28 21:30:17] [ ERROR] [log:25] El índice de la columna está fuera de rango: 2, número de columnas: 1.
+[2020-10-28 21:30:55] [ ERROR] [log:25] El índice de la columna está fuera de rango: 2, número de columnas: 1.
+[2020-10-28 21:31:37] [ ERROR] [log:25] El índice de la columna está fuera de rango: 2, número de columnas: 1.
+[2020-10-28 22:00:09] [ ERROR] [log:25] El índice de la columna está fuera de rango: 1, número de columnas: 0.
+[2020-10-29 12:44:55] [ ERROR] [log:25] ERROR: syntax error at or near "lab"
+  Position: 48
+[2020-10-29 13:13:52] [ ERROR] [log:25] ERROR: operator does not exist: character varying = bigint
+  Hint: No operator matches the given name and argument type(s). You might need to add explicit type casts.
+  Position: 36
+[2020-10-29 18:25:22] [ ERROR] [log:26] El índice de la columna está fuera de rango: 4, número de columnas: 3.
+[2020-11-01 20:56:19] [ DEBUG] [log:21] Sign in successful
+[2020-11-01 21:24:07] [ DEBUG] [log:21] Sign in successful
+[2020-11-01 21:55:02] [ DEBUG] [log:21] Sign in successful
