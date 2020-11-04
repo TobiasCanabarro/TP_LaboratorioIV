@@ -4,7 +4,6 @@ import edu.utn.manager.UserManager;
 import edu.utn.mapper.UserMapper;
 import edu.utn.validator.UserValidator;
 
-;
 
 public class UserManagerFactory implements Factory {
 

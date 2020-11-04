@@ -119,9 +119,10 @@ public class DataAccess {
     protected Connection getConnection() {
         try {
             if (connection == null){
+                Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(getConnectionString(), getUser(), getPassword());
             }
-        } catch (SQLException exception) {
+        } catch (SQLException | ClassNotFoundException exception) {
             LogHelper.createNewErrorLog(exception.getMessage());
         }
         return connection;
