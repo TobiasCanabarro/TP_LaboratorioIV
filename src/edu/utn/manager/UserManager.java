@@ -65,7 +65,7 @@ public class UserManager implements Manager <User> {
     public Result logIn (String email, String password) throws MessagingException {
         User user = get(email);
 
-        if (!validator.existsUser(email)) {
+        if(user == null){
             return Result.ERR_USER_DOES_NOT_EXIST;
         }
         if (user.isLogIn()) {
@@ -116,6 +116,19 @@ public class UserManager implements Manager <User> {
             }catch (MessagingException exception){
                 LogHelper.createNewErrorLog(exception.getMessage());
             }
+        }
+        return value;
+    }
+
+    public boolean unLockedAccount (String email){
+        User user = get(email);
+        user.setLocked(false);
+        boolean value = update(user);
+        if(value){
+            LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT_OK);
+        }
+        else{
+            LogHelper.createNewErrorLog(Result.UNLOCKED_ACCOUNT_FAIL.getDescription());
         }
         return value;
     }
