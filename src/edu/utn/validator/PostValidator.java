@@ -1,6 +1,10 @@
 package edu.utn.validator;
 
-import edu.utn.entity.UserPost;
+public class PostValidator {
 
-public class PostValidator extends Validator <UserPost> {
+    private static final int MAX_CHAR = 140;
+
+    public boolean IsValidLength(String post) {
+        return post.length() <=  MAX_CHAR;
+    }
 }

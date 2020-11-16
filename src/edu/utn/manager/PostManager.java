@@ -47,6 +47,9 @@ public class PostManager implements Manager <UserPost>{
     }
 
     public boolean newPost (String post, long idUser){
+        if(!validator.IsValidLength(post)){
+            return false;
+        }
         UserPost userPost = new UserPost(idUser, post, DateHelper.currentDate());
         return save(userPost);
     }

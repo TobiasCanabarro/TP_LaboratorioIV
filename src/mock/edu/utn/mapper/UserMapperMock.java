@@ -6,6 +6,8 @@ import edu.utn.manager.UserManager;
 import edu.utn.mapper.Mapper;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class UserMapperMock implements Mapper <User> {
@@ -34,6 +36,17 @@ public class UserMapperMock implements Mapper <User> {
         else {
             return null;
         }
+    }
+
+    public List<User> getAllUser (){
+        List<User> users = null;
+
+        if(isValid()){
+            users = new ArrayList<>();
+            users.add(new User("John", "john123", "Doe", "john@gmail.com", "jonh", new Date(9999)));
+            users.add(new User("Jane", "jane123", "Doe", "jane@gmail.com", "jane", new Date(8888)));
+        }
+        return users;
     }
 
     //Este metodo en esta clase no hace nada :D

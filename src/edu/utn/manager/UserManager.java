@@ -6,6 +6,7 @@ import edu.utn.helper.EncryptHelper;
 import edu.utn.log.LogHelper;
 import edu.utn.mail.Mail;
 import edu.utn.mapper.UserMapper;
+import edu.utn.validator.PasswordValidator;
 import edu.utn.validator.UserValidator;
 
 import javax.mail.MessagingException;
@@ -62,10 +63,10 @@ public class UserManager implements Manager <User> {
         return value;
     }
 
-    public Result logIn (String email, String password) throws MessagingException {
+    public Result logIn (String email, String password) {
         User user = get(email);
 
-        if(user == null){
+        if(validator.isNull(user)){
             return Result.ERR_USER_DOES_NOT_EXIST;
         }
         if (user.isLogIn()) {
@@ -76,19 +77,25 @@ public class UserManager implements Manager <User> {
         }
         password = EncryptHelper.encryptPassword(password);
         boolean value = user.getPassword().equals(password);
+        Result result = Result.ERR_AUTHENTICATION;
         if(value){
-            user.setAttemptLogin(0);
             user.setLogIn(true);
+            user.setAttemptLogin(0);
         }
         else {
             user.setAttemptLogin(user.getAttemptLogin() + 1);
-            value &= validator.attemptsRemain(user);
+            if(!validator.attemptsRemain(user)){
+                result = Result.LOCKED_ACCOUNT;
+                user.setAttemptLogin(0);
+            }
         }
+
         value &= update(user);
         if(value){
             LogHelper.createNewDebugLog(Result.LOG_IN_OK);
+            result = Result.LOG_IN_OK;
         }
-        return value ? Result.LOG_IN_OK : Result.ERR_AUTHENTICATION;
+        return result;
     }
 
     public boolean logOut(long id){
@@ -101,9 +108,20 @@ public class UserManager implements Manager <User> {
 
     public boolean changePassword(long id, String newPassword){
         User user = get(id);
-        user.setPassword(newPassword);
-        LogHelper.createNewDebugLog(Result.CHANGE_PASSWORD);
-        return update(user);
+
+        PasswordValidator validator = new PasswordValidator();
+        boolean value = validator.newPasswordIsValid(user.getPassword(), newPassword);
+
+        if(value){
+            LogHelper.createNewDebugLog(Result.CHANGE_PASSWORD);
+            user.setPassword(EncryptHelper.encryptPassword(newPassword));
+            value &= update(user);
+        }
+        else {
+            LogHelper.createNewErrorLog(Result.CHANGE_PASSWORD_FAIL.getDescription());
+        }
+
+        return value;
     }
 
     public boolean requestUnlockedAccount (String email, String endpoint) {
@@ -115,6 +133,7 @@ public class UserManager implements Manager <User> {
                 LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT);
             }catch (MessagingException exception){
                 LogHelper.createNewErrorLog(exception.getMessage());
+                value = false;
             }
         }
         return value;

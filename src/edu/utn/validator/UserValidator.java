@@ -3,6 +3,7 @@ package edu.utn.validator;
 import edu.utn.entity.User;
 import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
+import edu.utn.log.LogHelper;
 import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
 
@@ -51,11 +52,16 @@ public class UserValidator extends Validator <User> {
         return found != null;
     }
 
-    public boolean attemptsRemain(User user) throws MessagingException {
+    public boolean attemptsRemain(User user) {
         boolean value = user.getAttemptLogin() <= MAX_ATTEMPT;
         if(!value){
             user.setLocked(true);
-            Mail.sendMail(user.getEmail(), Result.LOCKED_ACCOUNT, "Account Locked!");
+            try{
+                Mail.sendMail(user.getEmail(), Result.LOCKED_ACCOUNT, "Account Locked!");
+            }catch (MessagingException exception){
+                LogHelper.createNewErrorLog(exception.getMessage());
+            }
+
         }
         return value;
     }

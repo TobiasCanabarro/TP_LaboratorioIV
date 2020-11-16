@@ -41,6 +41,7 @@ public class RequestRelationshipMapperMock implements Mapper<RequestRelationship
         if(isValid()){
             RequestRelationship relation = new RequestRelationship(1, 14, 15, true);
             relations = new ArrayList<>();
+
         }
         return relations;
     }

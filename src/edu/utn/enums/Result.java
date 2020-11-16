@@ -24,7 +24,11 @@ public enum Result {
     SIGN_IN_FAIL("Sign in successful"),
     UNLOCKED_ACCOUNT_OK("Unlocked account successful"),
     UNLOCKED_ACCOUNT_FAIL("Unlocked account fail"),
-    REQUEST_ACCOUNT_OK("Request account successful");
+    REQUEST_ACCOUNT_OK("Request account successful"),
+    REQUEST_ACCOUNT_FAIL("Request account fail"),
+    OK("Ok"),
+    RESET_PASSWORD("Reset password"),
+    CHANGE_PASSWORD_FAIL("Change password fail");
 
     private String description;
 

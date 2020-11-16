@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class UserMapper implements Mapper <User>{
 
+
     public boolean save (User user){
         Map<Integer, Object> parameters = createParameters(user);
         UserDao userDao = UserDao.getUserDao();

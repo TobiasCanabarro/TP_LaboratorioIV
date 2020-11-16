@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RequestRelationshipManagerTest {
 
 
-
-
     @Test
     void sendRequestOk (){
         RequestRelationship request = new RequestRelationship(1, 2);
