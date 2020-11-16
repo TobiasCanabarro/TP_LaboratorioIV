@@ -3,17 +3,14 @@ package edu.utn.validator;
 import edu.utn.entity.User;
 import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
-import edu.utn.log.LogHelper;
 import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
-
-import javax.mail.MessagingException;
 
 public class UserValidator extends Validator <User> {
 
     private static final int MAX_ATTEMPT = 4;
 
-    //
+    //Valida los valores del usuario
     public boolean isValidUser (User user){
         boolean value = isValidName(user);
         value &= isValidSurname(user);
@@ -48,7 +45,7 @@ public class UserValidator extends Validator <User> {
 
     public  boolean existsUser (String email) {
         UserManager manager = UserManagerFactory.create();
-        User found = manager.get(email); //key para buscar el registro. Esta hardcodeado el email para la busqueda
+        User found = manager.get(email);
         return found != null;
     }
 
