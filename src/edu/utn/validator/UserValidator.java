@@ -56,18 +56,17 @@ public class UserValidator extends Validator <User> {
         boolean value = user.getAttemptLogin() <= MAX_ATTEMPT;
         if(!value){
             user.setLocked(true);
-            try{
-                Mail.sendMail(user.getEmail(), Result.LOCKED_ACCOUNT, "Account Locked!");
-            }catch (MessagingException exception){
-                LogHelper.createNewErrorLog(exception.getMessage());
-            }
-
+            value &= Mail.sendMail(user.getEmail(), Result.LOCKED_ACCOUNT, "Account Locked!");
         }
         return value;
     }
 
     public boolean isLocked (User user) {
         return user.isLocked();
+    }
+
+    public boolean isLogIn (User user){
+        return user.isLogIn();
     }
 
 }

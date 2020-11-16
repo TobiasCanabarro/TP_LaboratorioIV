@@ -1,6 +1,7 @@
 package edu.utn.mail;
 
 import edu.utn.enums.Result;
+import edu.utn.log.LogHelper;
 
 import javax.mail.*;
 import javax.mail.Transport;
@@ -12,16 +13,27 @@ public class Mail {
 
     private static Properties props;
 
-    public static void sendMail (String to, Result result, String content) throws MessagingException {
-        initialProperties();
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(props.getProperty("username"), props.getProperty("password"));
-            }
-        });
+    public static boolean sendMail (String to, Result result, String content) {
+        boolean value = false;
 
-        Message message = generateMessage(session, to, result.getDescription(), content);
-        Transport.send(message);
+        try {
+            initialProperties();
+            Session session = Session.getInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(props.getProperty("username"), props.getProperty("password"));
+                }
+            });
+
+            Message message = generateMessage(session, to, result.getDescription(), content);
+            Transport.send(message);
+            value = true;
+        }catch (MessagingException exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     private static void initialProperties () {

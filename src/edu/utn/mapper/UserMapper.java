@@ -26,9 +26,9 @@ public class UserMapper implements Mapper <User>{
         return id != 0;
     }
 
+    //Este metodo en esta clase no se usa
     @Override
     public boolean delete(User object) {
-        //TODO cuando se quiera eliminar un User se haria un borrado logico
         return false;
     }
 

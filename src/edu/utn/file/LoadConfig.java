@@ -13,7 +13,8 @@ public class LoadConfig {
     private String password;
     private static LoadConfig loadConfig;
     //private static final String PATH_CONFIGURATION = "/src/edu/utn/file/configuration.properties";
-    private static final String PATH_CONFIGURATION = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
+    private static final String PATH_CONFIGURATION = "../TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
+    //private static final String PATH_CONFIGURATION = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
     private LoadConfig() {
         loadConfig();
     }

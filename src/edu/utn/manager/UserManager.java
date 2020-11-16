@@ -46,7 +46,13 @@ public class UserManager implements Manager <User> {
         return mapper.get(id);
     }
 
+    public List<User> getAllUser () {
+        return mapper.getAllUsers();
+    }
+
+    //Este metodo se encargar de registrar el usuario
     public boolean signIn (User user) {
+
         boolean value = validator.isValidUser(user);
         user.setPassword(EncryptHelper.encryptPassword(user.getPassword()));
         value &= !validator.existsUser(user.getEmail());
@@ -63,21 +69,26 @@ public class UserManager implements Manager <User> {
         return value;
     }
 
+
+    //Este metodo se encarga de loggear el usuario
     public Result logIn (String email, String password) {
+
         User user = get(email);
 
         if(validator.isNull(user)){
             return Result.ERR_USER_DOES_NOT_EXIST;
         }
-        if (user.isLogIn()) {
+        if (validator.isLogIn(user)) {
             return Result.ERR_USER_IS_ALREADY_LOGGED_IN;
         }
-        if(user.isLocked()){
+        if(validator.isLocked(user)){
             return Result.ERR_IS_LOCKED;
         }
+
         password = EncryptHelper.encryptPassword(password);
         boolean value = user.getPassword().equals(password);
         Result result = Result.ERR_AUTHENTICATION;
+
         if(value){
             user.setLogIn(true);
             user.setAttemptLogin(0);
@@ -98,7 +109,9 @@ public class UserManager implements Manager <User> {
         return result;
     }
 
+    //Este metodo cierra la sesion
     public boolean logOut(long id){
+
         User user = get(id);
         user.setLogIn(false);
         boolean value = update(user);
@@ -106,7 +119,9 @@ public class UserManager implements Manager <User> {
         return value;
     }
 
+    //Este metodo cambia la contraseña
     public boolean changePassword(long id, String newPassword){
+
         User user = get(id);
 
         PasswordValidator validator = new PasswordValidator();
@@ -125,23 +140,21 @@ public class UserManager implements Manager <User> {
     }
 
     public boolean requestUnlockedAccount (String email, String endpoint) {
+
         User user = get(email);
+
         boolean value = validator.isLocked(user);
         if(value){
-            try{
-                Mail.sendMail(email, Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
-                LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT);
-            }catch (MessagingException exception){
-                LogHelper.createNewErrorLog(exception.getMessage());
-                value = false;
-            }
+            value &= Mail.sendMail(email, Result.UNLOCKED_ACCOUNT, "Ingrese a esta ruta para desbloquear su cuenta " + endpoint);
         }
         return value;
     }
 
     public boolean unLockedAccount (String email){
+
         User user = get(email);
         user.setLocked(false);
+
         boolean value = update(user);
         if(value){
             LogHelper.createNewDebugLog(Result.UNLOCKED_ACCOUNT_OK);
@@ -152,9 +165,6 @@ public class UserManager implements Manager <User> {
         return value;
     }
 
-    public List<User> getAllUser () {
-        return mapper.getAllUsers();
-    }
 
     public UserValidator getValidator() {
         return validator;

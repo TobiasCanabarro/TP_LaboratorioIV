@@ -90,6 +90,7 @@ class UserValidatorTest {
 
     @Test
     void attemptsRemainFail() {
+
         User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
         user.setAttemptLogin(5);
         UserValidator validator = new UserValidator();
@@ -100,6 +101,7 @@ class UserValidatorTest {
 
     @Test
     void isLocked() {
+
         User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
         user.setLocked(true);
         UserValidator validator = new UserValidator();
@@ -111,11 +113,33 @@ class UserValidatorTest {
 
     @Test
     void isLockedFail() {
+
         User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
         user.setLocked(false);
         UserValidator validator = new UserValidator();
         boolean value = validator.isLocked(user);
 
         assertEquals(false, value);
+    }
+
+    @Test
+    void isLogIn (){
+
+        User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
+        user.setLogIn(true);
+        UserValidator validator = new UserValidator();
+        boolean value = validator.isLogIn(user);
+
+        assertEquals(true, value);
+    }
+
+    @Test
+    void isLogInFail (){
+
+        User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
+        UserValidator validator = new UserValidator();
+        boolean value = validator.isLogIn(user);
+
+        assertEquals(true, value);
     }
 }
