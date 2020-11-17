@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserValidatorTest {
 
-
     @Test
     void isValidUser() {
 
@@ -36,9 +35,9 @@ class UserValidatorTest {
     @Test
     void isValidPassword() {
 
-        String password = "tobias123";
+        User user = new User("tobias", "tobias123", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
         UserValidator validator = new UserValidator();
-        boolean value = validator.isValidPassword(password);
+        boolean value = validator.isValidPassword(user.getPassword());
 
         assertEquals(true, value);
     }
@@ -46,9 +45,9 @@ class UserValidatorTest {
     @Test
     void isValidPasswordFail() {
 
-        String password = "tobias123_";
+        User user = new User("tobias", "tobias123||", "canabarro", "tobias@gmail.com", "tobi", new Date(9999));
         UserValidator validator = new UserValidator();
-        boolean value = validator.isValidPassword(password);
+        boolean value = validator.isValidPassword(user.getPassword());
 
         assertEquals(false, value);
     }
@@ -140,6 +139,6 @@ class UserValidatorTest {
         UserValidator validator = new UserValidator();
         boolean value = validator.isLogIn(user);
 
-        assertEquals(true, value);
+        assertEquals(false, value);
     }
 }

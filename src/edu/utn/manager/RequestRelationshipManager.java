@@ -54,12 +54,16 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.getAllRequest(id);
     }
 
+    //Este metodo envia la solicitud de amistad, mediante el email de la persona que envia y la persona que va a recibir la solicitud
     public boolean sendRequest (String receiveEmail, String  sendEmail) {
+
        UserManager manager = UserManagerFactory.create();
        User userReceive = manager.get(receiveEmail);
        User userSend = manager.get(sendEmail);
        boolean value = false;
+
        RequestRelationship requestRelationship = validator.existRelation(userReceive.getId(), userSend.getId());
+
        if(validator.isNull(requestRelationship)){
            requestRelationship = new RequestRelationship(userReceive.getId(), userSend.getId());
            value = save(requestRelationship);
@@ -70,30 +74,41 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
        return value;
     }
 
+    //Este metodo acepta una solicitud enviada, mediante el id de la relacion futura (se crea el id de la relacion cuando se envia una solicitud)
     public boolean acceptRequest (long idRequest){
+
         RequestRelationship requestRelationship = get(idRequest);
+
         if(validator.isNull(requestRelationship)){
             return false;
         }
         requestRelationship.setState(true);
         LogHelper.createNewDebugLog(Result.ACCEPT_REQUEST_OK);
+
         return update(requestRelationship);
     }
 
+    //Este metodo rechaza la solicitud recibida, mediante el id de la relacion
     public boolean refuseRequest (long idRequest){
+
         RequestRelationship requestRelationship = get(idRequest);
+
         if(validator.isNull(requestRelationship)){
             return false;
         }
         LogHelper.createNewDebugLog(Result.REFUSE_REQUEST_OK);
+
         return delete(requestRelationship);
     }
 
+    //Este metodo desvincula una relacion de amistad, mediante el id de la relacion.
     public boolean deleteRelationship (long idRequest){
         return refuseRequest(idRequest);
     }
 
+    //Este metodo muestra todos los amigos de un usuario, mediante el id del usuario.
     public List<User> myFriends (long id) {
+
         UserManager manager = UserManagerFactory.create();
         List<Map<String, Object>> relations = getAll(id);
         List<User> friends = new ArrayList<>();

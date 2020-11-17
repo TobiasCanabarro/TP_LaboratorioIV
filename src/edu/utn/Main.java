@@ -5,17 +5,17 @@ import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.manager.UserManager;
 
-import javax.mail.MessagingException;
-import java.util.List;
+import java.sql.Date;
+
 
 public class Main {
 
-    public static void main(String[] args) throws MessagingException {
-
+    public static void main(String[] args) {
+        User user = new User ("Muten", "mutenR123", "roshi", "muten@gmail.com", "Maestro Roshi", new Date(1));
         UserManager manager = UserManagerFactory.create();
-        Result value = manager.logIn("tomas@gmail.com", "tomas123");
+        boolean value = manager.signIn(user);
 
-        System.out.println(value.getDescription());
+        System.out.println(value);
 
     }
 }
