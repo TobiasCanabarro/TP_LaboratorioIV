@@ -75,6 +75,7 @@ public class UserValidator extends Validator <User> {
 
     //Verifica si el usuario existe en la base de datos, en caso de que existiera lo retorna.
     public  boolean existsUser (String email) {
+
         UserManager manager = UserManagerFactory.create();
         User found = manager.get(email);
         return found != null;
@@ -82,6 +83,7 @@ public class UserValidator extends Validator <User> {
 
     //Verifica si el quedan intentos, en caso de que no posea se bloquea la cuenta.
     public boolean attemptsRemain(User user) {
+
         boolean value = user.getAttemptLogin() <= MAX_ATTEMPT;
         if(!value){
             user.setLocked(true);
