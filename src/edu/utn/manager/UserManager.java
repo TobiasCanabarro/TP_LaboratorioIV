@@ -64,7 +64,10 @@ public class UserManager implements Manager <User> {
             }
         }
 
-        if(value) LogHelper.createNewDebugLog(Result.SIGN_IN_OK);
+        if(value) {
+            LogHelper.createNewDebugLog(Result.SIGN_IN_OK);
+            Mail.sendMail(user.getEmail(), Result.SIGN_IN_OK, "Gracias por registrarse!");
+        }
 
         return value;
     }
@@ -106,8 +109,9 @@ public class UserManager implements Manager <User> {
 
         value &= update(user);
         if(value){
-            LogHelper.createNewDebugLog(Result.LOG_IN_OK);
             result = Result.LOG_IN_OK;
+            LogHelper.createNewDebugLog(Result.LOG_IN_OK);
+            Mail.sendMail(email, result, "Se inicio sesion en su cuenta");
         }
         return result;
     }
@@ -143,6 +147,8 @@ public class UserManager implements Manager <User> {
             LogHelper.createNewErrorLog(Result.CHANGE_PASSWORD_FAIL.getDescription());
         }
 
+        if(value) Mail.sendMail(user.getEmail(), Result.CHANGE_PASSWORD, "Se cambio la contrasenia");
+
         return value;
     }
 
@@ -176,6 +182,17 @@ public class UserManager implements Manager <User> {
             LogHelper.createNewErrorLog(Result.UNLOCKED_ACCOUNT_FAIL.getDescription());
         }
         return value;
+    }
+
+    /**
+     * Este metodo se solicita cuando se olvida la contrasena
+     */
+    public void forgotPassword (String email) {
+        User user = get(email);
+
+        if(user != null){
+            Mail.sendMail(email, Result.RESET_PASSWORD, "http://localhost:8080/webapi/resetPassword.html");
+        }
     }
 
 

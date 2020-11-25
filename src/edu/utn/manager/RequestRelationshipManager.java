@@ -5,6 +5,7 @@ import edu.utn.entity.User;
 import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
 import edu.utn.log.LogHelper;
+import edu.utn.mail.Mail;
 import edu.utn.mapper.RequestRelationshipMapper;
 import edu.utn.validator.RequestRelationshipValidator;
 
@@ -70,6 +71,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
        }
        if(value){
            LogHelper.createNewDebugLog(Result.SEND_REQUEST_OK);
+           Mail.sendMail(receiveEmail, Result.SEND_REQUEST_OK, userReceive.getName() + " " + userReceive.getSurname() + " te envio una solicitud de amistad!");
        }
        return value;
     }

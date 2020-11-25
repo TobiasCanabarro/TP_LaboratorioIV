@@ -4,6 +4,7 @@ import edu.utn.enums.Result;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+//TODO hacer el path mas generico
 public class LogHelper {
 
     private static final String PATH_CONFIG_FILE = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/log/log4j.properties";
@@ -17,12 +18,21 @@ public class LogHelper {
     }
 
     public static void createNewDebugLog(Result result) {
-        initializeLog();
-        log.debug(result.getDescription());
+        try {
+            initializeLog();
+            log.debug(result.getDescription());
+        }catch (Exception exception){
+            System.out.println("Hubo un problema con Log4j " + exception.getMessage());
+        }
     }
 
     public static void createNewErrorLog(String msg){
-        initializeLog();
-        log.error(msg);
+        try {
+            initializeLog();
+            log.error(msg);
+        }catch (Exception exception){
+            System.out.println("Hubo un problema con Log4j " + exception.getMessage());
+        }
+
     }
 }

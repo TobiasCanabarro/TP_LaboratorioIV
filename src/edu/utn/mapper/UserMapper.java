@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class UserMapper implements Mapper <User>{
 
-
+    @Override
     public boolean save (User user){
         Map<Integer, Object> parameters = createParameters(user);
         UserDao userDao = UserDao.getUserDao();
@@ -19,6 +19,7 @@ public class UserMapper implements Mapper <User>{
         return id != 0;
     }
 
+    @Override
     public boolean update(User user){
         Map<Integer, Object> parameters = createParametersForUpdate(user, user.getEmail());
         UserDao userDao = UserDao.getUserDao();

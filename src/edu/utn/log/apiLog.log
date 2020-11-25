@@ -13,3 +13,54 @@
 [2020-11-18 18:23:58] [ DEBUG] [log:22] Log in successful
 [2020-11-18 18:27:19] [ DEBUG] [log:22] Log in successful
 [2020-11-18 18:30:08] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:17:37] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:23:18] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:32:55] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:40:33] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:46:26] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:48:38] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:53:35] [ DEBUG] [log:22] Log in successful
+[2020-11-20 01:54:36] [ DEBUG] [log:22] Send request successful
+[2020-11-22 02:44:41] [ DEBUG] [log:22] Log in successful
+[2020-11-22 02:51:01] [ DEBUG] [log:22] Log in successful
+[2020-11-22 02:55:08] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:05:37] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:27:21] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:33:54] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:36:17] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:38:35] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:38:59] [ DEBUG] [log:22] Log out successful
+[2020-11-22 03:40:57] [ DEBUG] [log:22] Log in successful
+[2020-11-22 03:41:33] [ DEBUG] [log:22] Log out successful
+[2020-11-23 01:19:10] [ DEBUG] [log:22] Log in successful
+[2020-11-23 01:23:02] [ DEBUG] [log:22] Log in successful
+[2020-11-23 01:27:10] [ DEBUG] [log:22] Log in successful
+[2020-11-23 01:43:14] [ DEBUG] [log:22] Log in successful
+[2020-11-23 02:01:16] [ DEBUG] [log:22] Log in successful
+[2020-11-23 02:02:39] [ DEBUG] [log:22] Log in successful
+[2020-11-23 20:15:29] [ DEBUG] [log:22] Log in successful
+[2020-11-23 20:16:51] [ DEBUG] [log:22] Send request successful
+[2020-11-23 20:20:54] [ DEBUG] [log:22] Log in successful
+[2020-11-23 20:25:53] [ DEBUG] [log:22] Log in successful
+[2020-11-23 20:45:12] [ DEBUG] [log:22] Log in successful
+[2020-11-23 20:48:22] [ DEBUG] [log:22] Log in successful
+[2020-11-24 14:45:27] [ DEBUG] [log:22] Log in successful
+[2020-11-24 14:52:03] [ DEBUG] [log:22] Log in successful
+[2020-11-24 14:54:30] [ DEBUG] [log:22] Log in successful
+[2020-11-24 14:56:24] [ DEBUG] [log:22] Log in successful
+[2020-11-24 15:02:01] [ DEBUG] [log:22] Log in successful
+[2020-11-24 15:08:07] [ DEBUG] [log:22] Log in successful
+[2020-11-24 15:13:42] [ DEBUG] [log:22] Log in successful
+[2020-11-24 15:14:31] [ DEBUG] [log:22] Log out successful
+[2020-11-24 15:23:38] [ DEBUG] [log:22] Log in successful
+[2020-11-25 10:35:46] [ ERROR] [log:27] El intento de conexión falló.
+[2020-11-25 10:35:46] [ ERROR] [log:27] 
+[2020-11-25 10:36:30] [ ERROR] [log:27] El intento de conexión falló.
+[2020-11-25 10:36:30] [ ERROR] [log:27] 
+[2020-11-25 10:39:13] [ ERROR] [log:27] El intento de conexión falló.
+[2020-11-25 10:39:13] [ ERROR] [log:27] 
+[2020-11-25 10:45:18] [ ERROR] [log:27] El intento de conexión falló.
+[2020-11-25 10:45:18] [ ERROR] [log:27] 
+[2020-11-25 11:09:13] [ DEBUG] [log:22] Log in successful
+[2020-11-25 11:09:55] [ DEBUG] [log:22] Log out successful
+[2020-11-25 11:11:00] [ DEBUG] [log:22] Log in successful

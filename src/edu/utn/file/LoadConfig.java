@@ -1,5 +1,7 @@
 package edu.utn.file;
 
+import edu.utn.log.LogHelper;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +16,7 @@ public class LoadConfig {
     private static LoadConfig loadConfig;
 //    private static final String PATH_CONFIGURATION = "../TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
     private static final String PATH_CONFIGURATION = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
+
     private LoadConfig() {
         loadConfig();
     }
@@ -32,7 +35,7 @@ public class LoadConfig {
             is = new FileInputStream(PATH_CONFIGURATION);
             properties.load(is);
         } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+            LogHelper.createNewErrorLog(exception.getMessage());
         }
         setHost(properties.get("db.host").toString());
         setPort(properties.get("db.port").toString());
