@@ -3,8 +3,11 @@ package edu.utn.validator;
 import edu.utn.entity.User;
 import edu.utn.enums.Result;
 import edu.utn.factory.UserManagerFactory;
+import edu.utn.log.LogHelper;
 import edu.utn.mail.Mail;
 import edu.utn.manager.UserManager;
+import edu.utn.mapper.UserMapper;
+
 import java.util.regex.Pattern;
 
 public class UserValidator extends Validator <User> {
@@ -104,4 +107,21 @@ public class UserValidator extends Validator <User> {
         user.setName(user.getName().toLowerCase());
         user.setSurname(user.getSurname().toLowerCase());
     }
+
+    public User isAlreadyLogin (String email){
+
+        User user = null;
+
+        try {
+
+            UserManager manager = UserManagerFactory.create();
+            user = manager.get(email);
+            if(isLogIn(user)) return user;
+
+        }catch (NullPointerException exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+        return user;
+    }
+
 }

@@ -5,13 +5,15 @@
 
 package edu.utn.enums;
 
+import edu.utn.entity.User;
+
 public enum Result {
     ERR_AUTHENTICATION("Error of authentication"),
     LOCKED_ACCOUNT("Locked account"),
     LOG_IN_OK("Log in successful"),
     ERR_USER_DOES_NOT_EXIST("Error user does not exist"),
     ERR_USER_IS_ALREADY_LOGGED_IN("Error the user is already logged in"),
-    ERR("Error"),
+    ERR("ERROR"),
     ERR_IS_LOCKED("Error the user is locked"),
     UNLOCKED_ACCOUNT("Unlocked account"),
     LOG_OUT_OK("Log out successful"),
@@ -26,11 +28,12 @@ public enum Result {
     UNLOCKED_ACCOUNT_FAIL("Unlocked account fail"),
     REQUEST_ACCOUNT_OK("Request account successful"),
     REQUEST_ACCOUNT_FAIL("Request account fail"),
-    OK("Ok"),
+    OK("OK"),
     RESET_PASSWORD("Reset password"),
     CHANGE_PASSWORD_FAIL("Change password fail");
 
     private String description;
+    private User user;
 
     private Result(String description) {
         this.setDescription(description);
@@ -42,5 +45,13 @@ public enum Result {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

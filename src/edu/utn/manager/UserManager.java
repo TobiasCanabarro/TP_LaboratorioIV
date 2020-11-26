@@ -79,13 +79,16 @@ public class UserManager implements Manager <User> {
      */
     public Result logIn (String email, String password) {
 
+        Result result = Result.ERR_AUTHENTICATION;
         User user = get(email);
 
         if(validator.isNull(user)){
             return Result.ERR_USER_DOES_NOT_EXIST;
         }
         if (validator.isLogIn(user)) {
-            return Result.ERR_USER_IS_ALREADY_LOGGED_IN;
+            result = Result.OK;
+            result.setUser(user);
+            return result;
         }
         if(validator.isLocked(user)){
             return Result.ERR_IS_LOCKED;
@@ -93,7 +96,7 @@ public class UserManager implements Manager <User> {
 
         password = EncryptHelper.encryptPassword(password);
         boolean value = user.getPassword().equals(password);
-        Result result = Result.ERR_AUTHENTICATION;
+
 
         if(value){
             user.setLogIn(true);
@@ -109,7 +112,8 @@ public class UserManager implements Manager <User> {
 
         value &= update(user);
         if(value){
-            result = Result.LOG_IN_OK;
+            result = Result.OK;
+            result.setUser(user);
             LogHelper.createNewDebugLog(Result.LOG_IN_OK);
             Mail.sendMail(email, result, "Se inicio sesion en su cuenta");
         }
@@ -187,12 +191,14 @@ public class UserManager implements Manager <User> {
     /**
      * Este metodo se solicita cuando se olvida la contrasena
      */
-    public void forgotPassword (String email) {
+    public boolean forgotPassword (String email) {
         User user = get(email);
+        boolean value = !validator.isNull(user);
 
-        if(user != null){
+        if(value){
             Mail.sendMail(email, Result.RESET_PASSWORD, "http://localhost:8080/webapi/resetPassword.html");
         }
+        return value;
     }
 
 
