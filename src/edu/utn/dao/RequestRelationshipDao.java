@@ -47,7 +47,9 @@ public class RequestRelationshipDao extends DataAccess implements Dao{
     }
 
     public List<Map<String, Object>> getAllRequest (long id){
-        String query = "SELECT r.id_user_receive, r.id_user_send FROM lab.request_relationship AS r " +
+//        String query = "SELECT r.id_user_receive, r.id_user_send FROM lab.request_relationship AS r " +
+//                "WHERE r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = false";
+        String query = "SELECT * FROM lab.request_relationship AS r " +
                 "WHERE r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = false";
         return read(query);
     }

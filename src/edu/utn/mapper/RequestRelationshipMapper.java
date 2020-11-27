@@ -74,7 +74,8 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         List<RequestRelationship> requestRelationships = new ArrayList<>();
 
         for (Map<String, Object> record : requests){
-            requestRelationships.add(getEntityRecord(record));
+            RequestRelationship relationship = getEntityRecord(record);
+            requestRelationships.add(relationship);
         }
         return requestRelationships;
     }
