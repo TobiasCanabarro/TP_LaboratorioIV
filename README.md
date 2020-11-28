@@ -81,12 +81,8 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 
 ## Autores ✒️
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
-
-* **Tobias Canabarro** - (https://github.com/TobiasCanabarro)
-* **Pablo Forcinito** - (#fulanito-de-tal)
-
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
+* **Tobias Canabarro**
+* **Pablo Forcinito** 
 
 ## Licencia 📄
 
