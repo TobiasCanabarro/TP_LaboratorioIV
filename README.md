@@ -71,11 +71,5 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 
 * **Tobias Canabarro**
 * **Pablo Forcinito** 
-
-## Licencia 📄
-
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
-
-
 ---
 
