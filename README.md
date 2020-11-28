@@ -1,6 +1,6 @@
 # TP_LaboratorioIV
 
-_Acá Trabajo practico Laboratorio IV, Red Social _
+Trabajo practico Laboratorio IV, Red Social
 
 ## Comenzando 🚀
 
