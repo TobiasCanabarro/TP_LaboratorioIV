@@ -4,12 +4,11 @@ import edu.utn.enums.Result;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-//TODO hacer el path mas generico
+//Este clase ayuda a loggear las acciones del sistema
 public class LogHelper {
 
-    private static final String PATH_CONFIG_FILE = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/log/log4j.properties";
-//    private static final String PATH_CONFIG_FILE = "../TP_LaboratorioIV/src/edu/utn/log/log4j.properties";
-    private static final String NAME_CONFIG_FILE = "apiLog.log";
+    private static final String NAME_CONFIG_FILE = "log4j/log.log";
+    private static final String PATH_CONFIG_FILE= "C:/log4j.properties";//Es la ruta donde tiene que estar el archivo de configuracion
     private static Logger log;
 
     private static void initializeLog() {

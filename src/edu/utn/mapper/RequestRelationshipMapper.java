@@ -39,6 +39,8 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         Map<Integer, Object> parameters = new HashMap<>();
         parameters.put(1, idReceive);
         parameters.put(2, idSend);
+        parameters.put(3, idSend);
+        parameters.put(4, idReceive);
         RequestRelationship request = null;
         List<Map<String, Object>> records = requestDao.getOtherParam(parameters);
 

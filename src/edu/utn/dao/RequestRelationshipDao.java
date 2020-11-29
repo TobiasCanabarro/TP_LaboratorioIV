@@ -9,7 +9,9 @@ public class RequestRelationshipDao extends DataAccess implements Dao{
 
     private static final String SELECT_REQUEST_RELATIONSHIP =  "SELECT * FROM lab.request_relationship WHERE id_request = ?";
 
-    private static final String SELECT_REQUEST_RELATIONSHIP_OTHER =  "SELECT * FROM lab.request_relationship WHERE id_user_receive = ? AND id_user_send = ?";
+    private static final String SELECT_REQUEST_RELATIONSHIP_OTHER =  "select * from lab.request_relationship" +
+            " where id_user_receive = ? AND id_user_send = ? AND state = true " +
+            " OR id_user_receive = ? AND id_user_send = ? AND state = true";
 
     private static final String SELECT_ALL_REQUEST_RELATIONSHIP = "SELECT r.id_user_receive, r.id_user_send FROMm lab.request_relationship AS r" +
             " WHERE r.id_user_receive = ? or r.id_user_send = ? AND r.state = false";
@@ -50,7 +52,7 @@ public class RequestRelationshipDao extends DataAccess implements Dao{
 //        String query = "SELECT r.id_user_receive, r.id_user_send FROM lab.request_relationship AS r " +
 //                "WHERE r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = false";
         String query = "SELECT * FROM lab.request_relationship AS r " +
-                "WHERE r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = false";
+                "WHERE r.id_user_receive = " + id + " " + "AND r.state = false";
         return read(query);
     }
 

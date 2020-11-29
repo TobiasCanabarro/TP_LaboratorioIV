@@ -14,8 +14,7 @@ public class LoadConfig {
     private String user;
     private String password;
     private static LoadConfig loadConfig;
-//    private static final String PATH_CONFIGURATION = "../TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
-    private static final String PATH_CONFIGURATION = "E:/Documentos/GitHub/TP_LaboratorioIV/src/edu/utn/file/configuration.properties";
+    private static final String PATH_CONFIGURATION = "C:/configuration.properties";//Es la ruta de donde se obtiene la configuracion para la conexion a la base de datos
 
     private LoadConfig() {
         loadConfig();
@@ -73,5 +72,13 @@ public class LoadConfig {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static LoadConfig getLoadConfig() {
+        return loadConfig;
+    }
+
+    public static void setLoadConfig(LoadConfig loadConfig) {
+        LoadConfig.loadConfig = loadConfig;
     }
 }

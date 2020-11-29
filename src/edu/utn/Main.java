@@ -2,9 +2,13 @@ package edu.utn;
 
 import edu.utn.entity.RequestRelationship;
 import edu.utn.entity.User;
+import edu.utn.entity.UserPost;
 import edu.utn.enums.Result;
 import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.factory.UserManagerFactory;
+import edu.utn.factory.UserPostManagerFactory;
+import edu.utn.log.LogHelper;
+import edu.utn.manager.PostManager;
 import edu.utn.manager.RequestRelationshipManager;
 import edu.utn.manager.UserManager;
 
@@ -16,14 +20,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
+//        RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
+//
+//        List<RequestRelationship> myRequest = manager.getAllRequest(14);
+//
+//        for (RequestRelationship element : myRequest) {
+//            System.out.println(element.getId());
+//            System.out.println(element.getIdUserReceive());
+//            System.out.println(element.getIdUserSend());
+//        }
 
-        List<RequestRelationship> myRequest = manager.getAllRequest(14);
+        PostManager manager = UserPostManagerFactory.create();
 
-        for (RequestRelationship element : myRequest) {
-            System.out.println(element.getId());
-            System.out.println(element.getIdUserReceive());
-            System.out.println(element.getIdUserSend());
+        List<UserPost> posts = manager.myPosts(14);
+
+        for (UserPost post : posts) {
+            System.out.println(post.getIdUser());
+            System.out.println(post.getPost());
         }
 
     }

@@ -116,7 +116,10 @@ public class UserValidator extends Validator <User> {
 
             UserManager manager = UserManagerFactory.create();
             user = manager.get(email);
-            if(isLogIn(user)) return user;
+            if(isLogIn(user)) {
+                return user;
+            }
+            user = null;
 
         }catch (NullPointerException exception){
             LogHelper.createNewErrorLog(exception.getMessage());
