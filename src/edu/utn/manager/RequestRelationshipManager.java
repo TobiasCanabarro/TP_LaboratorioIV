@@ -43,6 +43,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.get(idRequest);
     }
 
+    //Trae una relacion, hace la busqueda mediante el id_user_receive y id_user_send.
     public RequestRelationship get (long idUserReceive, long idUserSend){
         return mapper.get(idUserReceive, idUserSend);
     }
@@ -51,11 +52,12 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return mapper.getAll(id);
     }
 
+    //Este metodo trae todas las solicitudes pendientes.
     public List<RequestRelationship> getAllRequest (long id) {
         return mapper.getAllRequest(id);
     }
 
-    //Este metodo envia la solicitud de amistad, mediante el email de la persona que envia y la persona que va a recibir la solicitud
+    //Este metodo envia la solicitud de amistad, mediante el email de la persona que envia y la persona que va a recibir la solicitud.
     public boolean sendRequest (String receiveEmail, String  sendEmail) {
 
        UserManager manager = UserManagerFactory.create();

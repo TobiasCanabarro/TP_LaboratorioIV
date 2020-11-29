@@ -2,10 +2,10 @@ package edu.utn.entity;
 
 public class RequestRelationship {
 
-    private long id;
-    private long idUserReceive;
-    private long idUserSend;
-    private boolean state;
+    private long id;//Es el ID de la relacion
+    private long idUserReceive;//Es el ID del usuario que recibe la solicitud
+    private long idUserSend;//Es el ID del usuario que envia la solicitud
+    private boolean state;//Es el estado de la relacion
 
     public RequestRelationship(long idUserReceive, long idUserSend) {
         setIdUserReceive(idUserReceive);
@@ -13,6 +13,7 @@ public class RequestRelationship {
         setState(false);
     }
 
+    //Este constructor solo se usa cuando se traen los datos de la base de datos
     public RequestRelationship(long id, long idUserReceive, long idUserSend, boolean state) {
         setId(id);
         setIdUserReceive(idUserReceive);
