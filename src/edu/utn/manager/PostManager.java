@@ -4,6 +4,7 @@ import edu.utn.entity.User;
 import edu.utn.entity.UserPost;
 import edu.utn.factory.RequestRelationshipManagerFactory;
 import edu.utn.helper.DateHelper;
+import edu.utn.log.LogHelper;
 import edu.utn.mapper.PostMapper;
 import edu.utn.validator.PostValidator;
 
@@ -24,26 +25,63 @@ public class PostManager implements Manager <UserPost>{
 
     @Override
     public boolean save(UserPost post) {
-        return mapper.save(post);
+
+        boolean value = false;
+
+        try {
+            value = mapper.save(post);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public boolean update(UserPost post) {
-        return mapper.update(post);
+
+        boolean value = false;
+
+        try {
+            value = mapper.update(post);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public boolean delete(UserPost post) {
-        return mapper.delete(post);
+
+        boolean value = false;
+
+        try {
+            value = mapper.delete(post);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
+    //Este metodo no se usa en esta clase.
     @Override
     public UserPost get(long id) {
         return null;
     }
 
     public List<Map<String, Object>> getAll (long id){
-        return mapper.get(id);
+
+        List<Map<String, Object>> list = null;
+
+        try {
+            list = mapper.get(id);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return list;
     }
 
     public boolean newPost (String post, long idUser){
@@ -55,6 +93,7 @@ public class PostManager implements Manager <UserPost>{
     }
 
     public List<UserPost> myPosts(long id){
+
         RequestRelationshipManager manager = RequestRelationshipManagerFactory.create();
         List<User> myFriends = manager.myFriends(id);
         List<UserPost> posts = new ArrayList<>();

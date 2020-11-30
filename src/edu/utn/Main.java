@@ -32,7 +32,7 @@ public class Main {
 
         PostManager manager = UserPostManagerFactory.create();
 
-        List<UserPost> posts = manager.myPosts(14);
+        List<UserPost> posts = manager.myPosts(1);
 
         for (UserPost post : posts) {
             System.out.println(post.getIdUser());

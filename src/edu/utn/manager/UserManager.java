@@ -21,30 +21,83 @@ public class UserManager implements Manager <User> {
 
     @Override
     public boolean save (User user) {
-        return mapper.save(user);
+
+        boolean value = false;
+
+        try {
+            value = mapper.save(user);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public boolean update (User user){
-        return mapper.update(user);
+
+        boolean value = false;
+
+        try {
+            value = mapper.update(user);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+        return value;
     }
 
     @Override
     public boolean delete(User user) {
-        return mapper.delete(user);
+
+        boolean value = false;
+
+        try {
+            value = mapper.delete(user);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     public User get(String email) {
-        return mapper.get(email);
+
+        User  user = null;
+
+        try {
+            user = mapper.get(email);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return user;
     }
 
     @Override
     public User get (long id) {
-        return mapper.get(id);
+
+        User  user = null;
+
+        try {
+              user =  mapper.get(id);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return user;
     }
 
     public List<User> getAllUser () {
-        return mapper.getAllUsers();
+
+        List<User> users = null;
+
+        try {
+            users = mapper.getAllUsers();
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return users;
     }
 
     /**

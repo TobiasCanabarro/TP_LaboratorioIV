@@ -25,36 +25,101 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
 
     @Override
     public boolean save(RequestRelationship requestRelationship) {
-        return mapper.save(requestRelationship);
+
+        boolean value = false;
+
+        try {
+            value = mapper.save(requestRelationship);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public boolean update(RequestRelationship requestRelationship) {
-        return mapper.update(requestRelationship);
+
+        boolean value = false;
+
+        try {
+            value = mapper.update(requestRelationship);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public boolean delete(RequestRelationship requestRelationship) {
-        return mapper.delete(requestRelationship);
+
+        boolean value = false;
+
+        try {
+            value = mapper.delete(requestRelationship);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return value;
     }
 
     @Override
     public RequestRelationship get(long idRequest) {
-        return mapper.get(idRequest);
+
+        RequestRelationship requestRelationship = null;
+
+        try {
+            requestRelationship = mapper.get(idRequest);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return requestRelationship;
     }
 
     //Trae una relacion, hace la busqueda mediante el id_user_receive y id_user_send.
     public RequestRelationship get (long idUserReceive, long idUserSend){
-        return mapper.get(idUserReceive, idUserSend);
+
+        RequestRelationship requestRelationship = null;
+
+        try {
+            requestRelationship = mapper.get(idUserReceive, idUserSend);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return requestRelationship;
     }
 
+
     public List<Map<String, Object>> getAll (long id){
-        return mapper.getAll(id);
+
+        List<Map<String, Object>> list = null;
+
+        try {
+            list = mapper.getAll(id);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return list;
     }
+
 
     //Este metodo trae todas las solicitudes pendientes.
     public List<RequestRelationship> getAllRequest (long id) {
-        return mapper.getAllRequest(id);
+
+        List<RequestRelationship> requestRelationships = null;
+
+        try {
+            requestRelationships = mapper.getAllRequest(id);
+        }catch (Exception exception){
+            LogHelper.createNewErrorLog(exception.getMessage());
+        }
+
+        return requestRelationships;
     }
 
     //Este metodo envia la solicitud de amistad, mediante el email de la persona que envia y la persona que va a recibir la solicitud.

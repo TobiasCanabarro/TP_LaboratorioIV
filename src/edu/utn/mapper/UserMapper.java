@@ -13,6 +13,7 @@ public class UserMapper implements Mapper <User>{
 
     @Override
     public boolean save (User user){
+
         Map<Integer, Object> parameters = createParameters(user);
         UserDao userDao = UserDao.getUserDao();
         int id = userDao.save(parameters);
