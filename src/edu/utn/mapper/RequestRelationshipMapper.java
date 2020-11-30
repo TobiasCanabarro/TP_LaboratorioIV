@@ -65,11 +65,13 @@ public class RequestRelationshipMapper implements Mapper <RequestRelationship> {
         return relationship;
     }
 
+    //Trae a los amigos del usuario.
     public List<Map<String, Object>> getAll (long id){
         RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
         return requestDao.getAll(id);
     }
 
+    //Trae todas las solicitudes de amistad.
     public List<RequestRelationship> getAllRequest (long id){
         RequestRelationshipDao requestDao = RequestRelationshipDao.getRequestRelationshipDao();
         List<Map<String, Object>> requests =  requestDao.getAllRequest(id);

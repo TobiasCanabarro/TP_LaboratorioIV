@@ -13,6 +13,7 @@ public class Mail {
 
     private static Properties props;
 
+    //Este metodo envia un email al usuario.
     public static boolean sendMail (String to, Result result, String content) {
         boolean value = false;
 
@@ -36,6 +37,7 @@ public class Mail {
         return value;
     }
 
+    //Este metodo inicializa el miembro props, con los datos que se necesita para hacer el envio del email.
     private static void initialProperties () {
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -48,6 +50,7 @@ public class Mail {
         props.put("password", "test1046");
     }
 
+    //Este metodo genera el mensage, con los datos que son ingresados en sendMail.
     private static Message generateMessage (Session session, String to, String subject, String content) throws MessagingException {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(props.getProperty("from")));

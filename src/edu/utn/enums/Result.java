@@ -7,6 +7,7 @@ package edu.utn.enums;
 
 import edu.utn.entity.User;
 
+//Es un ENUM, con resultados; se usa para agregarle una descripcion al JSON y en algunos casos puede tener un User (esto no seria lo mas adecuado)
 public enum Result {
     ERR_AUTHENTICATION("Error of authentication"),
     LOCKED_ACCOUNT("Locked account"),

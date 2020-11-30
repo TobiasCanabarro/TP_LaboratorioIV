@@ -22,6 +22,7 @@ public class PostMapper implements Mapper <UserPost>{
         return false;
     }
 
+    //Este metodo en esta clase no se usa.
     @Override
     public boolean delete(UserPost post) {
         return false;

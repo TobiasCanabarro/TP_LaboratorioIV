@@ -51,6 +51,7 @@ public class PostManager implements Manager <UserPost>{
         return value;
     }
 
+    //Este metodo en esta clase no se usa.
     @Override
     public boolean delete(UserPost post) {
 
@@ -71,6 +72,7 @@ public class PostManager implements Manager <UserPost>{
         return null;
     }
 
+    //Trae todas las publicaciones del usuario como de los amigos.
     public List<Map<String, Object>> getAll (long id){
 
         List<Map<String, Object>> list = null;

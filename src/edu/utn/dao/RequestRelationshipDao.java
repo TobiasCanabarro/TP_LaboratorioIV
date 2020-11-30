@@ -46,8 +46,7 @@ public class RequestRelationshipDao extends DataAccess implements Dao{
 
     //Trae a los amigos del usuario
     public List<Map<String, Object>> getAll (long id){
-//        String query = "SELECT r.id_user_receive, r.id_user_send FROM lab.request_relationship AS r " +
-//                "WHERE r.state = true AND r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = true";
+
         String query = "select id_user_receive, id_user_send from lab.request_relationship " +
                 " where state = true AND id_user_receive = " + id + " " + "or state = true AND id_user_send = " + id;
         return read (query);
@@ -55,8 +54,7 @@ public class RequestRelationshipDao extends DataAccess implements Dao{
 
     //Trae las solicitudes pendientes del usuario
     public List<Map<String, Object>> getAllRequest (long id){
-//        String query = "SELECT r.id_user_receive, r.id_user_send FROM lab.request_relationship AS r " +
-//                "WHERE r.id_user_receive = " + id + " or r.id_user_send = " + id + " AND r.state = false";
+
         String query = "SELECT * FROM lab.request_relationship AS r " +
                 "WHERE r.id_user_receive = " + id + " " + "AND r.state = false";
         return read(query);

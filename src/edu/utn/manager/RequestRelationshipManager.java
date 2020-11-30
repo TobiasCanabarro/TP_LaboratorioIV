@@ -93,7 +93,7 @@ public class RequestRelationshipManager implements Manager <RequestRelationship>
         return requestRelationship;
     }
 
-
+    //Trae a los amigos del usuario.
     public List<Map<String, Object>> getAll (long id){
 
         List<Map<String, Object>> list = null;
